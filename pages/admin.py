@@ -1,3 +1,15 @@
 from django.contrib import admin
+from .models import Feedback
 
-# Register your models here.
+
+class FeedbackAdmin(admin.ModelAdmin):
+    model = Feedback
+    search_fields = ["subject", "email", "message"]
+    list_display = [
+        "subject",
+        "email",
+        "message",
+    ]
+
+
+admin.site.register(Feedback, FeedbackAdmin)
