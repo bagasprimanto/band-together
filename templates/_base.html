@@ -17,9 +17,16 @@
 </head>
 
 <body class="h-100 w-100">
+    <div class="d-flex flex-column">
+        <!-- Nav bar -->
+        {% include 'includes/header.html' %}
 
-    {% block content %}
-    {% endblock content %}
+        {% block content %}
+        {% endblock content %}
+
+        <!-- Footer -->
+        {% include 'includes/footer.html' %}
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
