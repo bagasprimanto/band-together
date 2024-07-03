@@ -1,0 +1,39 @@
+:root {
+    --navbar-links-color: rgba(255, 255, 255, 0.85);
+    --navbar-dropdown-links-color: #000;
+    --bs-dropdown-link-active-bg: black;
+}
+
+/* Navbar */
+
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:visited {
+    color: #fff;
+    font-weight: bold;
+}
+
+ul.navbar-nav a:hover {
+    color: #fff !important;
+}
+
+ul.navbar-nav a,
+.navbar-toggler {
+    color: var(--navbar-links-color) !important;
+}
+
+.navbar .logo {
+    width: 32px;
+}
+
+.navbar-nav .dropdown a.dropdown-item {
+    color: var(--navbar-dropdown-links-color) !important
+}
+
+.navbar-collapse .profile-dropdown {
+    padding-left: 0px;
+}
+
+body {
+    padding-top: 56px;
+}

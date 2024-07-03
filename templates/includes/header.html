@@ -1,0 +1,47 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/BandTogetherLogo.svg' %}" alt="BandTogether Logo" class="logo">
+            BandTogether
+        </a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Profiles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Open Mics</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav profile-dropdown" id="navbarTogglerDemo01">
+                <li class="nav-item dropdown btn-group">
+                    <a class="dropdown-toggle" type="button" role="button" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                            width="40" height="40" class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Dashboard</a>
+                        <a class="dropdown-item" href="#">Edit Profile</a>
+                        <a class="dropdown-item" href="#">Log Out</a>
+                    </div>
+                </li>
+                <li class="nav-item me-2">
+                    <a class="nav-link btn btn-outline-secondary login-navbar" aria-current="page" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary signup-navbar" href="#">Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

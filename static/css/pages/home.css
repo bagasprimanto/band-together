@@ -1,0 +1,18 @@
+/* Hero */
+.hero-image-1 img,
+.hero-image-2 img {
+    min-height: 320px;
+    object-fit: cover;
+}
+
+.hero-background {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 44%, rgba(119, 119, 119, 1) 100%);
+}
+
+/* How-To Images */
+.how-to-image-1 img {
+    max-height: 1px;
+    object-fit: cover;
+}

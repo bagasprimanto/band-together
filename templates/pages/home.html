@@ -1,14 +1,238 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}Connect and Make Music{% endblock title %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BandTogether</title>
-</head>
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/pages/home.css' %}">
+{% endblock additional_css %}
 
-<body>
-    <h1>Hello World</h1>
-</body>
+{% block content %}
+<div class="d-flex flex-column">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/BandTogetherLogo.svg' %}" alt="BandTogether Logo" class="logo">
+                BandTogether
+            </a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Profiles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Open Mics</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav profile-dropdown" id="navbarTogglerDemo01">
+                    <li class="nav-item dropdown btn-group">
+                        <a class="dropdown-toggle" type="button" role="button" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                width="40" height="40" class="rounded-circle">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Dashboard</a>
+                            <a class="dropdown-item" href="#">Edit Profile</a>
+                            <a class="dropdown-item" href="#">Log Out</a>
+                        </div>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link btn btn-outline-secondary login-navbar" aria-current="page"
+                            href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary signup-navbar" href="#">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-</html>
+    <!-- Hero -->
+    <main>
+        <div class="hero-background pt-5 pt-md-1 pb-5">
+            <section class="hero pt-2 pt-md-5 g-5 container">
+                <div class="row">
+                    <div class="col-md-6 row hero-image text-center order-md-2">
+                        <div class="col-6 hero-image-1">
+                            <img class="rounded img-fluid col-xxl-12 shadow position-relative"
+                                src="{% static 'images/LandingPage1.jpg' %}" alt="Girl playing violin">
+                            <!-- <p class="photo-attribute">
+                                Photo by <a
+                                    href="https://unsplash.com/@luwadlinbosman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Luwadlin
+                                    Bosman</a> on <a
+                                    href="https://unsplash.com/photos/a-woman-in-a-blue-dress-playing-a-violin-pD1KUHCZ9Yc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                            </p> -->
+                        </div>
+                        <div class="col-6 hero-image-2">
+                            <img class="rounded img-fluid col-xxl-12 shadow position-relative"
+                                src="{% static 'images/LandingPage2.jpg' %}" alt="Man playing drums.">
+                            <!-- <p class="photo-attribute">
+                                Photo by <a
+                                    href="https://unsplash.com/@chrisbulilan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Chris
+                                    Bulilan</a> on <a
+                                    href="https://unsplash.com/photos/man-in-black-knit-cap-holding-brown-stick-1oJMdG-rrH0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                            </p> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6 hero-text d-flex align-items-center order-md-1 mt-4">
+                        <div>
+                            <h1 class="display-1 fw-bold lh-1">Connect.</br>Create Music.</h1>
+                            <h2 class="fw-light text-light-emphasis h4 lh-1">
+                                Find like-minded hobbysist musicians
+                                locally,
+                                and jam!
+                                Re-live
+                                that passion for music!</h2>
+                            <a href="#" class="btn btn-primary mt-3">Sign Up!</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- How To -->
+        <section class="container mt-3 py-5 h-50 how-to">
+            <div class="container">
+                <div class="row d-flex justify-content-around mb-3 order-md-2">
+                    <div class="col-md-5 order-md-1">
+                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                            alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around">
+                    <div class="col-md-5">
+                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                            alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around mb-3 order-md-2">
+                    <div class="col-md-5 order-md-1">
+                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                            alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="container h-50 how-to">
+            <div class="container">
+                <h2 class="h3 text-center">Why Use BandTogether?</h2>
+                <div class="row d-flex justify-content-around mb-3 order-md-2">
+                    <div class="col-md-5 order-md-1">
+                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around">
+                    <div class="col-md-5">
+                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around mb-3 order-md-2">
+                    <div class="col-md-5 order-md-1">
+                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
+                        <p>Photo by <a
+                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                                Vivek</a> on <a
+                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 row d-flex flex-column justify-content-center">
+                        <h3 class="col-12">Create Your Profile</h3>
+                        <p class="col-12 text-secondary">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+
+    </main>
+
+
+
+    <footer class="footer mt-auto">
+        Footer
+    </footer>
+</div>
+
+
+{% endblock content %}

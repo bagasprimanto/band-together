@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Feedback - BandTogether{% endblock title %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
+{% block content %}
+<div class="container">
     <h1>Feedback</h1>
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Feedback</legend>
-            {{ form.as_p }}
+            <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Have something to say about our site? Fill out
+                this form!
+            </legend>
+            {{ form|crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Post</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
-</body>
-
-</html>
+</div>
+{% endblock content %}
