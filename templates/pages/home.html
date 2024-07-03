@@ -8,6 +8,7 @@
 
 {% block content %}
 <div class="d-flex flex-column">
+    <!-- Nav bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
@@ -56,8 +57,9 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+
     <main>
+        <!-- Hero -->
         <div class="hero-background pt-5 pt-md-1 pb-5">
             <section class="hero pt-2 pt-md-5 g-5 container">
                 <div class="row">
@@ -104,7 +106,7 @@
             <div class="container">
                 <div class="row d-flex justify-content-around mb-3 order-md-2">
                     <div class="col-md-5 order-md-1">
-                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                        <img class="rounded img-fluid how-to-image shadow" src="{% static 'images/HowTo1.jpg' %}"
                             alt="">
                         <p>Photo by <a
                                 href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
@@ -123,7 +125,7 @@
                 </div>
                 <div class="row d-flex justify-content-around">
                     <div class="col-md-5">
-                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                        <img class="rounded img-fluid how-to-image shadow" src="{% static 'images/HowTo1.jpg' %}"
                             alt="">
                         <p>Photo by <a
                                 href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
@@ -142,7 +144,7 @@
                 </div>
                 <div class="row d-flex justify-content-around mb-3 order-md-2">
                     <div class="col-md-5 order-md-1">
-                        <img class="rounded img-fluid how-to-image-1 shadow" src="{% static 'images/HowTo1.jpg' %}"
+                        <img class="rounded img-fluid how-to-image shadow" src="{% static 'images/HowTo1.jpg' %}"
                             alt="">
                         <p>Photo by <a
                                 href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
@@ -165,59 +167,63 @@
         <!-- Benefits -->
         <section class="container h-50 how-to">
             <div class="container">
-                <h2 class="h3 text-center">Why Use BandTogether?</h2>
-                <div class="row d-flex justify-content-around mb-3 order-md-2">
-                    <div class="col-md-5 order-md-1">
-                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
-                        <p>Photo by <a
-                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
-                                Vivek</a> on <a
-                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                        </p>
+                <h2 class="h2 text-center mb-4">Why Use BandTogether?</h2>
+                <div class="row">
+                    <div class="row d-flex flex-column mb-3 col-md-6">
+                        <div class="col-12">
+                            <img class="rounded img-fluid benefits-image text-light"
+                                src="{% static 'images/people-fill.svg' %}" alt="">
+                        </div>
+                        <div class="row col-12">
+                            <h3 class="h4 col-12">Create Your Profile</h3>
+                            <p class="col-12 text-secondary">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                                temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                                dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-md-5 row d-flex flex-column justify-content-center">
-                        <h3 class="col-12">Create Your Profile</h3>
-                        <p class="col-12 text-secondary">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
-                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
-                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
-                        </p>
+                    <div class="row d-flex flex-column mb-3 col-md-6">
+                        <div class="col-12">
+                            <img class="rounded img-fluid benefits-image text-light"
+                                src="{% static 'images/people-fill.svg' %}" alt="">
+                        </div>
+                        <div class="row col-12">
+                            <h3 class="h4 col-12">Create Your Profile</h3>
+                            <p class="col-12 text-secondary">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                                temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                                dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="row d-flex justify-content-around">
-                    <div class="col-md-5">
-                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
-                        <p>Photo by <a
-                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
-                                Vivek</a> on <a
-                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                        </p>
+                    <div class="row d-flex flex-column mb-3 col-md-6">
+                        <div class="col-12">
+                            <img class="rounded img-fluid benefits-image text-light"
+                                src="{% static 'images/people-fill.svg' %}" alt="">
+                        </div>
+                        <div class="row col-12">
+                            <h3 class="h4 col-12">Create Your Profile</h3>
+                            <p class="col-12 text-secondary">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                                temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                                dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-md-5 row d-flex flex-column justify-content-center">
-                        <h3 class="col-12">Create Your Profile</h3>
-                        <p class="col-12 text-secondary">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
-                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
-                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
-                        </p>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-around mb-3 order-md-2">
-                    <div class="col-md-5 order-md-1">
-                        <img class="rounded img-fluid how-to-image-1" src="{% static 'images/HowTo1.jpg' %}" alt="">
-                        <p>Photo by <a
-                                href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
-                                Vivek</a> on <a
-                                href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                        </p>
-                    </div>
-                    <div class="col-md-5 row d-flex flex-column justify-content-center">
-                        <h3 class="col-12">Create Your Profile</h3>
-                        <p class="col-12 text-secondary">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
-                            temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
-                            dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
-                        </p>
+                    <div class="row d-flex flex-column mb-3 col-md-6">
+                        <div class="col-12">
+                            <img class="rounded img-fluid benefits-image text-light"
+                                src="{% static 'images/people-fill.svg' %}" alt="">
+                        </div>
+                        <div class="row col-12">
+                            <h3 class="h4 col-12">Create Your Profile</h3>
+                            <p class="col-12 text-secondary">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius, ducimus vero labore
+                                temporibus architecto dolorem in laborum neque non doloribus dicta? Nihil labore quaerat
+                                dignissimos corporis nam sequi sapiente, laboriosam facilis! Minus!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -228,7 +234,7 @@
     </main>
 
 
-
+    <!-- Footer -->
     <footer class="footer mt-auto">
         Footer
     </footer>

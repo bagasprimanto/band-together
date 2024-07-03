@@ -12,7 +12,11 @@
 }
 
 /* How-To Images */
-.how-to-image-1 img {
-    max-height: 1px;
+img.how-to-image {
     object-fit: cover;
+}
+
+/* Benefits */
+img.benefits-image {
+    width: 32px;
 }
