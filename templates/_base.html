@@ -16,17 +16,17 @@
     {% endblock additional_css %}
 </head>
 
-<body class="h-100 w-100">
-    <div class="d-flex flex-column">
-        <!-- Nav bar -->
-        {% include 'includes/header.html' %}
+<body class="d-flex flex-column min-vh-100 w-100">
+    <!-- Nav bar -->
+    {% include 'includes/header.html' %}
 
+    <main class="flex-grow-1">
         {% block content %}
         {% endblock content %}
+    </main>
 
-        <!-- Footer -->
-        {% include 'includes/footer.html' %}
-    </div>
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

@@ -1,7 +1,34 @@
 {% extends "_base.html" %}
-
+{% load static %}
 {% block title %}About - BandTogether{% endblock title %}
 
 {% block content %}
-<h1>About</h1>
+<div class="container mt-3 py-5 h-50 about">
+    <h1 class="display-1 fw-bold mb-5">About BandTogether</h1>
+    <div class="container">
+        <div class="row d-flex justify-content-around mb-3 order-md-2 gx-5">
+            <div class="col-xl-6 col-12 order-md-1">
+                <img class="rounded img-fluid how-to-image shadow" src="{% static 'images/HowTo1.jpg' %}" alt="">
+                <p>Photo by <a
+                        href="https://unsplash.com/@oneshotespresso?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hans
+                        Vivek</a> on <a
+                        href="https://unsplash.com/photos/man-playing-guitar-inside-dark-room-u_SwlkVquJ0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+                </p>
+            </div>
+            <div class="col-xl-6 col-12  row d-flex flex-column justify-content-center text-secondary order-md-1">
+                <p class="col-12">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere vel nisi perspiciatis voluptatibus
+                    quas quia ad hic recusandae sunt rerum, non placeat, provident voluptatem tempore! Illo, eligendi.
+                    Sapiente vero explicabo quaerat alias in rerum sit architecto, deserunt quam magni provident non
+                    veniam dicta eveniet ipsum nisi officia cum culpa quibusdam mollitia! Ratione nemo cumque non.
+                </p>
+                <p class="col-12">
+                    Voluptas totam autem, optio magni reiciendis magnam, delectus eius tenetur ad corrupti dolore odit
+                    est unde rem iusto! Tenetur accusamus optio reiciendis! Qui id sunt illo provident aliquid, quae
+                    reprehenderit veritatis, quis ea, accusantium exercitationem corporis beatae doloremque velit
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

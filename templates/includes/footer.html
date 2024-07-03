@@ -21,8 +21,9 @@
                 <div class="col d-flex flex-column">
                     <h5 class="text-decoration-underline">Support Links</h5>
                     <ul class="navbar-nav flex-column">
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0">About</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0">Feedback</a></li>
+                        <li class="nav-item mb-2"><a href="{% url 'pages:about' %}" class="nav-link p-0">About</a></li>
+                        <li class="nav-item mb-2"><a href="{% url 'pages:feedback' %}" class="nav-link p-0">Feedback</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
