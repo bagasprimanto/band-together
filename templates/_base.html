@@ -17,6 +17,14 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100 w-100">
+    <!-- Messages -->
+    {% for message in messages %}
+    <div class="alert alert-dismissible {{ message.tags }} shadow fade show" role="alert">
+        <div>{{ message | safe }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
     <!-- Nav bar -->
     {% include 'includes/header.html' %}
 
