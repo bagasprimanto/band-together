@@ -1,9 +1,10 @@
 {% extends "account/base_manage.html" %}
 {% load allauth i18n %}
-{% block head_title %}
-    {% trans "Sign Out" %}
-{% endblock head_title %}
+{% block title %}
+    {% trans "Sign Out - BandTogether" %}
+{% endblock title %}
 {% block content %}
+<div class="container my-5 col-lg-4 col-11 border border-1 p-5 rounded">
     {% element h1 %}
         {% trans "Sign Out" %}
     {% endelement %}
@@ -17,9 +18,10 @@
             {{ redirect_field }}
         {% endslot %}
         {% slot actions %}
-            {% element button type="submit" %}
+            {% element button type="submit" class="btn-danger"%}
                 {% trans 'Sign Out' %}
             {% endelement %}
         {% endslot %}
     {% endelement %}
+</div>
 {% endblock content %}
