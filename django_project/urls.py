@@ -20,11 +20,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Local apps
-    path("", include("pages.urls")),
-    path("profiles/", include("profiles.urls")),
     # 3rd party
     # Django-allauth
     path("accounts/", include("allauth.urls")),
     path("accounts/", include("allauth.socialaccount.urls")),
+    # Local apps
+    path("", include("pages.urls")),
+    path("profiles/", include("profiles.urls")),
 ]

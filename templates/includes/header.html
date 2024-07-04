@@ -32,14 +32,14 @@
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">My Profile</a>
                         <a class="dropdown-item" href="#">Messages</a>
-                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                     </div>
                 </li>
                 <li class="nav-item me-2">
-                    <a class="btn login-navbar" aria-current="page" href="#">Login</a>
+                    <a class="btn login-navbar" aria-current="page" href="{% url 'account_login' %}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-primary signup-navbar" href="#">Sign Up</a>
+                    <a class="btn btn-primary signup-navbar" href="{% url 'account_signup' %}">Sign Up</a>
                 </li>
             </ul>
         </div>
