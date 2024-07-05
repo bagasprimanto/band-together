@@ -1,5 +1,6 @@
 .fill {
     background-size: cover;
+    object-fit: cover;
     background-position: center;
     width: 100%;
     min-height: 25vh;
@@ -14,4 +15,8 @@
 
 .profile-picture {
     margin-top: -100px;
+}
+
+.profile-display-name {
+    max-width: 25ch;
 }
