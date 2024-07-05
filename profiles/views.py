@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from .mixins import ProfileRequiredMixin
 
 
 from .models import Profile
@@ -52,6 +53,5 @@ class ProfileDetailView(DetailView):
         return context
 
 
-class MessageUser(TemplateView):
-
-    template = "profiles/profile_list.html"
+class MessageUser(LoginRequiredMixin, ProfileRequiredMixin, TemplateView):
+    template = "profiles/messaging.html"
