@@ -1,0 +1,16 @@
+.fill {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    min-height: 25vh;
+}
+
+.profile-picture img {
+    height: max(12vw, 150px);
+    width: max(12vw, 150px);
+    border: 5px solid white;
+}
+
+.profile-picture {
+    margin-top: -100px;
+}

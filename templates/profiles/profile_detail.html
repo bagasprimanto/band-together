@@ -1,10 +1,28 @@
 {% extends "_base.html" %}
-
+{% load static %}
 {% block title %}Profile Detail - BandTogether{% endblock title %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+{% endblock additional_css %}
+
 {% block content %}
+<div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
+</div>
 <div class="container">
-    <h1>Profiles Detail</h1>
-    <p>{{ profile.display_name }}</p>
+    <div class="row d-flex flex-wrap profile-info w-100 mt-2">
+        <div class="profile-picture col-12">
+            <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle">
+        </div>
+        <div class="profile-sub-info col-12 ms-4 mt-lg-3 mt-0">
+            <h1 class="display-6 fs-1 fw-bold">{{ profile.display_name }}</h1>
+            {% if user == profile.user %}
+            <a class="btn btn-secondary" href="{% url 'profiles:profile_edit' user.profile.slug %}">Edit Profile</a>
+            {% else %}
+            <a class="btn btn-primary" href="#">Message</a>
+            <a class="btn btn-secondary" href="#">Bookmark</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock content %}
