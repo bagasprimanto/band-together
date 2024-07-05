@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     # Crispy Forms
     "crispy_forms",
     "crispy_bootstrap5",
+    # Django-cities-light
+    "cities_light",
     # Django-allauth
     "allauth",
     "allauth.account",
@@ -153,6 +155,10 @@ MESSAGE_TAGS = {
     messages.WARNING: "alert-warning",
     messages.ERROR: "alert-danger",
 }
+
+# Media files (Uploaded files)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # 3rd Party
 # Crispy Forms
