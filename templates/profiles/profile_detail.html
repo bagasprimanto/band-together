@@ -12,14 +12,14 @@
 <div class="container">
     <div class="row d-flex flex-wrap profile-info w-100 mt-2">
         <div class="profile-picture col-12">
-            <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle">
+            <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">
             <h1 class="display-6 fs-1 fw-bold mb-0">{{ profile.display_name }}</h1>
-            <p class="fw-normal mt-0">
+            <p class="fw-normal mb-0">
                 <span class="fw-bold">{{ profile.profile_type }}</span> - {{ profile.location }}
             </p>
-            <p class="fw-normal mt-0">
+            <p class="fw-normal">
                 <span class="fw-bold">Birthday</span> - {{ profile.birthday }}
             </p>
             {% if user == profile.user %}
