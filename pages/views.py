@@ -33,3 +33,11 @@ class FeedbackPageView(SuccessMessageMixin, CreateView):
             attrs={"placeholder": "Your subject here..."}
         )
         return form
+
+
+class PrivacyPolicyPageView(TemplateView):
+    template_name = "pages/privacy_policy.html"
+
+
+class TermsConditionsPageView(TemplateView):
+    template_name = "pages/terms_conditions.html"
