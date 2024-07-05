@@ -17,10 +17,7 @@ class Profile(models.Model):
     display_name = models.CharField(max_length=255)
     bio = models.TextField(null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
-    country = models.ForeignKey(
-        "cities_light.Country", on_delete=models.SET_NULL, null=True, blank=True
-    )
-    city = models.ForeignKey(
+    location = models.ForeignKey(
         "cities_light.City", on_delete=models.SET_NULL, null=True, blank=True
     )
     profile_picture = models.ImageField(
