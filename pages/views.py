@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
@@ -19,3 +20,24 @@ class FeedbackPageView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy("pages:feedback")
     success_message = "Successfully submitted Feedback!"
     fields = ["email", "subject", "message"]
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+
+        form = super(FeedbackPageView, self).get_form(form_class)
+        form.fields["email"].widget = forms.TextInput(
+            attrs={"placeholder": "email@example.com"}
+        )
+        form.fields["subject"].widget = forms.TextInput(
+            attrs={"placeholder": "Your subject here..."}
+        )
+        return form
+
+
+class PrivacyPolicyPageView(TemplateView):
+    template_name = "pages/privacy_policy.html"
+
+
+class TermsConditionsPageView(TemplateView):
+    template_name = "pages/terms_conditions.html"

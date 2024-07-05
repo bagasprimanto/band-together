@@ -23,7 +23,7 @@
 <body class="d-flex flex-column min-vh-100 w-100">
     <!-- Messages -->
     {% for message in messages %}
-    <div class="alert alert-dismissible {{ message.tags }} shadow fade show col-sm-6 col-10 my-3 mx-auto" role="alert">
+    <div class="alert alert-dismissible {{ message.tags }} shadow fade show col-10 my-3 mx-auto" role="alert">
         <div>{{ message | safe }}</div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
