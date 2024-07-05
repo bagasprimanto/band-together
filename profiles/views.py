@@ -6,12 +6,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 from .models import Profile
-from .forms import ProfileForm
+from .forms import ProfileCreateForm
 
 
 class ProfileCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Profile
-    form_class = ProfileForm
+    form_class = ProfileCreateForm
     template_name = "profiles/profile_form.html"
 
     def test_func(self):
@@ -50,3 +50,8 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class MessageUser(TemplateView):
+
+    template = "profiles/profile_list.html"
