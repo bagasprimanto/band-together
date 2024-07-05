@@ -21,13 +21,13 @@ class Profile(models.Model):
         "cities_light.City", on_delete=models.SET_NULL, null=True, blank=True
     )
     profile_picture = models.ImageField(
-        default="profile_pic_default.jpg",
+        default="profiles/profile_pic_default.jpg",
         upload_to="profiles/profile_pics/",
         null=True,
         blank=True,
     )
     cover_picture = models.ImageField(
-        default="cover_pic_default.jpg",
+        default="profiles/cover_pic_default.jpg",
         upload_to="profiles/cover_pics/",
         null=True,
         blank=True,

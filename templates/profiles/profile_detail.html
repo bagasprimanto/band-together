@@ -5,9 +5,6 @@
 {% block content %}
 <div class="container">
     <h1>Profiles Detail</h1>
-    {% if user.is_authenticated %}
-    <p>{{ user.email }}</p>
-    <p>{{ user.profile.display_name }}</p>
-    {% endif %}
+    <p>{{ profile.display_name }}</p>
 </div>
 {% endblock content %}

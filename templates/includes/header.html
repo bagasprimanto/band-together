@@ -33,7 +33,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
                         {% if user.profile %}
-                        <a class="dropdown-item" href="{% url 'profiles:profile_detail' %}">My Profile</a>
+                        <a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profile.slug %}">My Profile</a>
                         <a class="dropdown-item" href="#">Messages</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         {% else %}
