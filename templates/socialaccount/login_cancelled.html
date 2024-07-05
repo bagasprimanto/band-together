@@ -5,6 +5,7 @@
     {% trans "Login Cancelled" %}
 {% endblock head_title %}
 {% block content %}
+<div class="container my-5 col-lg-4 col-11 border border-1 p-5 rounded shadow">
     {% element h1 %}
         {% trans "Login Cancelled" %}
     {% endelement %}
@@ -12,4 +13,5 @@
     {% element p %}
         {% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}
     {% endelement %}
+</div>
 {% endblock content %}

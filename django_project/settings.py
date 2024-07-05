@@ -174,8 +174,8 @@ LOGOUT_REDIRECT_URL = "pages:home"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": "<your-client-id>",
-            "secret": "<your-client-secret>",
+            "client_id": "992510617145-rnk1qpem8g990ops5c5rcbes6jetfvi8.apps.googleusercontent.com",
+            "secret": "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",
             "key": "",
         },
         "SCOPE": [
