@@ -14,6 +14,6 @@ urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("about/", AboutPageView.as_view(), name="about"),
     path("feedback/", FeedbackPageView.as_view(), name="feedback"),
-    path("privacy/", PrivacyPolicyPageView.as_view(), name="feedback"),
+    path("privacy/", PrivacyPolicyPageView.as_view(), name="privacy"),
     path("terms/", TermsConditionsPageView.as_view(), name="terms"),
 ]
