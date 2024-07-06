@@ -9,7 +9,7 @@
 
 {% block content %}
 <!-- Background image -->
- {% if profile.cover_picture %}
+{% if profile.cover_picture %}
 <div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
 </div>
 {% else %}
