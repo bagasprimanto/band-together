@@ -64,6 +64,11 @@ class ProfileCreateForm(forms.ModelForm):
             "youtube_link_4",
             "youtube_link_5",
             "youtube_link_6",
+            "personal_website_social_link",
+            "facebook_social_link",
+            "youtube_social_link",
+            "instagram_social_link",
+            "soundcloud_social_link",
             Submit("submit", "Submit", css_class="btn btn-primary"),
         )
 

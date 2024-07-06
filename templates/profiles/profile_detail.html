@@ -63,9 +63,6 @@
             <section class="profile-music-video mb-3">
                 <h3>
                     Music Videos
-                    {% if user == profile.user %}
-                    <a class="btn btn-secondary" href="#">Edit Videos</a>
-                    {% endif %}
                 </h3>
                 <div id="slider" class="container-fluid ps-0">
                     {% if profile.youtube_link_1 or profile.youtube_link_2 or profile.youtube_link_3 or profile.youtube_link_4 or profile.youtube_link_5 or profile.youtube_link_6 %}
@@ -124,7 +121,7 @@
                         </div>
                         {% endif %}
                     {% else %}
-                    <p>No YouTube videos available.</p>
+                    <p class="text-secondary-emphasis">No Videos available. Edit profile to add your Youtube video links!</p>
                     {% endif %}
                 </div>
             </section>
@@ -172,32 +169,59 @@
             {% endif %}
 
             <!-- Social Media Links -->
+            {% if profile.personal_website_social_link or profile.facebook_social_link or profile.youtube_social_link or profile.instagram_social_link or profile.soundcloud_social_link %}
             <section class="social-media-links mb-5">
                 <h3>Social Media Links</h3>
                 <div class="social-media-links-list d-flex flex-wrap col-12">
+
+                    {% if profile.personal_website_social_link %}
                     <div class="social-media-link-group">
-                        <img class="social-media-link" src="{% static 'images/globe-language-svgrepo-com.svg' %}"
-                            alt="Personal website globe icon">
+                        <a href="{{ profile.personal_website_social_link }}" target="_blank">
+                            <img class="social-media-link" src="{% static 'images/globe-language-svgrepo-com.svg' %}"
+                                alt="Personal website globe icon">
+                        </a>
                     </div>
+                    {% endif %}
+
+                    {% if profile.facebook_social_link %}
                     <div class="social-media-link-group">
-                        <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
-                            alt="Facebook icon">
+                        <a href="{{ profile.facebook_social_link }}" target="_blank">
+                            <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                                alt="Facebook icon">
+                        </a>
                     </div>
+                    {% endif %}
+
+                    {% if profile.youtube_social_link %}
                     <div class="social-media-link-group">
-                        <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
-                            alt="Youtube icon">
+                        <a href="{{ profile.youtube_social_link }}" target="_blank">
+                            <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                                alt="Youtube icon">
+                        </a>
                     </div>
+                    {% endif %}
+
+                    {% if profile.instagram_social_link %}
                     <div class="social-media-link-group">
-                        <img class="social-media-link"
-                            src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
-                            alt="Instagram icon">
+                        <a href="{{ profile.instagram_social_link }}" target="_blank">
+                            <img class="social-media-link"
+                                src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                                alt="Instagram icon">
+                        </a>
                     </div>
+                    {% endif %}
+
+                    {% if profile.soundcloud_social_link %}
                     <div class="social-media-link-group">
+                        <a href="{{ profile.soundcloud_social_link }}" target="_blank">
                         <img class="social-media-link" src="{% static 'images/soundcloud-logo-svgrepo-com.svg' %}"
                             alt="Soundcloud icon">
+                        </a>
                     </div>
+                    {% endif %}
                 </div>
             </section>
+            {% endif %}
 
             <!-- Profile dates -->
             <section class="profile-dates mb-5">

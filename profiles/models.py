@@ -44,6 +44,11 @@ class Profile(models.Model):
     youtube_link_4 = models.URLField(null=True, blank=True)
     youtube_link_5 = models.URLField(null=True, blank=True)
     youtube_link_6 = models.URLField(null=True, blank=True)
+    personal_website_social_link = models.URLField(null=True, blank=True)
+    facebook_social_link = models.URLField(null=True, blank=True)
+    youtube_social_link = models.URLField(null=True, blank=True)
+    instagram_social_link = models.URLField(null=True, blank=True)
+    soundcloud_social_link = models.URLField(null=True, blank=True)
 
     @property
     def age(self):
