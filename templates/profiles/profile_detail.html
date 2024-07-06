@@ -7,20 +7,23 @@
 {% endblock additional_css %}
 
 {% block content %}
+<!-- Background image -->
 <div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
 </div>
+
 <div class="container col-sm-10 col-md-8 col-12">
     <div class="row d-flex flex-wrap profile-info w-100 mt-2">
+        <!-- Display Picture, Display Name, Profile Type, Age, Edit/Message/Bookmark buttons -->
         <div class="profile-picture col-12">
             <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">
             <section class="display-name-buttons mb-3">
                 <h1 class="display-6 fs-1 fw-bold mb-0 profile-display-name">{{ profile.display_name }}</h1>
-                <p class="fw-normal mb-0">
+                <p class="fw-normal mb-2">
                     <span class="fw-bold">{{ profile.profile_type }}</span> - {{ profile.location }}
                 </p>
-                {% if profile.birthday %}
+                {% if profile.age > 0 %}
                 <p class="fw-normal">
                     <span class="fw-bold">Age</span> - {{ profile.age }} years old
                 </p>
@@ -32,6 +35,8 @@
                 <a class="btn btn-secondary" href="#">Bookmark</a>
                 {% endif %}
             </section>
+
+            <!-- Tabs -->
             <section class="tabs mb-3">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -42,12 +47,16 @@
                     </li>
                 </ul>
             </section>
+
+            <!-- Bio -->
             {% if profile.bio %}
             <section class="profile-bio">
                 <h3>Bio</h3>
                 <p>{{ profile.bio }}</p>
             </section>
             {% endif %}
+
+            <!-- Music Videos -->
             <section class="profile-music-video">
                 <h3>
                     Music Videos
@@ -55,7 +64,104 @@
                     <a class="btn btn-secondary" href="#">Edit Videos</a>
                     {%endif %}
                 </h3>
-                <p>{{ profile.bio }}</p>
+                <div id="slider" class="container-fluid ps-0">
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/HowTo1.jpg' %}" />
+                    </div>
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/LandingPage1.jpg' %}" />
+                    </div>
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/HowTo1.jpg' %}" />
+                    </div>
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/HowTo1.jpg' %}" />
+                    </div>
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/HowTo1.jpg' %}" />
+                    </div>
+                    <div class="thumbnail-group">
+                        <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                        <img class="thumbnail" src="{% static 'images/HowTo1.jpg' %}" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- Genres -->
+            {% if profile.genres %}
+            <section class="genres">
+                <h3>Preferred Genres</h3>
+                <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
+                    {% for genre in profile.genres.all %}
+                    <div class="genre">{{ genre }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Skills -->
+            {% if profile.skills %}
+            <section class="skills">
+                <h3>Skills</h3>
+                <div class="skills-list d-flex flex-wrap col-lg-8 col-12">
+                    {% for skill in profile.skills.all %}
+                    <div class="skill">{{ skill }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Social Media Links -->
+            <section class="social-media-links">
+                <h3>Social Media Links</h3>
+                <div class="social-media-links-list d-flex flex-wrap col-12">
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                            alt="Facebook icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                            alt="Youtube icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link"
+                            src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                            alt="Instagram icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/soundcloud-logo-svgrepo-com.svg' %}"
+                            alt="Soundcloud icon">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Joined date, Profile last updated date,  -->
+            <section class="social-media-links">
+                <h3>Social Media Links</h3>
+                <div class="social-media-links-list d-flex flex-wrap col-12">
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                            alt="Facebook icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                            alt="Youtube icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link"
+                            src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                            alt="Instagram icon">
+                    </div>
+                    <div class="social-media-link-group">
+                        <img class="social-media-link" src="{% static 'images/soundcloud-logo-svgrepo-com.svg' %}"
+                            alt="Soundcloud icon">
+                    </div>
+                </div>
             </section>
         </div>
     </div>
