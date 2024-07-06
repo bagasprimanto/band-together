@@ -38,6 +38,12 @@ class Profile(models.Model):
     slug = models.SlugField(unique=True, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    youtube_link_1 = models.URLField(null=True, blank=True)
+    youtube_link_2 = models.URLField(null=True, blank=True)
+    youtube_link_3 = models.URLField(null=True, blank=True)
+    youtube_link_4 = models.URLField(null=True, blank=True)
+    youtube_link_5 = models.URLField(null=True, blank=True)
+    youtube_link_6 = models.URLField(null=True, blank=True)
 
     @property
     def age(self):

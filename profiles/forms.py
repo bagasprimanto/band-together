@@ -58,6 +58,12 @@ class ProfileCreateForm(forms.ModelForm):
             ),
             "bio",
             "slug",
+            "youtube_link_1",
+            "youtube_link_2",
+            "youtube_link_3",
+            "youtube_link_4",
+            "youtube_link_5",
+            "youtube_link_6",
             Submit("submit", "Submit", css_class="btn btn-primary"),
         )
 
