@@ -41,13 +41,10 @@ class ProfileCreateForm(forms.ModelForm):
         self.helper.form_method = "POST"
 
         self.helper.layout = Layout(
-            "user",
             "profile_type",
             "display_name",
-            "birthday",
             "location",
             "profile_picture",
-            "cover_picture",
             InlineCheckboxes(
                 "genres",
                 css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
@@ -57,18 +54,6 @@ class ProfileCreateForm(forms.ModelForm):
                 css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
             ),
             "bio",
-            "slug",
-            "youtube_link_1",
-            "youtube_link_2",
-            "youtube_link_3",
-            "youtube_link_4",
-            "youtube_link_5",
-            "youtube_link_6",
-            "personal_website_social_link",
-            "facebook_social_link",
-            "youtube_social_link",
-            "instagram_social_link",
-            "soundcloud_social_link",
             Submit("submit", "Submit", css_class="btn btn-primary"),
         )
 
@@ -78,4 +63,12 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_picture": "Add a profile picture",
             "bio": "Tell us your profile bio",
         }
-        fields = "__all__"
+        fields = [
+            "profile_type",
+            "display_name",
+            "location",
+            "profile_picture",
+            "genres",
+            "skills",
+            "bio",
+        ]

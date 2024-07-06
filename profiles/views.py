@@ -10,9 +10,12 @@ from .models import Profile
 from .forms import ProfileCreateForm
 
 
-class ProfileCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class ProfileCreateView(
+    LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView
+):
     model = Profile
     form_class = ProfileCreateForm
+    success_message = "Successfully created profile!"
     template_name = "profiles/profile_form.html"
 
     def test_func(self):
