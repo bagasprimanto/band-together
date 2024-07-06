@@ -55,7 +55,8 @@ class ProfileDetailView(DetailView):
 
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
-    fields = "__all__"
+    form_class = ProfileCreateForm
+    template_name = "profiles/profile_edit.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user

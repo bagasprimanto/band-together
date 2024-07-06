@@ -40,7 +40,7 @@ class Profile(models.Model):
         return f"{self.display_name} - {self.user.email}"
 
     def get_absolute_url(self):
-        return reverse("profile_detail", kwargs={"slug": self.slug})
+        return reverse("profiles:profile_detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug:

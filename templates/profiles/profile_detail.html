@@ -9,25 +9,54 @@
 {% block content %}
 <div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
 </div>
-<div class="container">
+<div class="container col-sm-10 col-md-8 col-12">
     <div class="row d-flex flex-wrap profile-info w-100 mt-2">
         <div class="profile-picture col-12">
             <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">
-            <h1 class="display-6 fs-1 fw-bold mb-0 profile-display-name">{{ profile.display_name }}</h1>
-            <p class="fw-normal mb-0">
-                <span class="fw-bold">{{ profile.profile_type }}</span> - {{ profile.location }}
-            </p>
-            <p class="fw-normal">
-                <span class="fw-bold">Birthday</span> - {{ profile.birthday }}
-            </p>
-            {% if user == profile.user %}
-            <a class="btn btn-secondary" href="{% url 'profiles:profile_edit' user.profile.slug %}">Edit Profile</a>
-            {% else %}
-            <a class="btn btn-primary" href="#">Message</a>
-            <a class="btn btn-secondary" href="#">Bookmark</a>
+            <section class="display-name-buttons mb-3">
+                <h1 class="display-6 fs-1 fw-bold mb-0 profile-display-name">{{ profile.display_name }}</h1>
+                <p class="fw-normal mb-0">
+                    <span class="fw-bold">{{ profile.profile_type }}</span> - {{ profile.location }}
+                </p>
+                {% if profile.birthday %}
+                <p class="fw-normal">
+                    <span class="fw-bold">Birthday</span> - {{ profile.birthday }}
+                </p>
+                {% endif %}
+                {% if user == profile.user %}
+                <a class="btn btn-secondary" href="{% url 'profiles:profile_edit' user.profile.slug %}">Edit Profile</a>
+                {% else %}
+                <a class="btn btn-primary" href="#">Message</a>
+                <a class="btn btn-secondary" href="#">Bookmark</a>
+                {% endif %}
+            </section>
+            <section class="tabs mb-3">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">About Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Active Ads</a>
+                    </li>
+                </ul>
+            </section>
+            {% if profile.bio %}
+            <section class="profile-bio">
+                <h3>Bio</h3>
+                <p>{{ profile.bio }}</p>
+            </section>
             {% endif %}
+            <section class="profile-music-video">
+                <h3>
+                    Music Videos
+                    {% if user == profile.user %}
+                    <a class="btn btn-secondary" href="#">Edit Videos</a>
+                    {%endif %}
+                </h3>
+                <p>{{ profile.bio }}</p>
+            </section>
         </div>
     </div>
 </div>

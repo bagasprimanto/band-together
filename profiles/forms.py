@@ -64,7 +64,7 @@ class ProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile
         labels = {
-            "profile_picture": "Add a profile photo",
+            "profile_picture": "Add a profile picture",
             "bio": "Tell us your profile bio",
         }
         fields = "__all__"
