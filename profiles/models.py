@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
+from datetime import datetime
 
 
 class ProfileType(models.Model):
@@ -35,6 +36,10 @@ class Profile(models.Model):
     genres = models.ManyToManyField("Genre", blank=True)
     skills = models.ManyToManyField("Skill", blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
+
+    @property
+    def age(self):
+        return int((datetime.now().date() - self.birthday).days / 365.25)
 
     def __str__(self):
         return f"{self.display_name} - {self.user.email}"
