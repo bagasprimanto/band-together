@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
-from datetime import datetime
+from django.utils import timezone
 
 
 class ProfileType(models.Model):
@@ -52,7 +52,13 @@ class Profile(models.Model):
 
     @property
     def age(self):
-        return int((datetime.now().date() - self.birthday).days / 365.25)
+        today = timezone.now().date()
+        age = int(
+            today.year
+            - (self.birth_date.year)
+            - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        )
+        return age
 
     def __str__(self):
         return f"{self.display_name} - {self.user.email}"
