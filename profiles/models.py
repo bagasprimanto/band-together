@@ -36,6 +36,8 @@ class Profile(models.Model):
     genres = models.ManyToManyField("Genre", blank=True)
     skills = models.ManyToManyField("Skill", blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
 
     @property
     def age(self):

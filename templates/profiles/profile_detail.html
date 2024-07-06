@@ -28,11 +28,13 @@
                     <span class="fw-bold">Age</span> - {{ profile.age }} years old
                 </p>
                 {% endif %}
+                {% if user.is_authenticated %}
                 {% if user == profile.user %}
                 <a class="btn btn-secondary" href="{% url 'profiles:profile_edit' user.profile.slug %}">Edit Profile</a>
                 {% else %}
                 <a class="btn btn-primary" href="#">Message</a>
                 <a class="btn btn-secondary" href="#">Bookmark</a>
+                {% endif %}
                 {% endif %}
             </section>
 
@@ -143,13 +145,13 @@
             <!-- Profile dates -->
             <section class="profile-dates mb-5">
                 <div class="created-date">
-                    <span class="fw-bold">Joined</span> 20 June 2024
+                    <span class="fw-bold">Joined</span> {{ profile.created|date:"r" }}
                 </div>
                 <div class="last-updated-date">
-                    <span class="fw-bold">Profile last updated</span> 20 June 2024
+                    <span class="fw-bold">Profile last updated</span> {{ profile.last_updated|date:"r" }}
                 </div>
                 <div class="last-login-date">
-                    <span class="fw-bold">Last Login</span> 20 June 2024
+                    <span class="fw-bold">Last Login</span> {{ profile.user.last_login|date:"r" }}
                 </div>
             </section>
         </div>
