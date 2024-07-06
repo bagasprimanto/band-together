@@ -3,6 +3,17 @@
 .hero-image-2 img {
     min-height: 320px;
     object-fit: cover;
+    position: relative;
+}
+
+.hero-image-2 img {
+    right: 50px;
+    top: 20px;
+}
+
+.hero-image-1 img {
+    left: 10px;
+    bottom: 10px;
 }
 
 .hero-background {
