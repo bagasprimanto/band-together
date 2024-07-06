@@ -69,9 +69,10 @@
                 </h3>
                 <div id="slider" class="container-fluid ps-0">
                     {% if profile.youtube_link_1 or profile.youtube_link_2 or profile.youtube_link_3 or profile.youtube_link_4 or profile.youtube_link_5 or profile.youtube_link_6 %}
+                        
                         {% if profile.youtube_link_1 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_1 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_1|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_1|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -80,7 +81,7 @@
                 
                         {% if profile.youtube_link_2 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_2 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_2|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_2|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -89,7 +90,7 @@
                 
                         {% if profile.youtube_link_3 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_3 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_3|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_3|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -98,7 +99,7 @@
                 
                         {% if profile.youtube_link_4 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_4 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_4|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_4|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -107,7 +108,7 @@
                 
                         {% if profile.youtube_link_5 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_5 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_5|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_5|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -116,7 +117,7 @@
                 
                         {% if profile.youtube_link_6 %}
                         <div class="thumbnail-group">
-                            <a href="{{ profile.youtube_link_6 }}" target="_blank">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_6|youtube_embed }}">
                                 <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
                                 <img class="thumbnail" src="{{ profile.youtube_link_6|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
                             </a>
@@ -127,6 +128,24 @@
                     {% endif %}
                 </div>
             </section>
+
+            <!-- Video Modal -->
+            <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content container-fluid">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">YouTube Video</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <iframe id="videoFrame" width="100%" height="400px" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
 
             <!-- Genres -->
             {% if profile.genres %}
@@ -196,3 +215,23 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block additional_js %}
+<script>
+    var videoModal = document.getElementById('videoModal')
+    videoModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget // Button that triggered the modal
+        var videoUrl = button.getAttribute('data-video-url') // Extract info from data-* attributes
+        var modalTitle = videoModal.querySelector('.modal-title')
+        var videoFrame = videoModal.querySelector('#videoFrame')
+
+        // Update the modal's content.
+        videoFrame.src = videoUrl
+    })
+
+    videoModal.addEventListener('hidden.bs.modal', function (event) {
+        var videoFrame = videoModal.querySelector('#videoFrame')
+        videoFrame.src = ''
+    })
+</script>
+{% endblock additional_js %}

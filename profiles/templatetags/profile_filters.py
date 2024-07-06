@@ -1,4 +1,4 @@
-from urllib.parse import parse_qs  # Use urllib.parse for Python 3
+from urllib.parse import urlparse, parse_qs  # Use urllib.parse for Python 3
 from django import template
 from django.template.defaultfilters import stringfilter
 
@@ -21,3 +21,15 @@ def youthumbnail(value, args):
 
 
 register.filter("youthumbnail", youthumbnail)
+
+
+def youtube_embed(value):
+    """Returns the embed URL for a YouTube video."""
+    parsed_url = urlparse(value)
+    video_id = parse_qs(parsed_url.query).get("v")
+    if video_id:
+        return f"https://www.youtube.com/embed/{video_id[0]}"
+    return value
+
+
+register.filter("youtube_embed", youtube_embed)
