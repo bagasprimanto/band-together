@@ -131,7 +131,7 @@
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content container-fluid">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="videoModalLabel">YouTube Video</h5>
+                    <h5 class="modal-title" id="videoModalLabel">Music Videos</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -242,6 +242,8 @@
 
 {% block additional_js %}
 <script>
+
+    // For inserting the youtube video's embed URL inside the modal
     var videoModal = document.getElementById('videoModal')
     videoModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget // Button that triggered the modal
@@ -253,6 +255,7 @@
         videoFrame.src = videoUrl
     })
 
+    // Remove URL from videoframe src attribute when modal is dimissed
     videoModal.addEventListener('hidden.bs.modal', function (event) {
         var videoFrame = videoModal.querySelector('#videoFrame')
         videoFrame.src = ''
