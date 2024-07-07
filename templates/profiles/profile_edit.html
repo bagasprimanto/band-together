@@ -34,7 +34,7 @@
             <li class="nav-item">
                 <a {% if "/music-videos/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
                     aria-current="page"
-                    href="#">Music Videos</a>
+                    href="{% url 'profiles:profile_edit_music_videos' user.profile.slug %}">Music Videos</a>
             </li>
             <li class="nav-item">
                 <a {% if "/socials/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
