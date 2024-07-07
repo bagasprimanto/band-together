@@ -44,6 +44,10 @@
         </ul>
     </section>
 
+    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">
+        {% block edit_form_legend %}
+        {% endblock edit_form_legend %}
+    </legend>
     {% block edit_form %}
     {% endblock edit_form %}
 </div>
