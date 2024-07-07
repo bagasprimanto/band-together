@@ -64,104 +64,56 @@ class ProfileDetailView(DetailView):
         return context
 
 
-class ProfileEditGeneralInfoView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProfileEditBaseView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+    Profile Edit Base View to be inherited by Profile Edit views
+    """
+
     model = Profile
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user
+
+
+class ProfileEditGeneralInfoView(ProfileEditBaseView):
+
     form_class = ProfileEditGeneralInfoForm
     template_name = "profiles/profile_edit_general_info.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
+class ProfileEditPicturesView(ProfileEditBaseView):
 
-
-class ProfileEditPicturesView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
     form_class = ProfileEditPicturesForm
     template_name = "profiles/profile_edit_pictures.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
+class ProfileEditGenresView(ProfileEditBaseView):
 
-
-class ProfileEditGenresView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
     form_class = ProfileEditGenresForm
     template_name = "profiles/profile_edit_genres.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
+class ProfileEditSkillsView(ProfileEditBaseView):
 
-
-class ProfileEditSkillsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
     form_class = ProfileEditSkillsForm
     template_name = "profiles/profile_edit_skills.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
+class ProfileEditMusicVideosView(ProfileEditBaseView):
 
-
-class ProfileEditMusicVideosView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
     form_class = ProfileEditMusicVideosForm
     template_name = "profiles/profile_edit_music_videos.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
+class ProfileEditSocialsView(ProfileEditBaseView):
 
-
-class ProfileEditSocialsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
 
 
 ## JUST FOR TESTING
