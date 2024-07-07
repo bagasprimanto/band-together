@@ -1,0 +1,9 @@
+{% extends "profiles/profile_edit.html" %}
+{% load crispy_forms_tags %}
+
+{% block edit_form %}
+    <!-- Form -->
+    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Update your profile and cover pictures here!</legend>
+    {% crispy form %}
+</div>
+{% endblock edit_form %}

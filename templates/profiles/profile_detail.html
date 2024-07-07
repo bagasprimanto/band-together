@@ -40,7 +40,7 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                 {% if user == profile.user %}
-                <a class="btn btn-secondary" href="{% url 'profiles:profile_edit' user.profile.slug %}">Edit Profile</a>
+                <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
                 {% else %}
                 <a class="btn btn-primary" href="#">Message</a>
                 <a class="btn btn-secondary" href="#">Bookmark</a>

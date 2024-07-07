@@ -4,8 +4,42 @@
 
 {% block content %}
 <div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
+
+    <!-- Title -->
     <h1 class="fw-bold">Edit Profile</h1>
-    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Update your profile here!</legend>
-    {% crispy form %}
+
+    <!-- Tabs -->
+    <section class="tabs mb-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a {% if "/general-info/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                    aria-current="page"
+                    href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">General Info</a>
+            </li>
+            <li class="nav-item">
+                <a {% if "/pictures/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
+                    aria-current="page"
+                    href="{% url 'profiles:profile_edit_pictures' user.profile.slug %}">Pictures</a>
+            </li>
+            <li class="nav-item">
+                <a {% if "/skills/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
+                    aria-current="page"
+                    href="#">Skills</a>
+            </li>
+            <li class="nav-item">
+                <a {% if "/music-videos/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
+                    aria-current="page"
+                    href="#">Music Videos</a>
+            </li>
+            <li class="nav-item">
+                <a {% if "/socials/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
+                    aria-current="page"
+                    href="#">Social Media Links</a>
+            </li>
+        </ul>
+    </section>
+
+    {% block edit_form %}
+    {% endblock edit_form %}
 </div>
 {% endblock content %}

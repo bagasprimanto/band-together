@@ -55,8 +55,8 @@ class Profile(models.Model):
         today = timezone.now().date()
         age = int(
             today.year
-            - (self.birth_date.year)
-            - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+            - (self.birthday.year)
+            - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
         )
         return age
 
