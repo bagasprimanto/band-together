@@ -24,7 +24,7 @@
             <li class="nav-item">
                 <a {% if "/genres/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
                     aria-current="page"
-                    href="#">Genres</a>
+                    href="{% url 'profiles:profile_edit_genres' user.profile.slug %}">Genres</a>
             </li>
             <li class="nav-item">
                 <a {% if "/skills/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 

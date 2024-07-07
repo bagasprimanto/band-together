@@ -176,22 +176,19 @@ class ProfileEditPicturesForm(forms.ModelForm):
         ]
 
 
-class ProfileEditSkillsForm(forms.ModelForm):
+class ProfileEditGenresForm(forms.ModelForm):
 
-    profile_picture = forms.ImageField(
-        label="Add a profile picture",
-        required=False,
-    )
-
-    cover_picture = forms.ImageField(
-        label="Add a cover picture",
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label="What genres do you prefer?",
         required=False,
     )
 
     def __init__(self, *args, **kwargs):
-        super(ProfileEditPicturesForm, self).__init__(*args, **kwargs)
+        super(ProfileEditGenresForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)  # Create an instance of the FormHelper class
-        self.helper.form_id = "profile-picture-form"
+        self.helper.form_id = "profile-genres-form"
         self.helper.form_method = "POST"
 
         # Pass in the profile_url variable
@@ -201,8 +198,10 @@ class ProfileEditSkillsForm(forms.ModelForm):
             profile_url = "#"  # Default to # if no instance provided
 
         self.helper.layout = Layout(
-            "profile_picture",
-            "cover_picture",
+            InlineCheckboxes(
+                "genres",
+                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+            ),
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
                 "cancel",
@@ -215,6 +214,5 @@ class ProfileEditSkillsForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
-            "profile_picture",
-            "cover_picture",
+            "genres",
         ]
