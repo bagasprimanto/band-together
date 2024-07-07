@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
+from django.views.generic import (
+    TemplateView,
+    CreateView,
+    DetailView,
+    UpdateView,
+    ListView,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .mixins import ProfileRequiredMixin
@@ -48,8 +54,10 @@ class ProfileCreateView(
         return reverse("profiles:profile_detail", kwargs={"slug": self.object.slug})
 
 
-class ProfileListView(TemplateView):
+class ProfileListView(ListView):
     template_name = "profiles/profile_list.html"
+    model = Profile
+    context_object_name = "profiles"
 
 
 class ProfileDetailView(DetailView):
