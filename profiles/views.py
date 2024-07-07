@@ -14,6 +14,7 @@ from .forms import (
     ProfileEditGenresForm,
     ProfileEditSkillsForm,
     ProfileEditMusicVideosForm,
+    ProfileEditSocialsForm,
 )
 
 
@@ -163,6 +164,22 @@ class ProfileEditMusicVideosView(LoginRequiredMixin, UserPassesTestMixin, Update
     model = Profile
     form_class = ProfileEditMusicVideosForm
     template_name = "profiles/profile_edit_music_videos.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        if self.request.user == profile.user:
+            return True
+        return False
+
+
+class ProfileEditSocialsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    form_class = ProfileEditSocialsForm
+    template_name = "profiles/profile_edit_socials.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user

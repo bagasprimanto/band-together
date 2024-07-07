@@ -39,7 +39,7 @@
             <li class="nav-item">
                 <a {% if "/socials/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
                     aria-current="page"
-                    href="#">Social Media Links</a>
+                    href="{% url 'profiles:profile_edit_socials' user.profile.slug %}">Social Media Links</a>
             </li>
         </ul>
     </section>

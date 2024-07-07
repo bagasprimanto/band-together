@@ -348,3 +348,76 @@ class ProfileEditMusicVideosForm(forms.ModelForm):
             "youtube_link_5",
             "youtube_link_6",
         ]
+
+
+class ProfileEditSocialsForm(forms.ModelForm):
+
+    personal_website_social_link = forms.URLField(
+        widget=forms.TextInput(attrs={"placeholder": "https://www.example.com"}),
+        required=False,
+    )
+
+    facebook_social_link = forms.URLField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "https://www.facebook.com/example-profile/"}
+        ),
+        required=False,
+    )
+
+    youtube_social_link = forms.URLField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "https://www.youtube.com/example-profile"}
+        ),
+        required=False,
+    )
+
+    instagram_social_link = forms.URLField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "https://www.instagram.com/example-profile"}
+        ),
+        required=False,
+    )
+
+    soundcloud_social_link = forms.URLField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "https://soundcloud.com/example-profile"}
+        ),
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileEditSocialsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)  # Create an instance of the FormHelper class
+        self.helper.form_id = "profile-socials-form"
+        self.helper.form_method = "POST"
+
+        # Pass in the profile_url variable
+        if "instance" in kwargs and kwargs["instance"] is not None:
+            profile_url = kwargs["instance"].get_absolute_url()
+        else:
+            profile_url = "#"  # Default to # if no instance provided
+
+        self.helper.layout = Layout(
+            "personal_website_social_link",
+            "facebook_social_link",
+            "youtube_social_link",
+            "instagram_social_link",
+            "soundcloud_social_link",
+            Submit("submit", "Submit", css_class="btn btn-primary"),
+            Button(
+                "cancel",
+                "Cancel",
+                css_class="btn btn-secondary",
+                onclick=f"window.location.href='{profile_url}'",
+            ),
+        )
+
+    class Meta:
+        model = Profile
+        fields = [
+            "personal_website_social_link",
+            "facebook_social_link",
+            "youtube_social_link",
+            "instagram_social_link",
+            "soundcloud_social_link",
+        ]

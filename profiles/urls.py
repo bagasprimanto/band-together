@@ -11,6 +11,7 @@ from .views import (
     ProfileEditGenresView,
     ProfileEditSkillsView,
     ProfileEditMusicVideosView,
+    ProfileEditSocialsView,
 )
 
 app_name = "profiles"
@@ -43,6 +44,11 @@ urlpatterns = [
         "<slug:slug>/edit/music-videos/",
         ProfileEditMusicVideosView.as_view(),
         name="profile_edit_music_videos",
+    ),
+    path(
+        "<slug:slug>/edit/socials/",
+        ProfileEditSocialsView.as_view(),
+        name="profile_edit_socials",
     ),
     path("chat/", MessageUser.as_view(), name="message_user"),
 ]
