@@ -13,32 +13,26 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a {% if "/general-info/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">General Info</a>
             </li>
             <li class="nav-item">
                 <a {% if "/pictures/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_pictures' user.profile.slug %}">Pictures</a>
             </li>
             <li class="nav-item">
                 <a {% if "/genres/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_genres' user.profile.slug %}">Genres</a>
             </li>
             <li class="nav-item">
                 <a {% if "/skills/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_skills' user.profile.slug %}">Skills</a>
             </li>
             <li class="nav-item">
                 <a {% if "/music-videos/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_music_videos' user.profile.slug %}">Music Videos</a>
             </li>
             <li class="nav-item">
                 <a {% if "/socials/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
-                    aria-current="page"
                     href="{% url 'profiles:profile_edit_socials' user.profile.slug %}">Social Media Links</a>
             </li>
         </ul>

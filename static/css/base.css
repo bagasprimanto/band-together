@@ -38,6 +38,10 @@ img.profile-dropdown {
     object-fit: cover;
 }
 
+.navbar-nav a.active {
+    color: #fff !important;
+}
+
 body {
     padding-top: 56px;
 }
