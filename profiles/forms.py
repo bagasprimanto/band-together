@@ -216,3 +216,45 @@ class ProfileEditGenresForm(forms.ModelForm):
         fields = [
             "genres",
         ]
+
+
+class ProfileEditSkillsForm(forms.ModelForm):
+
+    skills = forms.ModelMultipleChoiceField(
+        queryset=Skill.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label="What instruments do you play?",
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileEditSkillsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)  # Create an instance of the FormHelper class
+        self.helper.form_id = "profile-skills-form"
+        self.helper.form_method = "POST"
+
+        # Pass in the profile_url variable
+        if "instance" in kwargs and kwargs["instance"] is not None:
+            profile_url = kwargs["instance"].get_absolute_url()
+        else:
+            profile_url = "#"  # Default to # if no instance provided
+
+        self.helper.layout = Layout(
+            InlineCheckboxes(
+                "skills",
+                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+            ),
+            Submit("submit", "Submit", css_class="btn btn-primary"),
+            Button(
+                "cancel",
+                "Cancel",
+                css_class="btn btn-secondary",
+                onclick=f"window.location.href='{profile_url}'",
+            ),
+        )
+
+    class Meta:
+        model = Profile
+        fields = [
+            "skills",
+        ]

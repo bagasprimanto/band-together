@@ -29,7 +29,7 @@
             <li class="nav-item">
                 <a {% if "/skills/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
                     aria-current="page"
-                    href="#">Skills</a>
+                    href="{% url 'profiles:profile_edit_skills' user.profile.slug %}">Skills</a>
             </li>
             <li class="nav-item">
                 <a {% if "/music-videos/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 

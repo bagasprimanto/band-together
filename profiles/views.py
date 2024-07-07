@@ -12,6 +12,7 @@ from .forms import (
     ProfileEditGeneralInfoForm,
     ProfileEditPicturesForm,
     ProfileEditGenresForm,
+    ProfileEditSkillsForm,
 )
 
 
@@ -129,6 +130,22 @@ class ProfileEditGenresView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
     model = Profile
     form_class = ProfileEditGenresForm
     template_name = "profiles/profile_edit_genres.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        if self.request.user == profile.user:
+            return True
+        return False
+
+
+class ProfileEditSkillsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    form_class = ProfileEditSkillsForm
+    template_name = "profiles/profile_edit_skills.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
