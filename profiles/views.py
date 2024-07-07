@@ -64,12 +64,15 @@ class ProfileDetailView(DetailView):
         return context
 
 
-class ProfileEditBaseView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProfileEditBaseView(
+    LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView
+):
     """
     Profile Edit Base View to be inherited by Profile Edit views
     """
 
     model = Profile
+    success_message = "Successfully edited profile!"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
