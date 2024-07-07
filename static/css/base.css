@@ -34,6 +34,10 @@ ul.navbar-nav a,
     padding-left: 0px;
 }
 
+img.profile-dropdown {
+    object-fit: cover;
+}
+
 body {
     padding-top: 56px;
 }
