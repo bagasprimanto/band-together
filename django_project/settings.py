@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # 3rd party
+    # Django-filters
+    "django_filters",
     # Crispy Forms
     "crispy_forms",
     "crispy_bootstrap5",

@@ -10,8 +10,6 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .mixins import ProfileRequiredMixin
-
-
 from .models import Profile
 from .forms import (
     ProfileCreateForm,
@@ -22,6 +20,7 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from .filters import ProfileFilter
 
 
 class ProfileCreateView(
@@ -58,6 +57,15 @@ class ProfileListView(ListView):
     template_name = "profiles/profile_list.html"
     model = Profile
     context_object_name = "profiles"
+
+
+def profile_list(request):
+    profile_filter = ProfileFilter(request.GET, queryset=Profile.objects.all())
+    context = {
+        "form": profile_filter.form,
+        "profiles": profile_filter.qs,
+    }
+    return render(request, "profiles/profile_list.html", context)
 
 
 class ProfileDetailView(DetailView):

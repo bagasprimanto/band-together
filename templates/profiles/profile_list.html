@@ -1,13 +1,116 @@
 {% extends "_base.html" %}
-
+{% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Profiles - BandTogether{% endblock title %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_list.css' %}">
+{% endblock additional_css %}
+
 {% block content %}
-<div class="container">
+<div class="container-fluid p-5">
     <h1>Profiles List</h1>
-    <a class="btn btn-primary" href="{% url 'profiles:message_user' %}">Message a User</a>
-    {% for profile in profiles %}
-    <div>{{ profile.display_name }}</div>
-    {% endfor %}
+    <form method="GET" action="{% url 'profiles:profile_list' %}">
+        {{ form|crispy }}
+        <input type="submit" value="Submit" class="btn btn-primary">
+        <input type="button" value="Reset" id="resetBtn" onClick="this.form.reset()" class="btn btn-secondary" />
+    </form>
+
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Slug
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Profile type
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Genres
+            </th>
+            <th>
+                Skills
+            </th>
+            <th>
+                Created Date
+            </th>
+            <th>
+                Last Login Date
+            </th>
+        </tr>
+        {% for profile in profiles %}
+        <tr>
+            <td>
+                {{ profile.display_name }}
+            </td>
+            <td>
+                {{ profile.slug }}
+            </td>
+            <td>
+                {{ profile.user.email }}
+            </td>
+            <td>
+                {{ profile.profile_type }}
+            </td>
+            <td>
+                {% if profile.birthday %}
+                {{ profile.age }}
+                {% else %}
+                Not available
+                {% endif %}
+            </td>
+            <td>
+                {{ profile.location }}
+            </td>
+            <td>
+                {% for genre in profile.genres.all %}
+                {{ genre }},
+                {% endfor %}
+            </td>
+            <td>
+                {% for skill in profile.skills.all %}
+                {{ skill }},
+                {% endfor %}
+            </td>
+            <td>
+                {{ profile.created }}
+            </td>
+            <td>
+                {{ profile.user.last_login }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- <section
+        class="profile-list mt-3 d-flex flex-wrap row-cols-xl-10 row-cols-lg-8 row-cols-md-6 row-cols-sm-3 row-cols-2">
+        {% for profile in profiles %}
+        <div class="profile-container d-flex flex-column col-12 text-center">
+            <div>
+                {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="profile-picture"
+                    class="profile-picture rounded-circle img-fluid">
+                {% else %}
+                <img src="{% static 'images/profile_pic_default.jpg' %}" alt="profile-picture"
+                    class="profile-picture rounded-circle img-fluid">
+                {% endif %}
+            </div>
+            <p>
+                {{ profile.display_name }}
+            </p>
+        </div>
+        {% endfor %}
+    </section> -->
 </div>
 {% endblock content %}
