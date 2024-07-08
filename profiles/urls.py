@@ -4,7 +4,6 @@ from .views import (
     ProfileCreateView,
     ProfileListView,
     ProfileDetailView,
-    MessageUser,
     ProfileEditGeneralInfoView,
     ProfileEditPicturesView,
     ProfileEditGenresView,
@@ -49,5 +48,4 @@ urlpatterns = [
         ProfileEditSocialsView.as_view(),
         name="profile_edit_socials",
     ),
-    path("chat/", MessageUser.as_view(), name="message_user"),
 ]

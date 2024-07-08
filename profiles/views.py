@@ -137,8 +137,3 @@ class ProfileEditSocialsView(ProfileEditBaseView):
 
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
-
-
-## JUST FOR TESTING
-class MessageUser(LoginRequiredMixin, ProfileRequiredMixin, TemplateView):
-    template = "profiles/messaging.html"
