@@ -8,15 +8,69 @@
 {% endblock additional_css %}
 
 {% block content %}
-<div class="container-fluid p-5">
+<div class="container-fluid p-5 dl">
     <h1>Profiles List</h1>
-    <form method="GET" action="{% url 'profiles:profile_list' %}">
-        {{ form|crispy }}
-        <input type="submit" value="Submit" class="btn btn-primary">
-        <input type="button" value="Reset" id="resetBtn" onClick="this.form.reset()" class="btn btn-secondary" />
-    </form>
 
-    <table>
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+        aria-controls="offcanvasExample">
+        Show filters
+    </a>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Profile Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form method="get" action="{% url 'profiles:profile_list' %}" id="filter-form">
+                {{ form.display_name|as_crispy_field }}
+                {{ form.profile_type|as_crispy_field }}
+                {{ form.location|as_crispy_field }}
+
+                <div class="form-group mb-2">
+                    {{ form.genres.label_tag }}
+                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                        {% for checkbox in form.genres %}
+                        <div class="form-check d-flex gx-2">
+                            {{ checkbox.tag }}
+                            <div class="ms-1">
+                                {{ checkbox.choice_label }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form.skills.label_tag }}
+                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                        {% for checkbox in form.skills %}
+                        <div class="form-check d-flex gx-2">
+                            {{ checkbox.tag }}
+                            <div class="ms-1">
+                                {{ checkbox.choice_label }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <label for="id_order_by" class="form-label">
+                    Advanced Filters
+                </label>
+                {{ form.has_youtube_video|as_crispy_field }}
+                {{ form.has_profile_picture|as_crispy_field }}
+                {{ form.order_by|as_crispy_field }}
+
+                <button type="submit" class="btn btn-primary">Filter</button>
+                {% if has_filter %}
+                <a href="{% url 'profiles:profile_list' %}" class="btn btn-secondary ms-1">Clear all filters</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- <table class="table">
         <tr>
             <th>
                 Name
@@ -91,9 +145,9 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
 
-    <!-- <section
+    <section
         class="profile-list mt-3 d-flex flex-wrap row-cols-xl-10 row-cols-lg-8 row-cols-md-6 row-cols-sm-3 row-cols-2">
         {% for profile in profiles %}
         <div class="profile-container d-flex flex-column col-12 text-center">
@@ -111,6 +165,24 @@
             </p>
         </div>
         {% endfor %}
-    </section> -->
+    </section>
 </div>
 {% endblock content %}
+
+{% block additional_js %}
+<script>
+    function resetFilters() {
+        var form = document.getElementById('filter-form');
+
+        // Reset text inputs and selects
+        form.querySelectorAll('input[type="text"], select').forEach(function (input) {
+            input.value = '';
+        });
+
+        // Reset checkboxes
+        form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+    }
+</script>
+{% endblock additional_js %}

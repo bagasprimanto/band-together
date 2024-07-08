@@ -60,10 +60,14 @@ class ProfileListView(ListView):
 
 
 def profile_list(request):
+    f = ProfileFilter(request.GET, queryset=Profile.objects.all())
+    has_filter = any(field in request.GET for field in set(f.get_fields()))
+
     profile_filter = ProfileFilter(request.GET, queryset=Profile.objects.all())
     context = {
         "form": profile_filter.form,
         "profiles": profile_filter.qs,
+        "has_filter": has_filter,
     }
     return render(request, "profiles/profile_list.html", context)
 

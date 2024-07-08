@@ -36,12 +36,12 @@ class ProfileFilter(django_filters.FilterSet):
 
     genres = django_filters.ModelMultipleChoiceFilter(
         queryset=Genre.objects.all(),
-        widget=CheckboxSelectMultiple,
+        widget=CheckboxSelectMultiple(attrs={"class": "d-flex flex-wrap row-cols-4"}),
     )
 
     skills = django_filters.ModelMultipleChoiceFilter(
         queryset=Skill.objects.all(),
-        widget=CheckboxSelectMultiple,
+        widget=CheckboxSelectMultiple(attrs={"class": "d-flex flex-wrap row-cols-4"}),
     )
 
     has_youtube_video = django_filters.BooleanFilter(
