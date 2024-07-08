@@ -9,16 +9,18 @@
 
 {% block content %}
 <div class="container-fluid p-5 dl">
-    <h1>Profiles List</h1>
-
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
+    <h1 class="fw-bold">Profiles List</h1>
+    <h2 class="fw-normal h4 text-secondary">Discover other musicians and bands!</h2>
+    <hr />
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasProfileFilter" role="button"
+        aria-controls="offcanvasProfileFilter">
         Show filters
     </a>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfileFilter"
+        aria-labelledby="offcanvasProfileFilterLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Profile Filters</h5>
+            <h5 class="offcanvas-title" id="offcanvasProfileFilterLabel">Profile Filters</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
