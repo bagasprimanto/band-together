@@ -1,15 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
-    TemplateView,
     CreateView,
     DetailView,
     UpdateView,
-    ListView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from .mixins import ProfileRequiredMixin
 from .models import Profile
 from .forms import (
     ProfileCreateForm,
@@ -51,12 +48,6 @@ class ProfileCreateView(
     def get_success_url(self):
         # Returns the URL to redirect to after the form is successfully submitted
         return reverse("profiles:profile_detail", kwargs={"slug": self.object.slug})
-
-
-class ProfileListView(ListView):
-    template_name = "profiles/profile_list.html"
-    model = Profile
-    context_object_name = "profiles"
 
 
 def profile_list(request):
