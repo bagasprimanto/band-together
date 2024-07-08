@@ -69,7 +69,7 @@ class Command(BaseCommand):
         cities = list(City.objects.all())
 
         # Create Users and Profiles
-        for _ in range(10):
+        for _ in range(30):
             username = fake.user_name()
             email = fake.email()
             password = "password123"
