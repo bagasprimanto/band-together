@@ -130,7 +130,10 @@
                         </div>
                         {% endif %}
                     {% else %}
-                    <p class="text-secondary-emphasis">No videos available. Edit profile to add your Youtube video links!</p>
+                    <p class="text-secondary-emphasis">No videos available. 
+                        {% if user == profile.user %}
+                        Edit profile to add your Youtube video links!</p>
+                        {% endif %}
                     {% endif %}
                 </div>
             </section>
