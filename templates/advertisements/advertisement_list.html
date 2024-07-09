@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Profile Create - BandTogether{% endblock title %}
+
+{% block content %}
+<div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
+    <h1 class="fw-bold">Ads List</h1>
+    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Now for the fun part, let's get to know you!</legend>
+    {% for ad in ads %}
+    <h1>{{ ad.title }}</h1>
+    {% endfor %}
+</div>
+{% endblock content %}

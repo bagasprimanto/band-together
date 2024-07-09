@@ -2,7 +2,7 @@ from django import forms
 from datetime import datetime
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
-from crispy_forms.layout import Layout, Submit, Button, ButtonHolder
+from crispy_forms.layout import Layout, Submit, Button
 from .models import Profile, Genre, Skill
 
 
