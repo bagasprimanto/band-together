@@ -78,7 +78,7 @@ class ProfileFilter(django_filters.FilterSet):
         return queryset
 
     SORT_CHOICES = (
-        ("created", "Created Date"),
+        ("last_updated", "Last Profile Updated Date"),
         ("last_login", "Last Login Date"),
     )
 
@@ -87,7 +87,7 @@ class ProfileFilter(django_filters.FilterSet):
     )
 
     def filter_by_order(self, queryset, name, value):
-        expression = "-created" if value == "created" else "-user__last_login"
+        expression = "-last_updated" if value == "last_updated" else "-user__last_login"
         return queryset.order_by(expression)
 
     class Meta:

@@ -55,7 +55,7 @@ def profile_list(request):
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     if not has_filter:
-        profiles = Profile.objects.all().order_by("created")
+        profiles = Profile.objects.all().order_by("-created")
     else:
         profiles = f.qs
 
