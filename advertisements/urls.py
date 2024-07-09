@@ -4,6 +4,7 @@ from .views import (
     AdvertisementCreateView,
     AdvertisementDetailView,
     AdvertisementEditView,
+    AdvertisementDeleteView,
 )
 
 app_name = "advertisements"
@@ -12,4 +13,9 @@ urlpatterns = [
     path("new/", AdvertisementCreateView.as_view(), name="advertisement_new"),
     path("<int:pk>/", AdvertisementDetailView.as_view(), name="advertisement_detail"),
     path("<int:pk>/edit/", AdvertisementEditView.as_view(), name="advertisement_edit"),
+    path(
+        "<int:pk>/delete/",
+        AdvertisementDeleteView.as_view(),
+        name="advertisement_delete",
+    ),
 ]

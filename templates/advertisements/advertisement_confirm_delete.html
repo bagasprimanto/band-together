@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Ad Edit - BandTogether{% endblock title %}
+
+{% block content %}
+<div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
+    <h1 class="fw-bold">Are you sure you want to delete your ad {{ ad.title }}?</h1>
+    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Deleted posts are permanently deleted!</legend>
+    <form id="ad-delete-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <button class="btn btn-danger" type="submit">Yes, Delete</button>
+            <a class="btn btn-secondary" href="{% url 'advertisements:advertisement_detail' ad.pk %}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -62,3 +62,16 @@ class AdvertisementEditView(
     def test_func(self):
         advertisement = self.get_object()
         return self.request.user.profile == advertisement.author
+
+
+class AdvertisementDeleteView(
+    LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView
+):
+    model = Advertisement
+    success_message = "Successfully deleted ad!"
+    context_object_name = "ad"
+    success_url = reverse_lazy("advertisements:advertisement_list")
+
+    def test_func(self):
+        advertisement = self.get_object()
+        return self.request.user.profile == advertisement.author
