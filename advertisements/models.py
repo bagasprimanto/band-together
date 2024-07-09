@@ -1,5 +1,9 @@
 from django.db import models
-from profiles.models import Profile
+from profiles.models import Profile, Skill, Genre
+
+
+class AdType(models.Model):
+    name = models.CharField(max_length=50)
 
 
 class Advertisement(models.Model):
@@ -10,8 +14,7 @@ class Advertisement(models.Model):
     location = models.ForeignKey(
         "cities_light.City", on_delete=models.SET_NULL, null=True, blank=True
     )
-    date_posted = models.DateTimeField()
-
-
-class AdType(models.Model):
-    name = models.CharField(max_length=50)
+    genres = models.ManyToManyField(Genre, blank=True)
+    skills = models.ManyToManyField(Skill, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
