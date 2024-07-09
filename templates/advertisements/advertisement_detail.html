@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}Ad Detail - BandTogether {% endblock title %}
+
+{% block content %}
+<h1>{{ ad.title }}</h1>
+<h2>{{ ad.author.display_name }}</h2>
+
+<p>{{ ad.description }}</p>
+<p>{{ ad.created }}</p>
+<p>{{ ad.last_updated }}</p>
+{% endblock content %}

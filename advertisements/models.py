@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.db import models
 from profiles.models import Profile, Skill, Genre
 
@@ -31,3 +32,6 @@ class Advertisement(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.author.user.email}"
+
+    def get_absolute_url(self):
+        return reverse("advertisements:advertisement_detail", kwargs={"pk": self.pk})
