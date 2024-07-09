@@ -8,7 +8,7 @@ class AdType(models.Model):
 
 class Advertisement(models.Model):
     title = models.CharField(max_length=100)
-    ad_type = models.ForeignKey(AdType, on_delete=models.SET_NULL)
+    ad_type = models.ForeignKey(AdType, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     location = models.ForeignKey(
