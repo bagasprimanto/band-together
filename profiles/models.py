@@ -12,6 +12,20 @@ class ProfileType(models.Model):
         return self.name
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Skill(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     profile_type = models.ForeignKey(ProfileType, on_delete=models.SET_NULL, null=True)
@@ -33,8 +47,8 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
-    genres = models.ManyToManyField("Genre", blank=True)
-    skills = models.ManyToManyField("Skill", blank=True)
+    genres = models.ManyToManyField(Genre, blank=True)
+    skills = models.ManyToManyField(Skill, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -79,17 +93,3 @@ class Profile(models.Model):
             counter += 1
 
         super().save(*args, **kwargs)
-
-
-class Genre(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class Skill(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
