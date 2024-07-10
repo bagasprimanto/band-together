@@ -38,6 +38,7 @@
                 <button type="button" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2"
                     data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
+                <a href="#" class="edit-button btn btn-secondary h-100 col-12 me-lg-1 me-sm-0 me-1">Bookmark</a>
                 <a href="#" class="edit-button btn btn-danger h-100 col-12 me-lg-1 me-sm-0 me-1">Report</a>
                 {% endif %}
             </div>
@@ -96,7 +97,7 @@
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
