@@ -26,23 +26,58 @@
                         {{ad.author.display_name }}
                     </a>
                 </p>
-                <p class="mb-0 text-secondary">{{ ad.created|timesince }} ago</p>
+                <p class="mb-0 text-secondary">Last updated {{ ad.last_updated|timesince }} ago</p>
             </div>
         </div>
         <div
             class="col-sm-3 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+            {% if user.profile == ad.author %}
             <a href="#" class="edit-button btn btn-secondary h-100 col-4 me-lg-1 me-sm-0 me-1">Edit Ad</a>
             <a href="#" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2">Delete Ad</a>
+            {% else %}
+            <a href="#" class="edit-button btn btn-danger h-100 col-12 me-lg-1 me-sm-0 me-1">Report</a>
+            {% endif %}
         </div>
     </section>
 
-    <section class="mb-3">{{ ad.description }}</section>
+    <section class="mb-3">{{ ad.description|linebreaks }}</section>
+
+    <section>
+        <h5>Location</h5>
+        <p>
+            {{ ad.location }}
+        </p>
+    </section>
+
+    <!-- Genres -->
+    {% if ad.genres.all %}
+    <section class="genres mb-3">
+        <h5>Preferred Genres</h5>
+        <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
+            {% for genre in ad.genres.all %}
+            <div class="genre">{{ genre }}</div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Skills -->
+    {% if ad.skills.all %}
+    <section class="skills mb-3">
+        <h5>Skills</h5>
+        <div class="skills-list d-flex flex-wrap col-lg-8 col-12">
+            {% for skill in ad.skills.all %}
+            <div class="skill">{{ skill }}</div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 
     <section class="d-flex justify-content-between align-items-center">
         <div>
-            <h3>
+            <h2 class="fw-semibold">
                 Interested?
-            </h3>
+            </h2>
             <p>
                 Send a message to
                 <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
@@ -53,7 +88,5 @@
         </div>
         <a href="#" class="edit-button btn btn-primary h-100 col-4 me-1">Message</a>
     </section>
-
-    <p>{{ ad.last_updated }}</p>
 </div>
 {% endblock content %}
