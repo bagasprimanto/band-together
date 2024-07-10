@@ -9,7 +9,8 @@
 {% block content %}
 <div class="container col-md-8 col-12 my-5">
     <div class="container">
-        <h1 class="fw-bold display-3">{{ ad.title }}</h1>
+        <h1 class="fw-bold display-4">{{ ad.title }}</h1>
+
         <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
             <div class="author-info row d-flex flex-nowrap col-7">
                 {% if ad.author.profile_picture %}
@@ -44,11 +45,16 @@
             </div>
         </section>
 
-        <section class="mb-3">{{ ad.description|linebreaks }}</section>
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-0">Description</h4>
+            <p>
+                {{ ad.description|linebreaks }}
+            </p>
+        </section>
 
         <section>
             <h5>Location</h5>
-            <p>
+            <p class="location text-secondary">
                 {{ ad.location }}
             </p>
         </section>
@@ -67,7 +73,7 @@
 
         <!-- Skills -->
         {% if ad.skills.all %}
-        <section class="skills mb-3">
+        <section class="skills mb-5">
             <h5>Skills</h5>
             <div class="skills-list d-flex flex-wrap col-lg-8 col-12">
                 {% for skill in ad.skills.all %}
@@ -82,7 +88,7 @@
                 <h2 class="fw-semibold">
                     Interested?
                 </h2>
-                <p>
+                <p class="text-secondary">
                     Send a message to
                     <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
                         class="profile-link text-reset text-decoration-none">

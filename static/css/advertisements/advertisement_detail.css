@@ -14,8 +14,9 @@
     width: 100px;
 }
 
-.author-sub-info {
-    font-size: 0.95rem;
+.author-sub-info,
+.location {
+    font-size: 0.9rem
 }
 
 .profile-link:hover,
