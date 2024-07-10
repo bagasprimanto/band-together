@@ -150,10 +150,10 @@
         {% endfor %}
     </table> -->
 
-    <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-1">
+    <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-2">
         {% if profiles %}
             {% for profile in profiles %}
-            <div class="profile-container d-flex flex-column col-sm-1 text-center">
+            <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
                 <a href="{% url 'profiles:profile_detail' profile.slug %}" class="text-decoration-none text-reset link">
                     <div>
                         {% if profile.profile_picture %}
@@ -164,8 +164,13 @@
                             class="profile-picture rounded-circle img-fluid">
                         {% endif %}
                     </div>
-                    <p>
+                    <p class="display-name custom-truncate mb-0 fw-semibold">
                         {{ profile.display_name }}
+                    </p>
+                    <p class="mb-0">
+                        <small class="type-country text-secondary">
+                        {{ profile.profile_type }}, {{ profile.location.country }}
+                        </small>    
                     </p>
                 </a>
             </div>

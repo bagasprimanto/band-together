@@ -40,12 +40,12 @@
 .thumbnail-group {
     cursor: pointer;
     position: relative;
+    transition: 200ms;
 }
 
 .thumbnail-group:hover {
     filter: brightness(150%);
     transform: scale(1.05);
-    transition: all 200ms linear;
 }
 
 #slider {
@@ -83,12 +83,12 @@
 .social-media-link-group {
     width: 35px;
     margin-right: 16px;
+    transition: 200ms;
 }
 
 .social-media-link-group:hover {
     filter: brightness(75%);
     transform: scale(1.05);
-    transition: all 200ms linear;
 }
 
 img.social-media-link {
