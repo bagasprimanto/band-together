@@ -85,6 +85,12 @@
     margin-right: 16px;
 }
 
+.social-media-link-group:hover {
+    filter: brightness(75%);
+    transform: scale(1.05);
+    transition: all 200ms linear;
+}
+
 img.social-media-link {
     width: 100%;
 }
