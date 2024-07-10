@@ -10,7 +10,7 @@
 
     <!-- Tabs -->
     <section class="tabs mb-3">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-underline">
             <li class="nav-item">
                 <a {% if "/general-info/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">General Info</a>
