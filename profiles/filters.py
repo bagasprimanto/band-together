@@ -11,10 +11,6 @@ def get_profile_type_choices():
     ]
 
 
-def get_profile_type_choices():
-    return [(pt.id, pt.name) for pt in ProfileType.objects.all()]
-
-
 def get_genre_choices():
     return [(genre.id, genre.name) for genre in Genre.objects.all()]
 

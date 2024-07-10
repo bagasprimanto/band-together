@@ -11,6 +11,7 @@ from django.views.generic import (
 )
 from .models import Advertisement
 from .forms import AdvertisementCreateForm, AdvertisementEditForm
+from .filters import AdvertisementFilter
 from profiles.mixins import ProfileRequiredMixin
 
 
@@ -18,6 +19,23 @@ class AdvertisementListView(ListView):
     model = Advertisement
     context_object_name = "ads"
     template_name = "advertisements/advertisement_list.html"
+
+
+def advertisement_list(request):
+    f = AdvertisementFilter(request.GET, queryset=Advertisement.objects.all())
+    has_filter = any(field in request.GET for field in set(f.get_fields()))
+
+    if not has_filter:
+        advertisements = Advertisement.objects.all().order_by("-last_updated")
+    else:
+        advertisements = f.qs
+
+    context = {
+        "form": f.form,
+        "ads": advertisements,
+        "has_filter": has_filter,
+    }
+    return render(request, "advertisements/advertisement_list.html", context)
 
 
 class AdvertisementCreateView(

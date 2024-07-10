@@ -5,11 +5,12 @@ from .views import (
     AdvertisementDetailView,
     AdvertisementEditView,
     AdvertisementDeleteView,
+    advertisement_list,
 )
 
 app_name = "advertisements"
 urlpatterns = [
-    path("", AdvertisementListView.as_view(), name="advertisement_list"),
+    path("", advertisement_list, name="advertisement_list"),
     path("new/", AdvertisementCreateView.as_view(), name="advertisement_new"),
     path("<int:pk>/", AdvertisementDetailView.as_view(), name="advertisement_detail"),
     path("<int:pk>/edit/", AdvertisementEditView.as_view(), name="advertisement_edit"),
