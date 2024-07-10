@@ -33,8 +33,10 @@
             <div
                 class="col-sm-3 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
                 {% if user.profile == ad.author %}
-                <a href="#" class="edit-button btn btn-secondary h-100 col-4 me-lg-1 me-sm-0 me-1">Edit Ad</a>
-                <a href="#" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2">Delete Ad</a>
+                <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
+                    class="edit-button btn btn-secondary h-100 col-4 me-lg-1 me-sm-0 me-1">Edit Ad</a>
+                <button type="button" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2"
+                    data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
                 <a href="#" class="edit-button btn btn-danger h-100 col-12 me-lg-1 me-sm-0 me-1">Report</a>
                 {% endif %}
@@ -89,6 +91,31 @@
             </div>
             <a href="#" class="edit-button btn btn-primary h-100 col-4 ms-2">Message</a>
         </section>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete your ad? <br>
+                    Deleted posts are permanently deleted!
+                </div>
+                <div class="modal-footer">
+                    <form id="ad-delete-form" method="post" enctype="multipart/form-data"
+                        action="{% url 'advertisements:advertisement_delete' ad.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
