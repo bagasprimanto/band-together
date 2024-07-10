@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container my-5  px-sm-2 px-xs-1">
     <h1 class="fw-bold display-3">{{ ad.title }}</h1>
-    <div class="row d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
+    <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
         <div class="author-info row d-flex flex-nowrap col-7">
             {% if ad.author.profile_picture %}
             <div class="profile-picture">
@@ -29,14 +29,31 @@
                 <p class="mb-0 text-secondary">{{ ad.created|timesince }} ago</p>
             </div>
         </div>
-        <div class="col-sm-3 col-12 mt-2">
-            <a href="#" class="edit-button btn btn-secondary h-100 col-4 me-1">Edit Ad</a>
+        <div
+            class="col-sm-3 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+            <a href="#" class="edit-button btn btn-secondary h-100 col-4 me-lg-1 me-sm-0 me-1">Edit Ad</a>
             <a href="#" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2">Delete Ad</a>
         </div>
-    </div>
+    </section>
 
-    <p>{{ ad.description }}</p>
-    <p>{{ ad.created }}</p>
+    <section class="mb-3">{{ ad.description }}</section>
+
+    <section class="d-flex justify-content-between align-items-center">
+        <div>
+            <h3>
+                Interested?
+            </h3>
+            <p>
+                Send a message to
+                <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
+                    class="profile-link text-reset text-decoration-none">
+                    {{ ad.author.display_name }}
+                </a>
+            </p>
+        </div>
+        <a href="#" class="edit-button btn btn-primary h-100 col-4 me-1">Message</a>
+    </section>
+
     <p>{{ ad.last_updated }}</p>
 </div>
 {% endblock content %}
