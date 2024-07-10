@@ -42,6 +42,12 @@
     position: relative;
 }
 
+.thumbnail-group:hover {
+    filter: brightness(150%);
+    transform: scale(1.05);
+    transition: all 200ms;
+}
+
 #slider {
     display: flex;
     flex-wrap: nowrap;
