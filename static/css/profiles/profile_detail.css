@@ -45,7 +45,7 @@
 .thumbnail-group:hover {
     filter: brightness(150%);
     transform: scale(1.05);
-    transition: all 200ms;
+    transition: all 200ms linear;
 }
 
 #slider {
