@@ -1,3 +1,7 @@
+.ad-link:hover {
+    text-decoration: underline !important;
+}
+
 .custom-truncate-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
