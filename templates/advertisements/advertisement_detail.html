@@ -2,11 +2,41 @@
 {% load static %}
 {% block title %}Ad Detail - BandTogether {% endblock title %}
 
-{% block content %}
-<h1>{{ ad.title }}</h1>
-<h2>{{ ad.author.display_name }}</h2>
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/advertisements/advertisement_detail.css' %}">
+{% endblock additional_css %}
 
-<p>{{ ad.description }}</p>
-<p>{{ ad.created }}</p>
-<p>{{ ad.last_updated }}</p>
+{% block content %}
+<div class="container my-5  px-sm-2 px-xs-1">
+    <h1 class="fw-bold display-3">{{ ad.title }}</h1>
+    <div class="row d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
+        <div class="author-info row d-flex flex-nowrap col-7">
+            {% if ad.author.profile_picture %}
+            <div class="profile-picture">
+                <img src="{{ ad.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
+                {% else %}
+                <img src="{% static 'images/profile_pic_default.jpg' %}" alt="Author profile picture"
+                    class="rounded-circle">
+                {% endif %}
+            </div>
+            <div class="author-sub-info col-12 d-flex flex-column justify-content-center px-0">
+                <p class="mb-0">Posted by
+                    <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
+                        class="profile-link text-reset text-decoration-none">
+                        {{ad.author.display_name }}
+                    </a>
+                </p>
+                <p class="mb-0 text-secondary">{{ ad.created|timesince }} ago</p>
+            </div>
+        </div>
+        <div class="col-sm-3 col-12 mt-2">
+            <a href="#" class="edit-button btn btn-secondary h-100 col-4 me-1">Edit Ad</a>
+            <a href="#" class="delete-button btn btn-danger h-100 col-4 mt-lg-0 mt-md-2 mt-sm-2">Delete Ad</a>
+        </div>
+    </div>
+
+    <p>{{ ad.description }}</p>
+    <p>{{ ad.created }}</p>
+    <p>{{ ad.last_updated }}</p>
+</div>
 {% endblock content %}

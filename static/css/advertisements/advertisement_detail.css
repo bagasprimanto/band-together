@@ -1,0 +1,24 @@
+.profile-picture img {
+    height: 80px;
+    width: 80px;
+    border: 5px solid white;
+    object-fit: cover;
+}
+
+.profile-picture {
+    width: fit-content;
+}
+
+.edit-button,
+.delete-button {
+    width: 100px;
+}
+
+.author-sub-info {
+    font-size: 0.95rem;
+}
+
+.profile-link:hover,
+.profile-link:active {
+    text-decoration: underline !important;
+}
