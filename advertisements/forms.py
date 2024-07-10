@@ -68,3 +68,17 @@ class AdvertisementCreateForm(forms.ModelForm):
             "genres",
             "skills",
         ]
+
+
+class AdvertisementEditForm(AdvertisementCreateForm):
+
+    class Meta:
+        model = Advertisement
+        fields = [
+            "ad_type",
+            "title",
+            "description",
+            "location",
+            "genres",
+            "skills",
+        ]

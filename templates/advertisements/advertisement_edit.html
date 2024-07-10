@@ -8,8 +8,7 @@
     <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Update your ad here!</legend>
     <form id="ad-edit-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        {% crispy form %}
     </form>
 
 </div>

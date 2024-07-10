@@ -10,7 +10,7 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Advertisement
-from .forms import AdvertisementCreateForm
+from .forms import AdvertisementCreateForm, AdvertisementEditForm
 from profiles.mixins import ProfileRequiredMixin
 
 
@@ -52,8 +52,8 @@ class AdvertisementEditView(
 
     model = Advertisement
     success_message = "Successfully edited ad!"
+    form_class = AdvertisementEditForm
     template_name = "advertisements/advertisement_edit.html"
-    fields = "__all__"
 
     def form_valid(self, form):
         form.instance.author = self.request.user.profile
