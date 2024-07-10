@@ -1,14 +1,11 @@
 .profile-container {
-    flex: 1 1 300px;
-    min-width: 300px;
+    flex: 1 1 150px;
+    max-width: 150px;
     text-align: center;
 }
 
 img.profile-picture {
     aspect-ratio: 1 / 1;
-    max-width: 300px;
-    width: 10vw;
-    min-width: 250px;
     border: 5px solid white;
     object-fit: cover;
 }

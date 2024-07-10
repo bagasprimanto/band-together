@@ -150,10 +150,10 @@
         {% endfor %}
     </table> -->
 
-    <section class="profile-list mt-3 d-flex flex-wrap row-cols-lg-6 row-cols-sm-2">
+    <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-1">
         {% if profiles %}
             {% for profile in profiles %}
-            <div class="profile-container d-flex flex-column col text-center">
+            <div class="profile-container d-flex flex-column col-sm-1 text-center">
                 <a href="{% url 'profiles:profile_detail' profile.slug %}" class="text-decoration-none text-reset link">
                     <div>
                         {% if profile.profile_picture %}
