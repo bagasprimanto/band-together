@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -8,11 +8,13 @@ from django.views.generic import (
     DetailView,
     UpdateView,
     DeleteView,
+    FormView,
 )
-from .models import Advertisement
-from .forms import AdvertisementCreateForm, AdvertisementEditForm
+from .models import Advertisement, Comment
+from .forms import AdvertisementCreateForm, AdvertisementEditForm, CommentCreateForm
 from .filters import AdvertisementFilter
 from profiles.mixins import ProfileRequiredMixin
+from django.http import HttpResponseRedirect
 
 
 class AdvertisementListView(ListView):
@@ -62,6 +64,51 @@ class AdvertisementDetailView(DetailView):
     model = Advertisement
     template_name = "advertisements/advertisement_detail.html"
     context_object_name = "ad"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+        context["form"] = CommentCreateForm()
+        context["comments"] = Comment.objects.filter(
+            parent_advertisement=advertisement
+        ).order_by("-created")
+        return context
+
+
+class CommentFormView(LoginRequiredMixin, ProfileRequiredMixin, FormView):
+    form_class = CommentCreateForm
+    template_name = "advertisements/advertisement_detail.html"
+
+    def form_valid(self, form):
+        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+        comment = form.save(commit=False)
+        comment.author = (
+            self.request.user.profile
+        )  # Assuming the user has a profile attribute
+        comment.parent_advertisement = advertisement
+        comment.save()
+        return HttpResponseRedirect(
+            reverse(
+                "advertisements:advertisement_detail", kwargs={"pk": advertisement.pk}
+            )
+        )
+
+    def form_invalid(self, form):
+        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+        comments = (
+            advertisement.comment_set.all()
+        )  # Assuming a reverse relation named `comment_set`
+        context = {"ad": advertisement, "form": form, "comments": comments}
+        return render(self.request, "post_detail.html", context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+        context["ad"] = advertisement
+        context["comments"] = Comment.objects.filter(
+            parent_advertisement=advertisement
+        ).order_by("-created")
+        return context
 
 
 class AdvertisementEditView(

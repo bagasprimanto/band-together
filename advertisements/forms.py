@@ -1,9 +1,8 @@
 from django import forms
-from datetime import datetime
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.layout import Layout, Submit, Button
-from .models import Advertisement
+from .models import Advertisement, Comment
 from profiles.models import Genre, Skill
 
 
@@ -81,4 +80,19 @@ class AdvertisementEditForm(AdvertisementCreateForm):
             "location",
             "genres",
             "skills",
+        ]
+
+
+class CommentCreateForm(forms.ModelForm):
+
+    body = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput({"placeholder": "Your comment here..."}),
+        label="",
+    )
+
+    class Meta:
+        model = Comment
+        fields = [
+            "body",
         ]
