@@ -69,7 +69,7 @@ class AdvertisementDetailView(DetailView):
         return context
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
     model = Comment
     form_class = CommentCreateForm
     template_name = "advertisements/advertisement_detail.html"
