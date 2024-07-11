@@ -148,7 +148,7 @@
                                 </small>
                             </a>
                             <small class="text-secondary">
-                                | {{ comment.created|timesince}} ago
+                                | {{ comment.created|timesince }} ago
                                 {% if user.profile == comment.author %}
                                 |
                                 <a href="#" class="profile-link text-reset text-decoration-none" data-bs-toggle="modal"
@@ -161,7 +161,7 @@
                                     {% endif %} 
                                     data-comment-author-url="{% url 'profiles:profile_detail' comment.author.slug %}"
                                     data-comment-author-display-name="{{ comment.author.display_name }}"
-                                    data-comment-created="{{ comment.created|timesince}}"
+                                    data-comment-created="{{ comment.created|timesince }}"
                                     data-comment-body="{{ comment.body }}">
                                     Delete
                                 </a>
