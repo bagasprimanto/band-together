@@ -17,9 +17,11 @@
         aria-controls="offcanvasAdvertisementFilter">
         Show filters
     </a>
+    {% if user.is_authenticated and user.profile%}
     <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
         Create Ad
     </a>
+    {% endif %}
     </div>
 
     <!-- Offcanvas for Advertisement Filters -->
