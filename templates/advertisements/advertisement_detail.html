@@ -40,7 +40,9 @@
                 <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
                     data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
+                {% if user.is_authenticated %}
                 <a href="#" class="edit-button btn btn-secondary col-12 me-xl-1 me-lg-0 me-sm-0 me-1">Bookmark</a>
+                {% endif%}
                 <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
                 {% endif %}
             </div>
