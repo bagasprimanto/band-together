@@ -69,7 +69,8 @@ class AdvertisementDetailView(DetailView):
         return context
 
 
-class CommentFormView(LoginRequiredMixin, ProfileRequiredMixin, FormView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
     form_class = CommentCreateForm
     template_name = "advertisements/advertisement_detail.html"
 
@@ -87,14 +88,6 @@ class CommentFormView(LoginRequiredMixin, ProfileRequiredMixin, FormView):
             )
         )
 
-    def form_invalid(self, form):
-        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
-        comments = (
-            advertisement.comment_set.all()
-        )  # Assuming a reverse relation named `comment_set`
-        context = {"ad": advertisement, "form": form, "comments": comments}
-        return render(self.request, "post_detail.html", context)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
@@ -103,6 +96,11 @@ class CommentFormView(LoginRequiredMixin, ProfileRequiredMixin, FormView):
             parent_advertisement=advertisement
         ).order_by("-created")
         return context
+
+    def form_invalid(self, form):
+        # Get the context data for rendering the form with errors
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
 
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

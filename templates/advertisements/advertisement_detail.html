@@ -122,7 +122,7 @@
             {% else %}
                 <p>Sign in to post a comment! <a href="{% url 'account_login' %}"class="btn btn-primary ms-2">Sign In</a></p>
             {% endif %}
-            
+
             {% if comments %}
             <div>
                 {% for comment in comments %}
@@ -166,7 +166,7 @@
                                 {% endif %}
                             </small>
                         </div>
-                        <p class=" mb-0">{{ comment.body }}</p>
+                        <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -225,7 +225,7 @@
                                 </a>
                                 <small class="text-secondary" id="modal-commment-created"></small>
                             </div>
-                            <p class="mb-0" id="modal-comment-body"></p>
+                            <p class="custom-truncate-modal-comment-body mb-0" id="modal-comment-body"></p>
                         </div>
                     </div>
                 </div>

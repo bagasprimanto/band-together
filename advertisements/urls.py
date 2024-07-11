@@ -5,7 +5,7 @@ from .views import (
     AdvertisementEditView,
     AdvertisementDeleteView,
     advertisement_list,
-    CommentFormView,
+    CommentCreateView,
     CommentDeleteView,
 )
 
@@ -16,7 +16,7 @@ urlpatterns = [
     path("<int:pk>/", AdvertisementDetailView.as_view(), name="advertisement_detail"),
     path(
         "<int:pk>/comment/",
-        CommentFormView.as_view(),
+        CommentCreateView.as_view(),
         name="comment_create",
     ),
     path(
