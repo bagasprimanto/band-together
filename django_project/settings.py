@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "pages.apps.PagesConfig",
     "profiles.apps.ProfilesConfig",
     "advertisements.apps.AdvertisementsConfig",
+    "inbox.apps.InboxConfig",
 ]
 
 MIDDLEWARE = [
