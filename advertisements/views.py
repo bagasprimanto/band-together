@@ -17,12 +17,6 @@ from profiles.mixins import ProfileRequiredMixin
 from django.http import HttpResponseRedirect
 
 
-class AdvertisementListView(ListView):
-    model = Advertisement
-    context_object_name = "ads"
-    template_name = "advertisements/advertisement_list.html"
-
-
 def advertisement_list(request):
     f = AdvertisementFilter(request.GET, queryset=Advertisement.objects.all())
     has_filter = any(field in request.GET for field in set(f.get_fields()))
@@ -109,6 +103,20 @@ class CommentFormView(LoginRequiredMixin, ProfileRequiredMixin, FormView):
             parent_advertisement=advertisement
         ).order_by("-created")
         return context
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        ad_pk = (
+            self.object.parent_advertisement.pk
+        )  # Assuming `ad` is the related name for the advertisement
+        return reverse("advertisements:advertisement_detail", kwargs={"pk": ad_pk})
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author or self.request.user.is_superuser
 
 
 class AdvertisementEditView(

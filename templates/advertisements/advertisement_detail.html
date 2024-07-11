@@ -118,10 +118,17 @@
             <div>
                 {% for comment in comments %}
                 <div class="d-flex gx-1 align-items-center mb-3">
+                    {% if comment.author.profile_picture %}
                     <div>
                         <img src="{{ comment.author.profile_picture.url }}" alt="" width="40" height="40"
                             class="rounded-circle">
                     </div>
+                    {% else %}
+                    <div>
+                        <img src="{% static './images/profile_pic_default.jpg' %}" alt="" width="40" height="40"
+                            class="rounded-circle">
+                    </div>
+                    {% endif %}
                     <div class="ms-2 align-items-center">
                         <div>
                             <a href="{% url 'profiles:profile_detail' comment.author.slug %}"
@@ -131,9 +138,22 @@
                             </a>
                             <small class="text-secondary">
                                 | {{ comment.created|timesince}} ago
+                                {% if user.profile == comment.author %}
+                                |
+                                <a href="#" class="profile-link text-reset text-decoration-none" data-bs-toggle="modal"
+                                    data-bs-target="#deleteCommentModal"
+                                    data-comment-delete-url="{% url 'advertisements:comment_delete' comment.pk %}"
+                                    data-comment-author-image-url="{{ comment.author.profile_picture.url }}"
+                                    data-comment-author-url="{% url 'profiles:profile_detail' comment.author.slug %}"
+                                    data-comment-author-display-name="{{ comment.author.display_name }}"
+                                    data-comment-created="{{ comment.created|timesince}}"
+                                    data-comment-body="{{ comment.body }}">
+                                    Delete
+                                </a>
+                                {% endif %}
                             </small>
                         </div>
-                        <p class="mb-0">{{ comment.body }}</p>
+                        <p class=" mb-0">{{ comment.body }}</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -144,7 +164,7 @@
         </section>
     </div>
 
-    <!-- Modal -->
+    <!-- Delete Ad Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -168,5 +188,73 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Comment Modal -->
+    <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentModalLabel">Are you sure you want to delete your comment?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex gx-1 align-items-center mb-3">
+                        <div>
+                            <img src="" alt="Author profile picture" width="40" height="40" class="rounded-circle"
+                                id="modal-comment-author-picture">
+                        </div>
+                        <div class="ms-2 align-items-center">
+                            <div>
+                                <a href="" class="profile-link text-reset text-decoration-none"
+                                    id="modal-author-display-name-link">
+                                    <small class="mb-0" id="modal-author-display-name"></small>
+                                </a>
+                                <small class="text-secondary" id="modal-commment-created"></small>
+                            </div>
+                            <p class="mb-0" id="modal-comment-body"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form id="comment-delete-form" method="post" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
+
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteCommentModal = document.getElementById('deleteCommentModal');
+        deleteCommentModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var deleteUrl = button.getAttribute('data-comment-delete-url');
+            var authorImageUrl = button.getAttribute('data-comment-author-image-url');
+            var authorDisplayNameLink = button.getAttribute('data-comment-author-url');
+            var authorDisplayName = button.getAttribute('data-comment-author-display-name');
+            var commentCreated = button.getAttribute('data-comment-created');
+            var commentBody = button.getAttribute('data-comment-body');
+
+            // Update the modal content
+            var modal = deleteCommentModal;
+            modal.querySelector('#modal-comment-author-picture').src = authorImageUrl;
+            modal.querySelector('#modal-author-display-name').textContent = authorDisplayName;
+            modal.querySelector('#modal-author-display-name-link').parentElement.href = authorDisplayNameLink;
+            modal.querySelector('#modal-commment-created').textContent = ' | ' + commentCreated + ' ago';
+            modal.querySelector('#modal-comment-body').textContent = commentBody;
+
+            // Update the form action URL
+            modal.querySelector('#comment-delete-form').action = deleteUrl;
+        });
+    });
+</script>
+
+{% endblock additional_js %}

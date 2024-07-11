@@ -1,12 +1,12 @@
 from django.urls import path
 from .views import (
-    AdvertisementListView,
     AdvertisementCreateView,
     AdvertisementDetailView,
     AdvertisementEditView,
     AdvertisementDeleteView,
     advertisement_list,
     CommentFormView,
+    CommentDeleteView,
 )
 
 app_name = "advertisements"
@@ -18,6 +18,11 @@ urlpatterns = [
         "<int:pk>/comment/",
         CommentFormView.as_view(),
         name="comment_create",
+    ),
+    path(
+        "<int:pk>/comment/delete",
+        CommentDeleteView.as_view(),
+        name="comment_delete",
     ),
     path("<int:pk>/edit/", AdvertisementEditView.as_view(), name="advertisement_edit"),
     path(
