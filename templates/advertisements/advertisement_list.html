@@ -12,10 +12,15 @@
     <h1 class="fw-bold">Advertisements List</h1>
     <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
     <hr />
+    <div class="d-flex justify-content-between">
     <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
         aria-controls="offcanvasAdvertisementFilter">
         Show filters
     </a>
+    <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
+        Create Ad
+    </a>
+    </div>
 
     <!-- Offcanvas for Advertisement Filters -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAdvertisementFilter"
