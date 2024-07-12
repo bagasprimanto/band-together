@@ -17,20 +17,29 @@
 
         <!-- Navbar items -->
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a {% if "/profiles/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
-                    href="{% url 'profiles:profile_list' %}">Profiles</a>
-                </li>
-                <li class="nav-item">
-                    <a {% if "/ads/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
-                    href="{% url 'advertisements:advertisement_list' %}">Browse Ads</a>
-                </li>
-                <li class="nav-item">
-                    <a {% if "/open-mic/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
-                    href="#">Open Mics</a>
+            <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                    <li class="nav-item">
+                        <a {% if "/profiles/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="{% url 'profiles:profile_list' %}">Profiles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a {% if "/ads/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="{% url 'advertisements:advertisement_list' %}">Browse Ads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a {% if "/open-mic/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="#">Open Mics</a>
+                    </li>
+            </ul>
+
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav mb-2 mb-lg-0 me-2">
+                <li class="nav-item mt-0">
+                    <a {% if "/inbox/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                    href="{% url 'inbox:inbox' %}">Inbox</a>
                 </li>
             </ul>
+            {% endif %}
 
             <!-- Profile picture dropdown -->
             <ul class="navbar-nav profile-dropdown" id="navbarTogglerDemo01">
@@ -49,7 +58,6 @@
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
                         {% if user.profile %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profile.slug %}">My Profile</a>
-                        <a class="dropdown-item" href="{% url 'inbox:inbox' %}">Inbox</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_new' %}">Create Profile</a>
