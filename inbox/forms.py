@@ -10,7 +10,7 @@ class SearchProfileForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "name": "search_profile",
-                "placeholder": "Your comment here...",
+                "placeholder": "Search a profile here...",
             }
         ),
         label="",

@@ -609,14 +609,32 @@ button:focus {
 /* Modal to search profile */
 /* Adjust the height of the modal content */
 .modal-content {
-    height: 80vh;
+    height: 51vh;
     /* Adjust the height as needed */
 }
 
 /* Adjust the height of the modal body */
 .modal-body {
-    height: 70vh;
+    height: 51vh;
     /* Adjust the height as needed */
     overflow-y: auto;
     /* Enable scrolling if the content overflows */
+}
+
+.modal-body h3 {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.modal-body p {
+    margin-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-bottom: 0;
 }
