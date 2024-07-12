@@ -548,6 +548,10 @@ button:focus {
         height: 30px;
     }
 
+    .profile-picture-chat-head {
+        flex-shrink: 0;
+    }
+
     .send-box button {
         width: 28%;
     }

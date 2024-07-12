@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- Chat Head -->
 <div class="modal-content {% if not conversation %} d-flex align-items-center justify-content-center {% endif %}">
 {% if conversation %}
@@ -7,13 +9,13 @@
             {% if participant != request.user.profile %}
             <div class="col-8">
                 <div class="d-flex align-items-center">
-                    <span class="chat-icon"><img class="img-fluid"
+                    <span class="chat-icon flex-shrink-0"><img class="img-fluid"
                             src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg"
                             alt="image title"></span>
-                    <div class="flex-shrink-0">
-                        <img class="img-fluid"
-                            src="https://mehedihtml.com/chatbox/assets/img/user.png"
-                            alt="user img">
+                    <div class="profile-picture-chat-head">
+                        <img class="img-fluid rounded-circle"
+                            src="{% if participant.profile_picture %} {{ participant.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
+                            alt="user img" width="50" height="50">
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h3 class="custom-truncate-conversation">
