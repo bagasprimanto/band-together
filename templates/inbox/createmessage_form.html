@@ -2,24 +2,26 @@
 {% load crispy_forms_tags %}
 
 <div class="mb-2">
-    <span class="fw-bold">To:</span>
-    <div class="profile-picture-chat-list">
-        <img class="rounded-circle"
-            src="{% if profile.profile_picture %}  {{ profile.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
-            alt="user img" width="40" height="40">
-    </div>
-    <div class="flex-grow-1 ms-3">
-        <h3 class="custom-truncate-conversation-list">
-            {{ recipient.display_name }}
-        </h3>
-        <p class="text-secondary">{{ recipient.profile_type }}, {{ recipient.location.country }}</p>
+    <span class="fw-bold mb-3">To:</span>
+    <div class="d-flex mt-2 mb-4">
+        <div class="profile-picture-chat-list">
+            <img class="rounded-circle"
+                src="{% if recipient.profile_picture %}  {{ recipient.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
+                alt="user img" width="40" height="40">
+        </div>
+        <div class="flex-grow-1 ms-3">
+            <h3 class="custom-truncate-conversation-list">
+                {{ recipient.display_name }}
+            </h3>
+            <p class="text-secondary">{{ recipient.profile_type }}, {{ recipient.location.country }}</p>
+        </div>
     </div>
 </div>
 
 <div>
     <form method='POST' action="{% url 'inbox:inbox_createmessage' recipient.slug %}">
         {% csrf_token %}
-        {{ new_message_form|as_crispy_field }}
-        <button type="submit" class="mt-1">Submit message</button>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary mt-1">Submit message</button>
     </form>
 </div>
