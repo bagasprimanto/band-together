@@ -580,3 +580,23 @@ button:focus {
         border-bottom-left-radius: 6px;
     }
 }
+
+/* Truncate  name in conversation list*/
+.custom-truncate-conversation-list {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Truncate name in conversation */
+.custom-truncate-conversation {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.profile-link:hover {
+    text-decoration: underline !important;
+}
