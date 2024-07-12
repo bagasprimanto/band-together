@@ -150,3 +150,21 @@ body {
     background-color: #303030;
     opacity: 8%;
 }
+
+/* Red dot for inbox */
+.inbox-nav-button {
+    position: relative;
+}
+
+.inbox-nav-button .active-dot {
+    display: block;
+    content: '';
+    clear: both;
+    position: absolute;
+    bottom: 20px;
+    left: 41px;
+    height: 10px;
+    width: 10px;
+    background: rgb(220, 53, 69);
+    border-radius: 50%;
+}
