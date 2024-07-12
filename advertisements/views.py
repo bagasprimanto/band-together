@@ -1,14 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (
     CreateView,
-    ListView,
     DetailView,
     UpdateView,
     DeleteView,
-    FormView,
 )
 from .models import Advertisement, Comment
 from .forms import AdvertisementCreateForm, AdvertisementEditForm, CommentCreateForm
