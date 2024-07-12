@@ -157,7 +157,7 @@ a.add img {
     left: 30px;
     height: 12px;
     width: 12px;
-    background: #058aff;
+    background: rgb(220, 53, 69);
     border-radius: 50%;
     border: 2px solid #fff;
 }
