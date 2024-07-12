@@ -548,7 +548,8 @@ button:focus {
         height: 30px;
     }
 
-    .profile-picture-chat-head {
+    .profile-picture-chat-head,
+    .profile-picture-chat-list {
         flex-shrink: 0;
     }
 
