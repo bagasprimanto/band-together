@@ -68,12 +68,12 @@
     </div>
 
     <div class="send-box">
-        <form action="">
-            <input type="text" class="form-control" aria-label="message…"
-                placeholder="Write message…">
-
-            <button type="button" class="btn btn-primary">Send</button>
-        </form>
+        <button type="button" class="btn btn-primary"
+        hx-get="{% url 'inbox:inbox_createreply' conversation.pk %}"
+        hx-target="this"
+        hx-swap="outerHTML scroll:#scroller:bottom">
+            Reply
+        </button>
     </div>
 {% else %}
     <div class="text-secondary">No conversation selected</div>
@@ -101,6 +101,13 @@
         $(".chat-icon").click(function () {
             $(".chatbox").removeClass('showbox');
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var anchor = document.getElementById('anchor');
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: 'smooth' });
+        }
     });
 </script>
 {% endblock additional_js %}

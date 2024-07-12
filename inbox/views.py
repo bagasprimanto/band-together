@@ -51,8 +51,8 @@ def search_profiles(request):
         raise Http404()
 
 
-def create_message(request, slug):
-    recipient = get_object_or_404(Profile, slug=slug)
+def create_message(request, profile_slug):
+    recipient = get_object_or_404(Profile, slug=profile_slug)
     create_message_form = InboxCreateMessageForm()
 
     if request.method == "POST":
@@ -81,3 +81,16 @@ def create_message(request, slug):
         "form": create_message_form,
     }
     return render(request, "inbox/createmessage_form.html", context)
+
+
+def create_reply(request, conversation_pk):
+    create_message_form = InboxCreateMessageForm()
+    my_conversations = request.user.profile.conversations.all()
+    conversation = get_object_or_404(my_conversations, id=conversation_pk)
+
+    context = {
+        "form": create_message_form,
+        "conversation": conversation,
+    }
+
+    return render(request, "inbox/createreply_form.html", context)
