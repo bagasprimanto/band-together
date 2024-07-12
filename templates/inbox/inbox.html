@@ -25,7 +25,8 @@
                                             <input type="text" class="form-control" id="inlineFormInputGroup"
                                                 placeholder="Search..." aria-label="search">
 
-                                            <button class="btn btn-primary ms-2"><a class="add" href="#"><img
+                                            <button class="btn btn-primary ms-2" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"><a class="add" href="#"><img
                                                         class="img-fluid"
                                                         src="{% static './images/pencil-square.svg' %}"
                                                         alt="add"></a></button>
@@ -48,7 +49,7 @@
                         <div class="chatbox {% if conversation %}showbox{% endif %}">
                             <div class="modal-dialog-scrollable">
 
-                                    {% include 'inbox/inbox_conversation.html' %}
+                                {% include 'inbox/inbox_conversation.html' %}
 
                             </div>
                         </div>
@@ -63,4 +64,30 @@
 </section>
 <!-- char-area -->
 </div>
+
+<!-- Search Profile Modal -->
+<div class="modal modal-lg fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content h-75">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">New Message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row d-flex align-items-center">
+                    <span class="fw-bold">To:</span>
+                    <form class="col-12">
+                        {{ form|crispy }}
+                    </form>
+                </div>
+                <div id="search-results" class="d-block h-60 overflow-y-auto">
+                    <ul id="user-list" class="mt-2">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

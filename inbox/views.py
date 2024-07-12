@@ -3,6 +3,7 @@ from .models import Conversation, InboxMessage
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.mixins import ProfileRequiredMixin
+from .forms import SearchProfileForm
 
 
 class InboxView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
@@ -14,6 +15,7 @@ class InboxView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
         context["my_conversations"] = Conversation.objects.filter(
             participants=self.request.user.profile
         )
+        context["form"] = SearchProfileForm()
         return context
 
 
@@ -27,4 +29,5 @@ class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
         context["my_conversations"] = Conversation.objects.filter(
             participants=self.request.user.profile
         )
+        context["form"] = SearchProfileForm()
         return context

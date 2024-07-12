@@ -605,3 +605,18 @@ button:focus {
 .profile-link:hover {
     text-decoration: underline !important;
 }
+
+/* Modal to search profile */
+/* Adjust the height of the modal content */
+.modal-content {
+    height: 80vh;
+    /* Adjust the height as needed */
+}
+
+/* Adjust the height of the modal body */
+.modal-body {
+    height: 70vh;
+    /* Adjust the height as needed */
+    overflow-y: auto;
+    /* Enable scrolling if the content overflows */
+}
