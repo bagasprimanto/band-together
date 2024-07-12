@@ -153,11 +153,11 @@ a.add img {
     content: '';
     clear: both;
     position: absolute;
-    bottom: 3px;
-    left: 34px;
+    bottom: 30px;
+    left: 30px;
     height: 12px;
     width: 12px;
-    background: #00DB75;
+    background: #058aff;
     border-radius: 50%;
     border: 2px solid #fff;
 }
