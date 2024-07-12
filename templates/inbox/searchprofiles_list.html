@@ -1,0 +1,16 @@
+{% load static %}
+
+{% for profile in profiles %}
+<a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
+    <div class="profile-picture-chat-list">
+        <img class="rounded-circle" src="{% if profile.profile_picture %}  {{ profile.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
+            alt="user img" width="40" height="40">
+    </div>
+    <div class="flex-grow-1 ms-3">
+        <h3 class="custom-truncate-conversation-list">
+            {{ profile.display_name}}
+        </h3>
+        <p class="text-secondary">{{ profile.profile_type }}, {{ profile.location.country }}</p>
+    </div>
+</a>
+{% endfor %}

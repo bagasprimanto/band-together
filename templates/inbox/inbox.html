@@ -74,73 +74,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row d-flex align-items-center">
+                <div class="mb-2">
                     <span class="fw-bold">To:</span>
-                    <form class="col-12">
-                        {{ form|crispy }}
-                    </form>
+                    <input type="text" name="search_profile" placeholder="Search a profile here..." maxlength="150"
+                        class="textinput form-control" required="" id="id_search"
+                        hx-get="{% url 'inbox:inbox_searchprofiles' %}" hx-trigger="keyup changed"
+                        hx-target="#search-results" hx-swap="innerHTML">
                 </div>
                 <div id="search-results" class="d-block h-60 overflow-y-auto">
-                    <a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
-                        <div class="profile-picture-chat-list">
-                            <img class="rounded-circle" src="{% static './images/profile_pic_default.jpg' %}"
-                                alt="user img" width="40" height="40">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h3 class="custom-truncate-conversation-list">
-                                Test brother
-                            </h3>
-                            <p class="text-secondary">Musician, Indonesia</p>
-                        </div>
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
-                        <div class="profile-picture-chat-list">
-                            <img class="rounded-circle" src="{% static './images/profile_pic_default.jpg' %}"
-                                alt="user img" width="40" height="40">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h3 class="custom-truncate-conversation-list">
-                                Test brother
-                            </h3>
-                            <p class="text-secondary">Musician, Indonesia</p>
-                        </div>
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
-                        <div class="profile-picture-chat-list">
-                            <img class="rounded-circle" src="{% static './images/profile_pic_default.jpg' %}"
-                                alt="user img" width="40" height="40">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h3 class="custom-truncate-conversation-list">
-                                Test brother
-                            </h3>
-                            <p class="text-secondary">Musician, Indonesia</p>
-                        </div>
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
-                        <div class="profile-picture-chat-list">
-                            <img class="rounded-circle" src="{% static './images/profile_pic_default.jpg' %}"
-                                alt="user img" width="40" height="40">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h3 class="custom-truncate-conversation-list">
-                                Test brother
-                            </h3>
-                            <p class="text-secondary">Musician, Indonesia</p>
-                        </div>
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-reset text-decoration-none mb-3">
-                        <div class="profile-picture-chat-list">
-                            <img class="rounded-circle" src="{% static './images/profile_pic_default.jpg' %}"
-                                alt="user img" width="40" height="40">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h3 class="custom-truncate-conversation-list">
-                                Test brother
-                            </h3>
-                            <p class="text-secondary">Musician, Indonesia</p>
-                        </div>
-                    </a>
+                    {% include 'inbox/searchprofiles_list.html' %}
                 </div>
             </div>
         </div>
