@@ -1,22 +1,16 @@
 from django import forms
-from crispy_forms.helper import FormHelper, Layout
-from crispy_forms.bootstrap import InlineField
+from .models import InboxMessage
 
 
-class SearchProfileForm(forms.Form):
-
-    search = forms.CharField(
-        max_length=150,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search a profile here...",
-                "name": "search_profile",
-            }
-        ),
-        label="",
-    )
-
+class InboxCreateMessageForm(forms.ModelForm):
     class Meta:
-        fields = [
-            "body",
-        ]
+        model = InboxMessage
+        fields = ["body"]
+        labels = {
+            "body": "",
+        }
+        widgets = {
+            "body": forms.Textarea(
+                attrs={"rows": 4, "placeholder": "Add a message here..."}
+            ),
+        }

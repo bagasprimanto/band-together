@@ -74,16 +74,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-2">
-                    <span class="fw-bold">To:</span>
-                    <input type="text" name="search_profile" placeholder="Search a profile here..." maxlength="150"
-                        class="textinput form-control" required="" id="id_search"
-                        hx-get="{% url 'inbox:inbox_searchprofiles' %}" hx-trigger="keyup changed"
-                        hx-target="#search-results" hx-swap="innerHTML">
-                </div>
-                <div id="search-results" class="d-block h-60 overflow-y-auto">
-                    {% include 'inbox/searchprofiles_list.html' %}
-                </div>
+                {% include 'inbox/searchprofiles_form.html' %}
             </div>
         </div>
     </div>
