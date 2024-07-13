@@ -10,8 +10,12 @@ from .views import (
 app_name = "inbox"
 urlpatterns = [
     path("", InboxView.as_view(), name="inbox"),
-    path("<int:pk>/", InboxDetailView.as_view(), name="inbox_detail"),
+    path("<int:conversation_pk>/", InboxDetailView.as_view(), name="inbox_detail"),
     path("search-profiles/", search_profiles, name="inbox_searchprofiles"),
-    path("create-message/<slug:slug>/", create_message, name="inbox_createmessage"),
+    path(
+        "create-message/<slug:profile_slug>/",
+        create_message,
+        name="inbox_createmessage",
+    ),
     path("create-reply/<int:conversation_pk>/", create_reply, name="inbox_createreply"),
 ]

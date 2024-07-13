@@ -6,7 +6,7 @@
             <!-- chat-list -->
             <div class="chat-list">
                 {% for c in my_conversations %}
-                <a href="{% url 'inbox:inbox_detail' pk=c.pk %}" class="d-flex align-items-center">
+                <a href="{% url 'inbox:inbox_detail' conversation_pk=c.pk %}" class="d-flex align-items-center">
                     {% for participant in c.participants.all %}
                     {% if participant != request.user.profile %}
                     <div class="profile-picture-chat-list">

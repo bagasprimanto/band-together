@@ -25,6 +25,7 @@ class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
     model = Conversation
     template_name = "inbox/inbox.html"
     context_object_name = "conversation"
+    pk_url_kwarg = "conversation_pk"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,13 +69,13 @@ def create_message(request, profile_slug):
                     message.save()
                     c.lastmessage_created = timezone.now()
                     c.save()
-                    return redirect("inbox:inbox_detail", pk=c.pk)
+                    return redirect("inbox:inbox_detail", conversation_pk=c.pk)
             new_conversation = Conversation.objects.create()
             new_conversation.participants.add(request.user.profile, recipient)
             new_conversation.save()
             message.conversation = new_conversation
             message.save()
-            return redirect("inbox:inbox_detail", pk=c.pk)
+            return redirect("inbox:inbox_detail", conversation_pk=c.pk)
 
     context = {
         "recipient": recipient,
@@ -87,6 +88,17 @@ def create_reply(request, conversation_pk):
     create_message_form = InboxCreateMessageForm()
     my_conversations = request.user.profile.conversations.all()
     conversation = get_object_or_404(my_conversations, id=conversation_pk)
+
+    if request.method == "POST":
+        form = InboxCreateMessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user.profile
+            message.conversation = conversation
+            message.save()
+            conversation.lastmessage_created = timezone.now()
+            conversation.save()
+            return redirect("inbox:inbox_detail", conversation_pk=conversation.pk)
 
     context = {
         "form": create_message_form,

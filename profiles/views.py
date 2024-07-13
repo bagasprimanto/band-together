@@ -17,6 +17,7 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
 
 
@@ -76,6 +77,7 @@ class ProfileDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["form"] = InboxCreateMessageForm()
         return context
 
 

@@ -42,7 +42,7 @@
                 {% if user == profile.user %}
                 <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
                 {% else %}
-                <a class="btn btn-primary" href="#">Message</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
                 <a class="btn btn-secondary" href="#">Bookmark</a>
                 {% endif %}
                 {% endif %}
@@ -249,6 +249,22 @@
             </section>
         </div>
     </div>
+
+    <!-- Create Message Modal -->
+    <div class="modal fade" id="createMessageModal" tabindex="-1" aria-labelledby="createMessageModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content h-75">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createMessageModalLabel">New Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% include 'inbox/createmessage_form.html' with recipient=profile %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
 
@@ -272,5 +288,16 @@
         var videoFrame = videoModal.querySelector('#videoFrame')
         videoFrame.src = ''
     })
+
+    // For dismissing the create message modal when cancel button is clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelButton = document.getElementById('cancel-button');
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function () {
+                var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
+                createMessageModal.hide();
+            });
+        }
+    });
 </script>
 {% endblock additional_js %}
