@@ -10,6 +10,7 @@ from .views import (
     CreateMessageView,
     CreateReplyView,
     NotifyNewMessageView,
+    NotifyInboxView,
 )
 
 app_name = "inbox"
@@ -32,5 +33,5 @@ urlpatterns = [
         NotifyNewMessageView.as_view(),
         name="notify_newmessage",
     ),
-    path("notify-inbox/", notify_inbox, name="notify_inbox"),
+    path("notify-inbox/", NotifyInboxView.as_view(), name="notify_inbox"),
 ]

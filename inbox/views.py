@@ -266,9 +266,23 @@ def notify_inbox(request):
     my_conversations = Conversation.objects.filter(
         participants=request.user.profile, is_seen=False
     )
-    print(my_conversations)
     for c in my_conversations:
         latest_message = c.messages.first()
         if latest_message.sender != request.user.profile:
             return render(request, "inbox/notify_icon.html")
     return HttpResponse("")
+
+
+class NotifyInboxView(LoginRequiredMixin, ProfileRequiredMixin, View):
+
+    def get(self, request):
+        if not request.headers.get("HX-Request"):
+            raise Http404()
+        my_conversations = Conversation.objects.filter(
+            participants=request.user.profile, is_seen=False
+        )
+        for c in my_conversations:
+            latest_message = c.messages.first()
+            if latest_message.sender != request.user.profile:
+                return render(request, "inbox/notify_icon.html")
+        return HttpResponse("")
