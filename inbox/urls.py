@@ -9,6 +9,7 @@ from .views import (
     SearchProfilesView,
     CreateMessageView,
     CreateReplyView,
+    NotifyNewMessageView,
 )
 
 app_name = "inbox"
@@ -26,6 +27,10 @@ urlpatterns = [
         CreateReplyView.as_view(),
         name="inbox_createreply",
     ),
-    path("notify/<int:conversation_pk>/", notify_newmessage, name="notify_newmessage"),
+    path(
+        "notify/<int:conversation_pk>/",
+        NotifyNewMessageView.as_view(),
+        name="notify_newmessage",
+    ),
     path("notify-inbox/", notify_inbox, name="notify_inbox"),
 ]
