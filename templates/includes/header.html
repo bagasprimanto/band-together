@@ -37,7 +37,9 @@
                 <li class="inbox-nav-button nav-item mt-0">
                     <a {% if "/inbox/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'inbox:inbox' %}">Inbox</a>
-                    <span class="active-dot"></span>
+                    <div class="position-relative">
+                        <span class="notification-dot"></span>
+                    </div>
                 </li>
             </ul>
             {% endif %}
