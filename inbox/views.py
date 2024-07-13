@@ -195,18 +195,16 @@ class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
     form_class = InboxCreateMessageForm
     template_name = "inbox/createreply_form.html"
 
-    def dispatch(self, request, *args, **kwargs):
+    def get_conversation(self, request):
         # Get all conversations for the logged-in user
-        self.my_conversations = Conversation.objects.filter(
+        my_conversations = Conversation.objects.filter(
             participants=request.user.profile
         )
-
         # Get the specific conversation based on conversation_pk
-        self.conversation = get_object_or_404(
-            self.my_conversations, id=self.kwargs["conversation_pk"]
+        conversation = get_object_or_404(
+            my_conversations, id=self.kwargs["conversation_pk"]
         )
-
-        return super().dispatch(request, *args, **kwargs)
+        return conversation
 
     def get(self, request, *args, **kwargs):
         if not request.headers.get("HX-Request"):
