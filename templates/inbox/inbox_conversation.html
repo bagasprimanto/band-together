@@ -58,8 +58,7 @@
                 {% for message in conversation.messages.all reversed %}
                     <li class="{% if message.sender == user.profile %} repaly {% else %} sender {% endif %}">
                         <p> {{ message.body }} </p>
-                        <span class="time">{{ message.created }}, {{ message.created|timesince }} ago</span>
-                        <span class="time">{{ message.sender.display_name }}</span>
+                        <span class="time">{{ message.created|date:"r" }}, {{ message.created|timesince }} ago</span>
                     </li>
                 {% endfor %}
                 <div id="anchor"></div>
