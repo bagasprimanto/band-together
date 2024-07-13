@@ -55,21 +55,34 @@ class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
         return context
 
 
-def search_profiles(request):
-    letters = request.GET.get("search_profile")
-    if request.headers.get("HX-Request"):
-        if len(letters) > 0:
-            profiles = Profile.objects.filter(display_name__icontains=letters).exclude(
-                display_name=request.user.profile.display_name
-            )[:5]
+class SearchProfilesView(ListView):
+    """
+    Search profiles view for displaying list of profiles when creating a new message.
+    No need to login or profile required since an anonymous user can also access the Profiles List page anyway.
+    """
 
-            return render(
-                request, "inbox/searchprofiles_list.html", {"profiles": profiles}
-            )
+    model = Profile
+    template_name = "inbox/searchprofiles_list.html"
+    context_object_name = "profiles"
+
+    def get_queryset(self):
+        letters = self.request.GET.get("search_profile", "")
+        if len(letters) > 0:
+            return Profile.objects.filter(display_name__icontains=letters).exclude(
+                display_name=self.request.user.profile.display_name
+            )[:5]
         else:
+            return Profile.objects.none()
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            raise Http404()
+        return super().dispatch(request, *args, **kwargs)
+
+    def render_to_response(self, context, **response_kwargs):
+        if not context[self.context_object_name].exists():
             return HttpResponse("")
-    else:
-        raise Http404()
+        return super().render_to_response(context, **response_kwargs)
 
 
 def create_message(request, profile_slug):

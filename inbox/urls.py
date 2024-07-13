@@ -7,13 +7,14 @@ from .views import (
     create_reply,
     notify_newmessage,
     notify_inbox,
+    SearchProfilesView,
 )
 
 app_name = "inbox"
 urlpatterns = [
     path("", InboxView.as_view(), name="inbox"),
     path("<int:conversation_pk>/", InboxDetailView.as_view(), name="inbox_detail"),
-    path("search-profiles/", search_profiles, name="inbox_searchprofiles"),
+    path("search-profiles/", SearchProfilesView.as_view(), name="inbox_searchprofiles"),
     path(
         "create-message/<slug:profile_slug>/",
         create_message,
