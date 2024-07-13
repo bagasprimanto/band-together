@@ -191,6 +191,52 @@ def create_reply(request, conversation_pk):
     return render(request, "inbox/createreply_form.html", context)
 
 
+class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    form_class = InboxCreateMessageForm
+    template_name = "inbox/createreply_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get all conversations for the logged-in user
+        self.my_conversations = Conversation.objects.filter(
+            participants=request.user.profile
+        )
+
+        # Get the specific conversation based on conversation_pk
+        self.conversation = get_object_or_404(
+            self.my_conversations, id=self.kwargs["conversation_pk"]
+        )
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            raise Http404()
+        form = self.form_class()
+        context = {
+            "form": form,
+            "conversation": self.conversation,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user.profile
+            message.conversation = self.conversation
+            message.save()
+            self.conversation.lastmessage_created = timezone.now()
+            self.conversation.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
+            self.conversation.save()
+            return redirect("inbox:inbox_detail", conversation_pk=self.conversation.pk)
+
+        context = {
+            "form": form,
+            "conversation": self.conversation,
+        }
+        return render(request, self.template_name, context)
+
+
 def notify_newmessage(request, conversation_pk):
     conversation = get_object_or_404(Conversation, id=conversation_pk)
     latest_message = conversation.messages.first()
