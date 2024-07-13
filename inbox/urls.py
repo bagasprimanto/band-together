@@ -5,6 +5,7 @@ from .views import (
     search_profiles,
     create_message,
     create_reply,
+    notify_newmessage,
 )
 
 app_name = "inbox"
@@ -18,4 +19,5 @@ urlpatterns = [
         name="inbox_createmessage",
     ),
     path("create-reply/<int:conversation_pk>/", create_reply, name="inbox_createreply"),
+    path("notify/<int:conversation_pk>/", notify_newmessage, name="notify_newmessage"),
 ]

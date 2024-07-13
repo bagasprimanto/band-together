@@ -27,8 +27,28 @@ class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
     context_object_name = "conversation"
     pk_url_kwarg = "conversation_pk"
 
+    def get_object(self):
+        my_conversations = Conversation.objects.filter(
+            participants=self.request.user.profile
+        )
+        conversation = get_object_or_404(
+            my_conversations, id=self.kwargs.get(self.pk_url_kwarg)
+        )
+        return conversation
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        conversation = self.get_object()
+
+        # Mark conversation as seen if it hasn't been seen and the latest message is not from the current user
+        latest_message = conversation.messages.first()
+        if (
+            not conversation.is_seen
+            and latest_message.sender != self.request.user.profile
+        ):
+            conversation.is_seen = True
+            conversation.save()
+
         context["my_conversations"] = Conversation.objects.filter(
             participants=self.request.user.profile
         )
@@ -68,6 +88,7 @@ def create_message(request, profile_slug):
                     message.conversation = c
                     message.save()
                     c.lastmessage_created = timezone.now()
+                    c.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
                     c.save()
                     return redirect("inbox:inbox_detail", conversation_pk=c.pk)
             new_conversation = Conversation.objects.create()
@@ -75,7 +96,7 @@ def create_message(request, profile_slug):
             new_conversation.save()
             message.conversation = new_conversation
             message.save()
-            return redirect("inbox:inbox_detail", conversation_pk=c.pk)
+            return redirect("inbox:inbox_detail", conversation_pk=new_conversation.pk)
 
     context = {
         "recipient": recipient,
@@ -97,6 +118,7 @@ def create_reply(request, conversation_pk):
             message.conversation = conversation
             message.save()
             conversation.lastmessage_created = timezone.now()
+            conversation.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
             conversation.save()
             return redirect("inbox:inbox_detail", conversation_pk=conversation.pk)
 
@@ -106,3 +128,12 @@ def create_reply(request, conversation_pk):
     }
 
     return render(request, "inbox/createreply_form.html", context)
+
+
+def notify_newmessage(request, conversation_pk):
+    conversation = get_object_or_404(Conversation, id=conversation_pk)
+    latest_message = conversation.messages.first()
+    if conversation.is_seen == False and latest_message.sender != request.user.profile:
+        return render(request, "inbox/notify_icon.html")
+    else:
+        return HttpResponse("")

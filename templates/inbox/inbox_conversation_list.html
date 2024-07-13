@@ -13,8 +13,11 @@
                         <img class="rounded-circle"
                             src="{% if participant.profile_picture %} {{ participant.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
                             alt="user img" width="40" height="40">
-                        <div class="position-relative">
-                            <span class="active"></span>
+                        <div class="position-relative"
+                            hx-get="{% url 'inbox:notify_newmessage' conversation_pk=c.pk %}"
+                            hx-trigger="load"
+                            hx-target="this"
+                            hx-swap="innerHTML">
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
