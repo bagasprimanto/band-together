@@ -2,12 +2,12 @@ from django.urls import path
 from .views import (
     InboxView,
     InboxDetailView,
-    search_profiles,
     create_message,
     create_reply,
     notify_newmessage,
     notify_inbox,
     SearchProfilesView,
+    CreateMessageView,
 )
 
 app_name = "inbox"
@@ -17,7 +17,7 @@ urlpatterns = [
     path("search-profiles/", SearchProfilesView.as_view(), name="inbox_searchprofiles"),
     path(
         "create-message/<slug:profile_slug>/",
-        create_message,
+        CreateMessageView.as_view(),
         name="inbox_createmessage",
     ),
     path("create-reply/<int:conversation_pk>/", create_reply, name="inbox_createreply"),

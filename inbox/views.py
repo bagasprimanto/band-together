@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Conversation, InboxMessage
 from profiles.models import Profile
+from django.views import View
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.mixins import ProfileRequiredMixin
@@ -116,6 +117,53 @@ def create_message(request, profile_slug):
         "form": create_message_form,
     }
     return render(request, "inbox/createmessage_form.html", context)
+
+
+class CreateMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    form_class = InboxCreateMessageForm
+    template_name = "inbox/createmessage_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.recipient = get_object_or_404(Profile, slug=self.kwargs["profile_slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            raise Http404()
+        form = self.form_class()
+        context = {
+            "recipient": self.recipient,
+            "form": form,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user.profile
+
+            my_conversations = request.user.profile.conversations.all()
+            for c in my_conversations:
+                if self.recipient in c.participants.all():
+                    message.conversation = c
+                    message.save()
+                    c.lastmessage_created = timezone.now()
+                    c.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
+                    c.save()
+                    return redirect("inbox:inbox_detail", conversation_pk=c.pk)
+            new_conversation = Conversation.objects.create()
+            new_conversation.participants.add(request.user.profile, self.recipient)
+            new_conversation.save()
+            message.conversation = new_conversation
+            message.save()
+            return redirect("inbox:inbox_detail", conversation_pk=new_conversation.pk)
+
+        context = {
+            "recipient": self.recipient,
+            "form": form,
+        }
+        return render(request, self.template_name, context)
 
 
 def create_reply(request, conversation_pk):
