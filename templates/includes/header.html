@@ -53,10 +53,10 @@
                         aria-haspopup="true" aria-expanded="false">
                         {% if user.profile.profile_picture %}
                         <img src="{{ user.profile.profile_picture.url }}"
-                            width="40" height="40" class="rounded-circle">
+                            width="40" height="40" class="rounded-circle object-fit-cover">
                         {% else %}
                         <img src="{% static 'images/profile_pic_default.jpg' %}"
-                            width="40" height="40" class="rounded-circle">
+                            width="40" height="40" class="rounded-circle object-fit-cover">
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
