@@ -37,9 +37,10 @@
                 <li class="inbox-nav-button nav-item mt-0">
                     <a {% if "/inbox/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'inbox:inbox' %}">Inbox</a>
-                    <div class="position-relative">
-                        <span class="notification-dot"></span>
-                    </div>
+                    <div class="position-relative"
+                    hx-get="{% url 'inbox:notify_inbox' %}"
+                    hx-trigger="load"
+                    hx-swap="innerHTML"></div>
                 </li>
             </ul>
             {% endif %}

@@ -137,3 +137,15 @@ def notify_newmessage(request, conversation_pk):
         return render(request, "inbox/notify_icon.html")
     else:
         return HttpResponse("")
+
+
+def notify_inbox(request):
+    my_conversations = Conversation.objects.filter(
+        participants=request.user.profile, is_seen=False
+    )
+    print(my_conversations)
+    for c in my_conversations:
+        latest_message = c.messages.first()
+        if latest_message.sender != request.user.profile:
+            return render(request, "inbox/notify_icon.html")
+    return HttpResponse("")

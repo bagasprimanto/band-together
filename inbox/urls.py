@@ -6,6 +6,7 @@ from .views import (
     create_message,
     create_reply,
     notify_newmessage,
+    notify_inbox,
 )
 
 app_name = "inbox"
@@ -20,4 +21,5 @@ urlpatterns = [
     ),
     path("create-reply/<int:conversation_pk>/", create_reply, name="inbox_createreply"),
     path("notify/<int:conversation_pk>/", notify_newmessage, name="notify_newmessage"),
+    path("notify-inbox/", notify_inbox, name="notify_inbox"),
 ]
