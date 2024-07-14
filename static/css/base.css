@@ -2,6 +2,7 @@
     --navbar-links-color: rgba(255, 255, 255, 0.85);
     --navbar-dropdown-links-color: #000;
     --bs-dropdown-link-active-bg: black;
+    font-family: sans-serif;
 }
 
 /* Navbar */
