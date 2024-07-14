@@ -132,12 +132,12 @@
                     {% if comment.author.profile_picture %}
                     <div>
                         <img src="{{ comment.author.profile_picture.url }}" alt="" width="40" height="40"
-                            class="rounded-circle">
+                            class="rounded-circle object-fit-cover">
                     </div>
                     {% else %}
                     <div>
                         <img src="{% static './images/profile_pic_default.jpg' %}" alt="" width="40" height="40"
-                            class="rounded-circle">
+                            class="rounded-circle object-fit-cover">
                     </div>
                     {% endif %}
                     <div class="ms-2 align-items-center">
