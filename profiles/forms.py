@@ -32,6 +32,10 @@ class ProfileCreateForm(forms.ModelForm):
         required=False,
     )
 
+    location = forms.ChoiceField(
+        help_text="Location is only used for displaying your profile info"
+    )
+
     def __init__(self, *args, **kwargs):
         super(ProfileCreateForm, self).__init__(*args, **kwargs)
         self.fields["location"].required = True
