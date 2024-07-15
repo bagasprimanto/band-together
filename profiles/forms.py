@@ -95,6 +95,11 @@ class ProfileEditGeneralInfoForm(forms.ModelForm):
     birthday = forms.DateField(
         widget=forms.DateInput(attrs={"type": "date", "max": datetime.now().date()}),
         required=False,
+        help_text="Your birthday is only used for displaying your age if it is filled",
+    )
+
+    location = forms.ChoiceField(
+        help_text="Location is only used for displaying your profile info"
     )
 
     def __init__(self, *args, **kwargs):
