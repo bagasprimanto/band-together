@@ -94,3 +94,22 @@
 img.social-media-link {
     width: 100%;
 }
+
+/* Ads */
+.ad-link:hover {
+    text-decoration: underline !important;
+}
+
+.custom-truncate-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.custom-truncate-body {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

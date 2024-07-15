@@ -17,6 +17,7 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
 
@@ -70,7 +71,7 @@ def profile_list(request):
 
 class ProfileDetailView(DetailView):
     model = Profile
-    template_name = "profiles/profile_detail.html"
+    template_name = "profiles/profile_detail_about.html"
     context_object_name = "profile"
     slug_field = "slug"
     slug_url_kwarg = "slug"
@@ -78,6 +79,20 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = InboxCreateMessageForm()
+        return context
+
+
+class ProfileAdsDetailView(DetailView):
+    model = Profile
+    template_name = "profiles/profile_detail_ads.html"
+    context_object_name = "profile"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = InboxCreateMessageForm()
+        context["ads"] = Advertisement.objects.filter(author=self.get_object())
         return context
 
 

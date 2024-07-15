@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     ProfileCreateView,
     ProfileDetailView,
+    ProfileAdsDetailView,
     ProfileEditGeneralInfoView,
     ProfileEditPicturesView,
     ProfileEditGenresView,
@@ -16,7 +17,8 @@ app_name = "profiles"
 urlpatterns = [
     path("", profile_list, name="profile_list"),
     path("new/", ProfileCreateView.as_view(), name="profile_new"),
-    path("<slug:slug>/", ProfileDetailView.as_view(), name="profile_detail"),
+    path("<slug:slug>/about/", ProfileDetailView.as_view(), name="profile_detail"),
+    path("<slug:slug>/ads/", ProfileAdsDetailView.as_view(), name="profile_detail_ads"),
     path(
         "<slug:slug>/edit/general-info/",
         ProfileEditGeneralInfoView.as_view(),
