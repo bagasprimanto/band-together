@@ -13,6 +13,11 @@ class AdvertisementCreateForm(forms.ModelForm):
         widget=forms.TextInput({"placeholder": "Your awesome title here..."}),
     )
 
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Enter your description here..."}),
+        help_text="Do not put personal information in your ad. Your ad will be available to the public!",
+    )
+
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
         widget=forms.CheckboxSelectMultiple,
