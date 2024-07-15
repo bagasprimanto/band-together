@@ -16,7 +16,9 @@ from django.http import HttpResponseRedirect
 
 
 def advertisement_list(request):
-    f = AdvertisementFilter(request.GET, queryset=Advertisement.objects.all())
+    f = AdvertisementFilter(
+        request.GET, queryset=Advertisement.objects.all().order_by("-last_updated")
+    )
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     if not has_filter:
