@@ -53,7 +53,7 @@ class ProfileCreateView(
 
 
 def profile_list(request):
-    f = ProfileFilter(request.GET, queryset=Profile.objects.all())
+    f = ProfileFilter(request.GET, queryset=Profile.objects.all().order_by("-created"))
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     if not has_filter:
