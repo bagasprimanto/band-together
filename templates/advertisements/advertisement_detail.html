@@ -86,6 +86,7 @@
         </section>
         {% endif %}
 
+        {% if ad.author != user.profile %}
         <section class="d-flex justify-content-between align-items-center mb-5">
             <div>
                 <h2 class="fw-semibold mb-0">
@@ -101,6 +102,7 @@
             </div>
             <a href="#" class="edit-button btn btn-primary h-100 col-4 ms-2">Message</a>
         </section>
+        {% endif %}
 
         <section>
             <h2 class="fw-semibold mb-0">
