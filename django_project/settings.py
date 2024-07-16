@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",
     "inbox.apps.InboxConfig",
+    "openmics.apps.OpenmicsConfig",
     "pages.apps.PagesConfig",
     "profiles.apps.ProfilesConfig",
 ]
