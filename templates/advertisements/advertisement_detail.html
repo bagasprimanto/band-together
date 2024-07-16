@@ -100,7 +100,7 @@
                     </a>
                 </p>
             </div>
-            <a href="#" class="edit-button btn btn-primary h-100 col-4 ms-2">Message</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
         </section>
         {% endif %}
 
@@ -116,7 +116,7 @@
                     <div class="mb-4">
                         <form method="post" action="{% url 'advertisements:comment_create' ad.pk %}">
                             {% csrf_token %}
-                            {{ form|crispy }}
+                            {{ comment_form|crispy }}
                             <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -243,6 +243,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Create Message modal -->
+    {% include 'inbox/createmessage_modal.html' with recipient=ad.author form=createmessage_form %}
+
 </div>
 {% endblock content %}
 
@@ -270,6 +274,18 @@
             // Update the form action URL
             modal.querySelector('#comment-delete-form').action = deleteUrl;
         });
+    });
+
+
+    // For dismissing the create message modal when cancel button is clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelButton = document.getElementById('cancel-button');
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function () {
+                var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
+                createMessageModal.hide();
+            });
+        }
     });
 </script>
 

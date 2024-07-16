@@ -10,6 +10,7 @@ from django.views.generic import (
 )
 from .models import Advertisement, Comment
 from .forms import AdvertisementCreateForm, AdvertisementEditForm, CommentCreateForm
+from inbox.forms import InboxCreateMessageForm
 from .filters import AdvertisementFilter
 from profiles.mixins import ProfileRequiredMixin
 from django.http import HttpResponseRedirect
@@ -62,7 +63,8 @@ class AdvertisementDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
-        context["form"] = CommentCreateForm()
+        context["comment_form"] = CommentCreateForm()
+        context["createmessage_form"] = InboxCreateMessageForm()
         context["comments"] = Comment.objects.filter(
             parent_advertisement=advertisement
         ).order_by("-created")
@@ -95,6 +97,7 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
         context["comments"] = Comment.objects.filter(
             parent_advertisement=advertisement
         ).order_by("-created")
+        context["comment_form"] = self.form_class
         return context
 
     def form_invalid(self, form):
