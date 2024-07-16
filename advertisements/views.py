@@ -14,6 +14,9 @@ from inbox.forms import InboxCreateMessageForm
 from .filters import AdvertisementFilter
 from profiles.mixins import ProfileRequiredMixin
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
+from django.http import Http404
+from django_project import settings
 
 
 def advertisement_list(request):
@@ -27,12 +30,47 @@ def advertisement_list(request):
     else:
         advertisements = f.qs
 
+    paginator = Paginator(advertisements, settings.PAGE_SIZE)
+    advertisements_page = paginator.page(1)  # default to 1 when this view is triggered
+
     context = {
         "form": f.form,
-        "ads": advertisements,
+        "ads": advertisements_page,
         "has_filter": has_filter,
     }
     return render(request, "advertisements/advertisement_list.html", context)
+
+
+def get_advertisements(request):
+    import time
+
+    time.sleep(2)
+
+    if not request.headers.get("HX-Request"):
+        raise Http404()
+
+    page = request.GET.get(
+        "page", 1
+    )  # ?page=2, then this will extract 2. If it doesn't, then default to 1
+
+    f = AdvertisementFilter(
+        request.GET, queryset=Advertisement.objects.all().order_by("-last_updated")
+    )
+    has_filter = any(field in request.GET for field in set(f.get_fields()))
+
+    if not has_filter:
+        advertisements = Advertisement.objects.all().order_by("-last_updated")
+    else:
+        advertisements = f.qs
+
+    paginator = Paginator(advertisements, settings.PAGE_SIZE)
+    context = {"ads": paginator.page(page)}
+
+    return render(
+        request,
+        "advertisements/advertisement_list_partial.html#advertisements_list",
+        context,
+    )
 
 
 class AdvertisementCreateView(

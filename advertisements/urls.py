@@ -5,6 +5,7 @@ from .views import (
     AdvertisementEditView,
     AdvertisementDeleteView,
     advertisement_list,
+    get_advertisements,
     CommentCreateView,
     CommentDeleteView,
 )
@@ -12,6 +13,7 @@ from .views import (
 app_name = "advertisements"
 urlpatterns = [
     path("", advertisement_list, name="advertisement_list"),
+    path("get-advertisements/", get_advertisements, name="get_advertisements"),
     path("new/", AdvertisementCreateView.as_view(), name="advertisement_new"),
     path("<int:pk>/", AdvertisementDetailView.as_view(), name="advertisement_detail"),
     path(
