@@ -43,6 +43,9 @@ def advertisement_list(request):
 
 
 def get_advertisements(request):
+    import time
+
+    time.sleep(2)
 
     if not request.headers.get("HX-Request"):
         raise Http404()
