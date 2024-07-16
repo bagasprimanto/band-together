@@ -17,6 +17,7 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from django.http import Http404
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
@@ -76,6 +77,9 @@ def profile_list(request):
 
 
 def get_profiles(request):
+
+    if not request.headers.get("HX-Request"):
+        raise Http404()
 
     page = request.GET.get(
         "page", 1
