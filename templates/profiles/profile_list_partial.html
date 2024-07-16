@@ -1,9 +1,10 @@
+{% load static %}
 {% load partials %}
 
 {% partialdef profiles_list inline=True %}
     {% for profile in profiles %}    
         {% if forloop.last and profiles.has_next %}
-        <div data-has-next="{{ profiles.has_next }}" class="profile-container d-flex flex-column col-sm-1 text-center mb-2"
+        <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2"
             hx-get="{% url 'profiles:get_profiles' %}?page={{ profiles.next_page_number }}"
             hx-trigger="revealed"
             hx-swap="afterend"
@@ -11,7 +12,7 @@
             hx-indicator="#spinner"
             >
         {% else %}  
-        <div data-has-next="{{ profiles.has_next }}" class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
+        <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
         {% endif %}
             <a href="{% url 'profiles:profile_detail' profile.slug %}" class="text-decoration-none text-reset link">
                 <div>
