@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Advertisement, Comment
+from profiles.models import Profile
 from .forms import AdvertisementCreateForm, AdvertisementEditForm, CommentCreateForm
 from inbox.forms import InboxCreateMessageForm
 from .filters import AdvertisementFilter
@@ -59,6 +60,14 @@ def get_advertisements(request):
         advertisements = Advertisement.objects.all().order_by("-last_updated")
     else:
         advertisements = f.qs
+
+    # If the HTMX request is coming from the profile detail page, get and filter by the profile_slug from the request
+    profile_slug = request.GET.get("profile_slug", None)
+
+    if profile_slug:
+        profile = get_object_or_404(Profile, slug=profile_slug)
+        print(profile.display_name)
+        advertisements = advertisements.filter(author=profile)
 
     paginator = Paginator(advertisements, settings.PAGE_SIZE)
     context = {"ads": paginator.page(page)}

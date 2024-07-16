@@ -122,7 +122,15 @@ class ProfileAdsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = InboxCreateMessageForm()
-        context["ads"] = Advertisement.objects.filter(author=self.get_object())
+
+        advertisements = Advertisement.objects.filter(
+            author=self.get_object()
+        ).order_by("-last_updated")
+        paginator = Paginator(advertisements, settings.PAGE_SIZE)
+        advertisements_page = paginator.page(
+            1
+        )  # default to 1 when this view is triggered
+        context["ads"] = advertisements_page
         return context
 
 
