@@ -72,9 +72,6 @@ def profile_list(request):
         "has_filter": has_filter,
     }
 
-    if request.headers.get("HX-Request"):
-        return render(request, "profiles/profile_list_partial.html", context)
-
     return render(request, "profiles/profile_list.html", context)
 
 
