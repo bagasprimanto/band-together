@@ -1,4 +1,3 @@
-{% load static %}
 {% load partials %}
 
 {% partialdef profiles_list inline=True %}
@@ -24,7 +23,7 @@
                         class="profile-picture rounded-circle img-fluid" width="150" height="150">
                     {% endif %}
                 </div>
-                <p class="display-name custom-truncate mb-0 fw-semibold">
+                <p class="display-name custom-truncate mb-0">
                     {{ profile.display_name }}
                 </p>
                 <p class="mb-0">
@@ -40,5 +39,5 @@
 
 <!-- Loading Spinner -->
 <div id="spinner" class="w-100 htmx-indicator text-center" >
-<span class="spinner-border text-secondary" role="status"></span>
- </div>
+    <span class="spinner-border text-secondary" role="status"></span>
+</div>
