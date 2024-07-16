@@ -79,6 +79,10 @@ def profile_list(request):
 
 
 def get_profiles(request):
+    import time
+
+    time.sleep(2)
+
     page = request.GET.get(
         "page", 1
     )  # ?page=2, then this will extract 2. If it doesn't, then default to 1
