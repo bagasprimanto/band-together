@@ -61,10 +61,10 @@ INSTALLED_APPS = [
     "template_partials",
     # Local
     "accounts.apps.AccountsConfig",
-    "pages.apps.PagesConfig",
-    "profiles.apps.ProfilesConfig",
     "advertisements.apps.AdvertisementsConfig",
     "inbox.apps.InboxConfig",
+    "pages.apps.PagesConfig",
+    "profiles.apps.ProfilesConfig",
 ]
 
 MIDDLEWARE = [
