@@ -1,6 +1,7 @@
 {% extends "_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load partials %}
 {% block title %}Profiles - BandTogether{% endblock title %}
 
 {% block additional_css %}
@@ -152,29 +153,7 @@
 
     <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-2">
         {% if profiles %}
-            {% for profile in profiles %}
-            <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
-                <a href="{% url 'profiles:profile_detail' profile.slug %}" class="text-decoration-none text-reset link">
-                    <div>
-                        {% if profile.profile_picture %}
-                        <img src="{{ profile.profile_picture.url }}" alt="profile-picture"
-                            class="profile-picture rounded-circle img-fluid" width="150" height="150">
-                        {% else %}
-                        <img src="{% static 'images/profile_pic_default.jpg' %}" alt="profile-picture"
-                            class="profile-picture rounded-circle img-fluid" width="150" height="150">
-                        {% endif %}
-                    </div>
-                    <p class="display-name custom-truncate mb-0 fw-semibold">
-                        {{ profile.display_name }}
-                    </p>
-                    <p class="mb-0">
-                        <small class="type-country custom-truncate text-secondary">
-                        {{ profile.profile_type }}, {{ profile.location.country }}
-                        </small>    
-                    </p>
-                </a>
-            </div>
-            {% endfor %}
+            {% include 'profiles/profile_list_partial.html' %}
         {% else %}
         <p class="text-danger">No profiles meet your criteria. Try some other criteria in the filters!</p>
         {% endif %}

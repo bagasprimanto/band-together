@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    # Django-template-partials
+    "template_partials",
     # Local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
@@ -163,6 +165,9 @@ MESSAGE_TAGS = {
 # Media files (Uploaded files)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Pagination page size
+PAGE_SIZE = 30
 
 # 3rd Party
 # Crispy Forms

@@ -11,11 +11,13 @@ from .views import (
     ProfileEditMusicVideosView,
     ProfileEditSocialsView,
     profile_list,
+    get_profiles,
 )
 
 app_name = "profiles"
 urlpatterns = [
     path("", profile_list, name="profile_list"),
+    path("get-profiles/", get_profiles, name="get_profiles"),
     path("new/", ProfileCreateView.as_view(), name="profile_new"),
     path("<slug:slug>/about/", ProfileDetailView.as_view(), name="profile_detail"),
     path("<slug:slug>/ads/", ProfileAdsDetailView.as_view(), name="profile_detail_ads"),
