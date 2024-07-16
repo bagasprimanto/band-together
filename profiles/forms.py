@@ -4,6 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.layout import Layout, Submit, Button
 from .models import Profile, Genre, Skill
+from cities_light.models import City
 
 
 class ProfileCreateForm(forms.ModelForm):
@@ -32,8 +33,9 @@ class ProfileCreateForm(forms.ModelForm):
         required=False,
     )
 
-    location = forms.ChoiceField(
-        help_text="Location is only used for displaying your profile info"
+    location = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        help_text="Location is only used for displaying your profile info.",
     )
 
     def __init__(self, *args, **kwargs):
@@ -98,8 +100,9 @@ class ProfileEditGeneralInfoForm(forms.ModelForm):
         help_text="Your birthday is only used for displaying your age in your profile info",
     )
 
-    location = forms.ChoiceField(
-        help_text="Location is only used for displaying your profile info"
+    location = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        help_text="Location is only used for displaying your profile info.",
     )
 
     def __init__(self, *args, **kwargs):
