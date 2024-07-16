@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from profiles.models import Profile
 from django.utils import timezone
@@ -6,7 +5,6 @@ from django.utils.timesince import timesince
 
 
 class Conversation(models.Model):
-    room_id = models.CharField(max_length=100, default=uuid.uuid4, unique=True)
     participants = models.ManyToManyField(Profile, related_name="conversations")
     lastmessage_created = models.DateTimeField(default=timezone.now)
     is_seen = models.BooleanField(default=False)
