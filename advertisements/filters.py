@@ -20,6 +20,7 @@ class AdvertisementFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(field_name="title", lookup_expr="icontains")
 
     ad_type = django_filters.MultipleChoiceFilter(
+        field_name="ad_type",
         choices=get_ad_type_choices(),
         widget=CheckboxSelectMultiple,
     )

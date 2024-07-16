@@ -25,6 +25,7 @@ class ProfileFilter(django_filters.FilterSet):
     )
 
     profile_type = django_filters.MultipleChoiceFilter(
+        field_name="profile_type",
         choices=get_profile_type_choices(),
         widget=CheckboxSelectMultiple,
     )
