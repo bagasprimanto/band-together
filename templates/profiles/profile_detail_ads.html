@@ -1,0 +1,11 @@
+{% extends "profiles/_profile_detail_base.html" %}
+
+{% block profile_detail_content %}
+<section class="ad-list mt-3">
+    {% if ads %}
+        {% include 'advertisements/advertisement_list_partial.html' %}
+    {% else %}
+    <p>No ads available yet!</p>
+    {% endif %}
+</section>
+{% endblock profile_detail_content %}

@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Advertisement Create - BandTogether{% endblock title %}
+
+{% block content %}
+<div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
+    <h1 class="fw-bold">Create Your Own Advertisement!</h1>
+    <legend class="mb-4 text-muted fs-4 fw-normal border-bottom">Make your own musicians classified ad, just the way you want!</legend>
+    {% crispy form %}
+</div>
+{% endblock content %}

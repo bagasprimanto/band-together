@@ -1,0 +1,10 @@
+{% extends "profiles/_profile_edit_base.html" %}
+{% load crispy_forms_tags %}
+
+<!-- Form Legend -->
+{% block edit_form_legend %}Update your social media links here!{% endblock edit_form_legend %}
+
+{% block edit_form %}
+    <!-- Form -->
+    {% crispy form %}
+{% endblock edit_form %}

@@ -3,7 +3,38 @@
 .hero-image-2 img {
     min-height: 320px;
     object-fit: cover;
+    position: relative;
 }
+
+.hero-image-2 img {
+    right: 50px;
+    top: 20px;
+    animation: bounce 2.01s infinite;
+    animation-delay: 0.2s;
+}
+
+.hero-image-1 img {
+    left: 10px;
+    bottom: 10px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    /* Animation for hero images */
+    0% {
+        transform: translateY(-15px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
 
 .hero-background {
     width: 100%;

@@ -1,0 +1,85 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Ad List - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/advertisements/advertisement_list.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container p-5 dl">
+    <h1 class="fw-bold">Advertisements List</h1>
+    <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
+    <hr />
+    <div class="d-flex justify-content-between">
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
+        aria-controls="offcanvasAdvertisementFilter">
+        Show filters
+    </a>
+    {% if user.is_authenticated and user.profile%}
+    <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
+        Create Ad
+    </a>
+    {% endif %}
+    </div>
+
+    <!-- Offcanvas for Advertisement Filters -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAdvertisementFilter"
+        aria-labelledby="offcanvasAdvertisementFilterLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasAdvertisementFilterLabel">Advertisement Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form method="get" action="{% url 'advertisements:advertisement_list' %}" id="filter-form">
+                {{ form.title|as_crispy_field }}
+                {{ form.ad_type|as_crispy_field }}
+                {{ form.location|as_crispy_field }}
+
+                <div class="form-group mb-2">
+                    {{ form.genres.label_tag }}
+                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                        {% for checkbox in form.genres %}
+                        <div class="form-check d-flex gx-2">
+                            {{ checkbox.tag }}
+                            <div class="ms-1">
+                                {{ checkbox.choice_label }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form.skills.label_tag }}
+                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                        {% for checkbox in form.skills %}
+                        <div class="form-check d-flex gx-2">
+                            {{ checkbox.tag }}
+                            <div class="ms-1">
+                                {{ checkbox.choice_label }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filter</button>
+                {% if has_filter %}
+                <a href="{% url 'advertisements:advertisement_list' %}" class="btn btn-secondary ms-1">Clear all
+                    filters</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <section class="ad-list mt-3">
+        {% if ads %}
+            {% include 'advertisements/advertisement_list_partial.html' %}
+        {% else %}
+        <p class=" text-danger">No ads meet your criteria. Try some other criteria in the filters!</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock content %}

@@ -45,16 +45,25 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # 3rd party
+    # Django-filters
+    "django_filters",
     # Crispy Forms
     "crispy_forms",
     "crispy_bootstrap5",
+    # Django-cities-light
+    "cities_light",
     # Django-allauth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    # Django-template-partials
+    "template_partials",
     # Local
     "accounts.apps.AccountsConfig",
+    "advertisements.apps.AdvertisementsConfig",
+    "inbox.apps.InboxConfig",
+    "openmics.apps.OpenmicsConfig",
     "pages.apps.PagesConfig",
     "profiles.apps.ProfilesConfig",
 ]
@@ -154,6 +163,13 @@ MESSAGE_TAGS = {
     messages.ERROR: "alert-danger",
 }
 
+# Media files (Uploaded files)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Pagination page size
+PAGE_SIZE = 20
+
 # 3rd Party
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -175,7 +191,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-LOGIN_REDIRECT_URL = "pages:home"
+LOGIN_REDIRECT_URL = "profiles:profile_new"
 LOGOUT_REDIRECT_URL = "pages:home"
 
 SOCIALACCOUNT_PROVIDERS = {
