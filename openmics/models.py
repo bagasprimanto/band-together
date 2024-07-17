@@ -4,6 +4,7 @@ from django.db import models
 from profiles.models import Profile, Genre
 from datetime import datetime, date
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import MinValueValidator
 
 
 class OpenMic(models.Model):
@@ -24,7 +25,11 @@ class OpenMic(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     entry_fee = models.DecimalField(
-        max_digits=6, decimal_places=2, null=True, blank=True
+        max_digits=6,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(0)],
     )  # Assuming that this app will later only be deployed in the UK only
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
