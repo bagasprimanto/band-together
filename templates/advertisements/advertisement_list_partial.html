@@ -47,13 +47,12 @@
                         {% else %}
                         {% if user.is_authenticated and user.profile %}
                         <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
-                            <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
+                            <a href="#"
                                 class="btn btn-outline-secondary w-100">Bookmark</a>
                         </div>
                         {% endif %}
                         <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">
-                            <button href="" class="btn btn-danger w-100" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal" data-ad-id="{{ ad.pk }}"
+                            <button href="#" class="btn btn-danger w-100" data-ad-id="{{ ad.pk }}"
                                 data-ad-title="{{ ad.title }}">Report</button>
                         </div>
                         {% endif %}
