@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     # Django-template-partials
     "template_partials",
+    # Django-phonenumber-field
+    "phonenumber_field",
     # Local
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",

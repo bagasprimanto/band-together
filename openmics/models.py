@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from profiles.models import Profile, Genre
 from datetime import datetime, date
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class OpenMic(models.Model):
@@ -15,12 +16,22 @@ class OpenMic(models.Model):
         null=True,
         blank=True,
     )
+    address = models.CharField(max_length=255)
+    google_maps_link = models.URLField(null=True, blank=True)
+    venue_phone_number = PhoneNumberField(blank=True)
     genres = models.ManyToManyField(Genre, blank=True)
     event_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    entry_fee = models.DecimalField(
+        max_digits=6, decimal_places=2, null=True, blank=True
+    )  # Assuming that this app will later only be deployed in the UK only
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    personal_website_social_link = models.URLField(null=True, blank=True)
+    facebook_social_link = models.URLField(null=True, blank=True)
+    youtube_social_link = models.URLField(null=True, blank=True)
+    instagram_social_link = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} Open Mic - {self.author.user.email}"
