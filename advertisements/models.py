@@ -38,7 +38,12 @@ class Advertisement(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="advertisement_comments",
+    )
     parent_advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
     body = models.CharField(max_length=150)
     created = models.DateTimeField(auto_now_add=True)
