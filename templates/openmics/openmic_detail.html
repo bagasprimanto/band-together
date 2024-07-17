@@ -1,0 +1,86 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Open Mic Detail - BandTogether {% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/openmics/openmic_detail.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container col-md-8 col-12 my-5">
+    <div class="container">
+        <h1 class="fw-bold display-4">{{ openmic.title }}</h1>
+
+        <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
+            <div class="author-info row d-flex flex-nowrap col-7">
+                <div class="profile-picture">
+                    {% if openmic.author.profile_picture %}
+                    <img src="{{ openmic.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
+                    {% else %}
+                    <img src="{% static 'images/profile_pic_default.jpg' %}" alt="Author profile picture"
+                        class="rounded-circle">
+                    {% endif %}
+                </div>
+                <div class="author-sub-info col-12 d-flex flex-column justify-content-center px-0">
+                    <p class="mb-0">Posted by
+                        <a href="{% url 'profiles:profile_detail' openmic.author.slug %}"
+                            class="openmic-link text-reset text-decoration-none">
+                            {{openmic.author.display_name }}
+                        </a>
+                    </p>
+                    <p class="mb-0 text-secondary">Last updated {{ openmic.last_updated|timesince }} ago</p>
+                </div>
+            </div>
+            <div
+                class="col-lg-3 col-md-3 col-sm-4 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+                    <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-0">Description</h4>
+            <p>
+                {{ openmic.description|linebreaks }}
+            </p>
+        </section>
+
+        <section>
+            <h5>Location</h5>
+            <p class="location text-secondary">
+                {{ openmic.location }}
+            </p>
+        </section>
+
+        <!-- Genres -->
+        {% if openmic.genres.all %}
+        <section class="genres mb-3">
+            <h5>Preferred Genres</h5>
+            <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
+                {% for genre in openmic.genres.all %}
+                <div class="genre">{{ genre }}</div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if user.is_authenticated and user.profile %}
+        <section class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="fw-semibold mb-0">
+                    Interested?
+                </h2>
+                <p class="text-secondary">
+                    Bookmark this event and keep track of it! <br>
+                    <a href="#"
+                        class="openmic-link text-reset text-decoration-none">
+                        20 people bookmarked this event 🚶
+                    </a>
+                </p>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Bookmark</button>
+        </section>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

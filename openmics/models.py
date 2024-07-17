@@ -45,16 +45,23 @@ class OpenMic(models.Model):
         return reverse("openmics:openmic_detail", kwargs={"pk": self.pk})
 
     def clean(self):
-        # Validate that event_date is not in the past
-        if self.event_date < date.today():
-            raise ValidationError("Event date cannot be in the past.")
 
-        # Validate that start_time and end_time are not in the past if event_date is today
-        if self.event_date == date.today():
-            if self.start_time < datetime.now().time():
-                raise ValidationError("Start time cannot be in the past.")
-            if self.end_time < self.start_time:
-                raise ValidationError("End time cannot be before start time.")
+        if self.event_date:
+            # Validate that event_date is not in the past
+            if self.event_date < date.today():
+                raise ValidationError("Event date cannot be in the past.")
+
+            # Validate that start_time and end_time are not in the past if event_date is today
+            if self.event_date > date.today():
+                if self.end_time < self.start_time:
+                    raise ValidationError("End time cannot be before start time.")
+
+            # Validate that start_time and end_time are not in the past if event_date is today
+            if self.event_date == date.today():
+                if self.start_time < datetime.now().time():
+                    raise ValidationError("Start time cannot be in the past.")
+                if self.end_time < self.start_time:
+                    raise ValidationError("End time cannot be before start time.")
 
 
 class Comment(models.Model):
