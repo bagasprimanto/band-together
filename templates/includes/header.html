@@ -1,4 +1,6 @@
 {% load static %}
+
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
         <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
@@ -6,35 +8,64 @@
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- BandTogether Logo -->
         <a class="navbar-brand" href="{% url 'pages:home' %}">
             <img src="{% static 'images/BandTogetherLogo.svg' %}" alt="BandTogether Logo" class="logo">
             BandTogether
         </a>
+
+        <!-- Navbar items -->
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Profiles</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Browse Ads</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Open Mics</a>
-                </li>
+            <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                    <li class="nav-item">
+                        <a {% if "/profiles/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="{% url 'profiles:profile_list' %}">Profiles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a {% if "/ads/" in request.path and "/profiles/" not in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="{% url 'advertisements:advertisement_list' %}">Browse Ads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a {% if "/open-mic/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="#">Open Mics</a>
+                    </li>
             </ul>
 
+            {% if user.is_authenticated and user.profile %}
+            <ul class="navbar-nav mb-2 mb-lg-0 me-2">
+                <li class="inbox-nav-button nav-item mt-0">
+                    <a {% if "/inbox/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                    href="{% url 'inbox:inbox' %}">Inbox</a>
+                    <div class="position-relative"
+                    hx-get="{% url 'inbox:notify_inbox' %}"
+                    hx-trigger="load"
+                    hx-swap="innerHTML"></div>
+                </li>
+            </ul>
+            {% endif %}
+
+            <!-- Profile picture dropdown -->
             <ul class="navbar-nav profile-dropdown" id="navbarTogglerDemo01">
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown btn-group">
                     <a class="dropdown-toggle" type="button" role="button" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-                            width="40" height="40" class="rounded-circle">
+                        {% if user.profile.profile_picture %}
+                        <img src="{{ user.profile.profile_picture.url }}"
+                            width="40" height="40" class="rounded-circle object-fit-cover">
+                        {% else %}
+                        <img src="{% static 'images/profile_pic_default.jpg' %}"
+                            width="40" height="40" class="rounded-circle object-fit-cover">
+                        {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">Messages</a>
+                        {% if user.profile %}
+                        <a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profile.slug %}">My Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
+                        {% else %}
+                        <a class="dropdown-item" href="{% url 'profiles:profile_new' %}">Create Profile</a>
+                        {% endif %}
                         <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                     </div>
                 </li>

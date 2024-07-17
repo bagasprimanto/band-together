@@ -1,0 +1,122 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}Profile Detail - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<!-- Background image -->
+{% if profile.cover_picture %}
+<div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
+</div>
+{% else %}
+<div class="fill" style="background-image: url('{% static "images/cover_pic_default.jpg" %}');">
+</div>
+{% endif %}
+
+<div class="container col-sm-10 col-md-8 col-12">
+    <div class="row d-flex flex-wrap profile-info w-100 mt-2">
+        <!-- Display Picture, Display Name, Profile Type, Age, Edit/Message/Bookmark buttons -->
+        <div class="profile-picture col-12">
+            {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
+            {% else %}
+            <img src="{% static 'images/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
+            {% endif %}
+        </div>
+        <div class="profile-sub-info col-12 ms-4 mt-0">
+            <section class="display-name-buttons mb-3">
+                <h1 class="display-6 fs-1 fw-bold mb-0 profile-display-name">{{ profile.display_name }}</h1>
+                <p class="fw-normal mb-2">
+                    <span class="fw-bold">{{ profile.profile_type }}</span> - {{ profile.location }}
+                </p>
+                {% if profile.birthday %}
+                <p class="fw-normal">
+                    <span class="fw-bold">Age</span> - {{ profile.age }} years old
+                </p>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if user == profile.user %}
+                <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
+                {% else %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
+                <a class="btn btn-secondary" href="#">Bookmark</a>
+                {% endif %}
+                {% endif %}
+            </section>
+
+            <!-- Tabs -->
+            <section class="tabs mb-3">
+                <ul class="nav nav-underline">
+                    <li class="nav-item">
+                        <a  
+                        {% if request.path|slice:"0:10" == "/profiles/" and "/about/" in request.path|slice:"10:" %}
+                            class="nav-link active"
+                            {% else %}
+                            class="nav-link"
+                            {% endif %} 
+                            href="{% url 'profiles:profile_detail' profile.slug %}" >
+                                About Profile
+                            </a>
+                    </li>
+                    <li class="nav-item">
+                        <a  
+                            {% if request.path|slice:"0:10" == "/profiles/" and "/ads/" in request.path|slice:"10:" %}
+                                class="nav-link active"
+                            {% else %}
+                                class="nav-link"
+                            {% endif %}" 
+                            href="{% url 'profiles:profile_detail_ads' profile.slug %}">
+                            Active Ads
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            {% block profile_detail_content %}
+            {% endblock profile_detail_content %}
+            
+        </div>
+    </div>
+
+    <!-- Create Message Modal -->
+    {% include 'inbox/createmessage_modal.html' with recipient=profile %}
+    
+</div>
+{% endblock content %}
+
+{% block additional_js %}
+<script>
+
+    // For inserting the youtube video's embed URL inside the modal
+    var videoModal = document.getElementById('videoModal')
+    videoModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget // Button that triggered the modal
+        var videoUrl = button.getAttribute('data-video-url') // Extract info from data-* attributes
+        var modalTitle = videoModal.querySelector('.modal-title')
+        var videoFrame = videoModal.querySelector('#videoFrame')
+
+        // Update the modal's content.
+        videoFrame.src = videoUrl
+    })
+
+    // Remove URL from videoframe src attribute when modal is dimissed
+    videoModal.addEventListener('hidden.bs.modal', function (event) {
+        var videoFrame = videoModal.querySelector('#videoFrame')
+        videoFrame.src = ''
+    })
+
+    // For dismissing the create message modal when cancel button is clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelButton = document.getElementById('cancel-button');
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function () {
+                var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
+                createMessageModal.hide();
+            });
+        }
+    });
+</script>
+{% endblock additional_js %}

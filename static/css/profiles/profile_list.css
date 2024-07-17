@@ -1,0 +1,26 @@
+.profile-container {
+    flex: 1 1 150px;
+    max-width: 150px;
+    text-align: center;
+}
+
+.profile-container {
+    transition: 0.5s;
+}
+
+.profile-container:hover {
+    margin-top: -10px;
+}
+
+img.profile-picture {
+    aspect-ratio: 1 / 1;
+    border: 5px solid white;
+    object-fit: cover;
+}
+
+.custom-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

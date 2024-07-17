@@ -1,0 +1,107 @@
+{% load static %}
+
+<!-- Chat Head -->
+<div class="modal-content {% if not conversation %} d-flex align-items-center justify-content-center {% endif %}">
+{% if conversation %}
+    <div class="msg-head">
+        <div class="row">
+            {% for participant in conversation.participants.all %}
+            {% if participant != request.user.profile %}
+            <div class="col-8">
+                <div class="d-flex align-items-center">
+                    <span class="chat-icon flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left img-fluid" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                        </svg>
+                    </span>
+                    <div class="profile-picture-chat-head">
+                        <img class="rounded-circle object-fit-cover"
+                            src="{% if participant.profile_picture %} {{ participant.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
+                            alt="user img" width="50" height="50">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h3 class="custom-truncate-conversation">
+                            <a href="{% url 'profiles:profile_detail' participant.slug %}" class="profile-link text-reset text-decoration-none">
+                                {{ participant.display_name }}
+                            </a>
+                        </h3>
+                        <p class="text-secondary">{{ participant.profile_type }}, {{ participant.location.country }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="col-4 d-flex flex-column justify-content-center">
+                <ul class="moreoption mb-0">
+                    <li class="navbar nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                            </svg></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else
+                                    here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="msg-body">
+            <ul id="scroller">
+                {% for message in conversation.messages.all reversed %}
+                    <li class="{% if message.sender == user.profile %} repaly {% else %} sender {% endif %}">
+                        <p> {{ message.body }} </p>
+                        <span class="time">{{ message.created|date:"r" }}, {{ message.created|timesince }} ago</span>
+                    </li>
+                {% endfor %}
+                <div id="anchor"></div>
+            </ul>
+        </div>
+    </div>
+
+    <div class="send-box">
+        <button type="button" class="btn btn-primary"
+        hx-get="{% url 'inbox:inbox_createreply' conversation.pk %}"
+        hx-target="this"
+        hx-swap="outerHTML scroll:#scroller:bottom">
+            Reply
+        </button>
+    </div>
+{% else %}
+    <div class="text-secondary">No conversation selected</div>
+{% endif %}
+</div>
+
+{% block additional_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        $(".chat-list a").click(function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var targetUrl = $(this).attr("href");
+
+            // Check if the current URL is exactly "/inbox/" or if the target URL is different from the current URL
+            if (window.location.pathname !== targetUrl) {
+                // Redirect to the target URL
+                window.location.href = targetUrl;
+            } else {
+                // Add the showbox class to chatbox
+                $(".chatbox").addClass('showbox');
+            }
+        });
+
+        $(".chat-icon").click(function () {
+            $(".chatbox").removeClass('showbox');
+        });
+    });
+</script>
+{% endblock additional_js %}

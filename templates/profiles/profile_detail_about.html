@@ -1,0 +1,193 @@
+{% extends "profiles/_profile_detail_base.html" %}
+{% load static %}
+{% load profile_filters %}
+
+{% block profile_detail_content %}
+<!-- Bio -->
+{% if profile.bio %}
+<section class="profile-bio mb-3">
+    <h3>Bio</h3>
+    <p>{{ profile.bio }}</p>
+</section>
+{% endif %}
+
+<!-- Music Videos -->
+<section class="profile-music-video mb-3">
+    <h3>
+        Music Videos
+    </h3>
+    <div id="slider" class="videos-container container-fluid ps-2">
+        {% if profile.youtube_link_1 or profile.youtube_link_2 or profile.youtube_link_3 or profile.youtube_link_4 or profile.youtube_link_5 or profile.youtube_link_6 %}
+            
+            {% if profile.youtube_link_1 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_1|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_1|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+    
+            {% if profile.youtube_link_2 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_2|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_2|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+    
+            {% if profile.youtube_link_3 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_3|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_3|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+    
+            {% if profile.youtube_link_4 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_4|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_4|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+    
+            {% if profile.youtube_link_5 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_5|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_5|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+    
+            {% if profile.youtube_link_6 %}
+            <div class="thumbnail-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_6|youtube_embed }}">
+                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ profile.youtube_link_6|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                </a>
+            </div>
+            {% endif %}
+        {% else %}
+        <p class="text-secondary-emphasis">No videos available. 
+            {% if user == profile.user %}
+            Edit profile to add your Youtube video links!</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+
+<!-- Video Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content container-fluid">
+        <div class="modal-header">
+        <h5 class="modal-title" id="videoModalLabel">Music Videos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <iframe id="videoFrame" width="100%" height="400px" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Genres -->
+{% if profile.genres.all %}
+<section class="genres mb-3">
+    <h3>Preferred Genres</h3>
+    <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
+        {% for genre in profile.genres.all %}
+        <div class="genre">{{ genre }}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Skills -->
+{% if profile.skills.all %}
+<section class="skills mb-3">
+    <h3>Skills</h3>
+    <div class="skills-list d-flex flex-wrap col-lg-8 col-12">
+        {% for skill in profile.skills.all %}
+        <div class="skill">{{ skill }}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Social Media Links -->
+{% if profile.personal_website_social_link or profile.facebook_social_link or profile.youtube_social_link or profile.instagram_social_link or profile.soundcloud_social_link %}
+<section class="social-media-links mb-5">
+    <h3>Social Media Links</h3>
+    <div class="social-media-links-list d-flex flex-wrap col-12">
+
+        {% if profile.personal_website_social_link %}
+        <div class="social-media-link-group">
+            <a href="{{ profile.personal_website_social_link }}" target="_blank">
+                <img class="social-media-link" src="{% static 'images/globe-language-svgrepo-com.svg' %}"
+                    alt="Personal website globe icon">
+            </a>
+        </div>
+        {% endif %}
+
+        {% if profile.facebook_social_link %}
+        <div class="social-media-link-group">
+            <a href="{{ profile.facebook_social_link }}" target="_blank">
+                <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                    alt="Facebook icon">
+            </a>
+        </div>
+        {% endif %}
+
+        {% if profile.youtube_social_link %}
+        <div class="social-media-link-group">
+            <a href="{{ profile.youtube_social_link }}" target="_blank">
+                <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                    alt="Youtube icon">
+            </a>
+        </div>
+        {% endif %}
+
+        {% if profile.instagram_social_link %}
+        <div class="social-media-link-group">
+            <a href="{{ profile.instagram_social_link }}" target="_blank">
+                <img class="social-media-link"
+                    src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                    alt="Instagram icon">
+            </a>
+        </div>
+        {% endif %}
+
+        {% if profile.soundcloud_social_link %}
+        <div class="social-media-link-group">
+            <a href="{{ profile.soundcloud_social_link }}" target="_blank">
+            <img class="social-media-link" src="{% static 'images/soundcloud-logo-svgrepo-com.svg' %}"
+                alt="Soundcloud icon">
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Profile dates -->
+<section class="profile-dates mb-5">
+    <div class="created-date">
+        <span class="fw-bold">Profile created</span> {{ profile.created|date:"r" }}
+    </div>
+    <div class="last-updated-date">
+        <span class="fw-bold">Profile last updated</span> {{ profile.last_updated|date:"r" }}
+    </div>
+    <div class="last-login-date">
+        <span class="fw-bold">Last Login</span> {{ profile.user.last_login|date:"r" }}
+    </div>
+</section>
+{% endblock profile_detail_content %}

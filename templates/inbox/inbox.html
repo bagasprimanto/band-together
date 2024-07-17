@@ -1,0 +1,124 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Inbox - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/inbox/inbox.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container col-lg-10 col-12">
+    <section class="message-area my-5 shadow">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="chat-area">
+                        <!-- chatlist -->
+                        <div class="chatlist">
+                            <div class="modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div
+                                        class="chat-header col-12 mb-4 d-flex justify-content-center align-items-center">
+                                        <div class="msg-search">
+                                            <input type="text" class="form-control" id="inlineFormInputGroup"
+                                                placeholder="Search..." aria-label="search">
+
+                                            <button class="btn btn-primary ms-2" data-bs-toggle="modal"
+                                                data-bs-target="#createMessageModal"><a class="add" href="#"><img
+                                                        class="img-fluid"
+                                                        src="{% static './images/pencil-square.svg' %}"
+                                                        alt="add"></a></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!-- chat-list -->
+                                        {% include 'inbox/inbox_conversation_list.html' %}
+                                        <!-- chat-list -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- chatlist -->
+
+
+
+                        <!-- chatbox -->
+                        <div class="chatbox {% if conversation %}showbox{% endif %}">
+                            <div class="modal-dialog-scrollable">
+
+                                {% include 'inbox/inbox_conversation.html' %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- chatbox -->
+
+
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+<!-- char-area -->
+</div>
+
+<!-- Search Profile Modal -->
+<div class="modal fade" id="createMessageModal" tabindex="-1" aria-labelledby="createMessageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content h-75">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createMessageModalLabel">New Message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% include 'inbox/searchprofiles_form.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block additional_js %}
+<script>
+    //For storing and returning the create message modal content
+    document.addEventListener('DOMContentLoaded', function () {
+        var originalModalContent = document.querySelector("#createMessageModal .modal-body").innerHTML;
+
+        document.getElementById('createMessageModal').addEventListener('hidden.bs.modal', function () {
+            document.querySelector("#createMessageModal .modal-body").innerHTML = originalModalContent;
+            htmx.process(document.querySelector("#createMessageModal .modal-body")); // Reinitialize HTMX on the new content
+        });
+
+        document.addEventListener('click', function (event) {
+            if (event.target && event.target.id === 'cancel-button') {
+                document.querySelector("#createMessageModal .modal-body").innerHTML = originalModalContent;
+                htmx.process(document.querySelector("#createMessageModal .modal-body")); // Reinitialize HTMX on the new content
+            }
+        });
+    });
+
+
+    //For filtering the list of chatlist based on text input
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('inlineFormInputGroup');
+        const conversationList = document.querySelectorAll('.chat-list .chat-item-list');
+
+        searchInput.addEventListener('input', function () {
+            const filter = searchInput.value.toLowerCase();
+            conversationList.forEach(function (item) {
+                const participantName = item.querySelector('.profile-display-name').innerText.toLowerCase();
+                if (participantName.includes(filter)) {
+                    item.classList.remove('d-none');
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+        });
+    });
+
+</script>
+{% endblock additional_js %}

@@ -1,0 +1,292 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Ad Detail - BandTogether {% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/advertisements/advertisement_detail.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container col-md-8 col-12 my-5">
+    <div class="container">
+        <h1 class="fw-bold display-4">{{ ad.title }}</h1>
+
+        <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
+            <div class="author-info row d-flex flex-nowrap col-7">
+                {% if ad.author.profile_picture %}
+                <div class="profile-picture">
+                    <img src="{{ ad.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
+                    {% else %}
+                    <img src="{% static 'images/profile_pic_default.jpg' %}" alt="Author profile picture"
+                        class="rounded-circle">
+                    {% endif %}
+                </div>
+                <div class="author-sub-info col-12 d-flex flex-column justify-content-center px-0">
+                    <p class="mb-0">Posted by
+                        <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
+                            class="profile-link text-reset text-decoration-none">
+                            {{ad.author.display_name }}
+                        </a>
+                    </p>
+                    <p class="mb-0 text-secondary">Last updated {{ ad.last_updated|timesince }} ago</p>
+                </div>
+            </div>
+            <div
+                class="col-sm-3 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+                {% if user.profile == ad.author %}
+                <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
+                    class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
+                <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
+                    data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
+                {% else %}
+                {% if user.is_authenticated and user.profile %}
+                <a href="#" class="edit-button btn btn-secondary col-12 me-xl-1 me-lg-0 me-sm-0 me-1">Bookmark</a>
+                {% endif%}
+                <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-0">Description</h4>
+            <p>
+                {{ ad.description|linebreaks }}
+            </p>
+        </section>
+
+        <section>
+            <h5>Location</h5>
+            <p class="location text-secondary">
+                {{ ad.location }}
+            </p>
+        </section>
+
+        <!-- Genres -->
+        {% if ad.genres.all %}
+        <section class="genres mb-3">
+            <h5>Preferred Genres</h5>
+            <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
+                {% for genre in ad.genres.all %}
+                <div class="genre">{{ genre }}</div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Skills -->
+        {% if ad.skills.all %}
+        <section class="skills mb-3">
+            <h5>Skills</h5>
+            <div class="skills-list d-flex flex-wrap col-lg-8 col-12">
+                {% for skill in ad.skills.all %}
+                <div class="skill">{{ skill }}</div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if ad.author != user.profile %}
+        <section class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="fw-semibold mb-0">
+                    Interested?
+                </h2>
+                <p class="text-secondary">
+                    Send a message to
+                    <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
+                        class="profile-link text-reset text-decoration-none">
+                        {{ ad.author.display_name }}
+                    </a>
+                </p>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
+        </section>
+        {% endif %}
+
+        <section>
+            <h2 class="fw-semibold mb-0">
+                Comments
+            </h2>
+            {% if user.is_authenticated %}
+                {% if user.profile %}
+                    <p class="text-secondary">
+                        Not comfortable messaging them first? Post your questions here!
+                    </p>
+                    <div class="mb-4">
+                        <form method="post" action="{% url 'advertisements:comment_create' ad.pk %}">
+                            {% csrf_token %}
+                            {{ comment_form|crispy }}
+                            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p>Create a profile to post a comment! <a href="{% url 'profiles:profile_new' %}"class="btn btn-primary ms-2">Create Profile</a></p>
+                {% endif %}
+            {% else %}
+                <p>Sign in to post a comment! <a href="{% url 'account_login' %}"class="btn btn-primary ms-2">Sign In</a></p>
+            {% endif %}
+
+            {% if comments %}
+            <div>
+                {% for comment in comments %}
+                <div class="d-flex gx-1 align-items-center mb-3">
+                    {% if comment.author.profile_picture %}
+                    <div>
+                        <img src="{{ comment.author.profile_picture.url }}" alt="" width="40" height="40"
+                            class="rounded-circle object-fit-cover">
+                    </div>
+                    {% else %}
+                    <div>
+                        <img src="{% static './images/profile_pic_default.jpg' %}" alt="" width="40" height="40"
+                            class="rounded-circle object-fit-cover">
+                    </div>
+                    {% endif %}
+                    <div class="ms-2 align-items-center">
+                        <div>
+                            <a href="{% url 'profiles:profile_detail' comment.author.slug %}"
+                                class="profile-link text-reset text-decoration-none">
+                                <small class="mb-0">{{ comment.author.display_name }}
+                                </small>
+                            </a>
+                            <small class="text-secondary">
+                                | {{ comment.created|timesince }} ago
+                                {% if user.profile == comment.author %}
+                                |
+                                <a href="#" class="profile-link text-reset text-decoration-none" data-bs-toggle="modal"
+                                    data-bs-target="#deleteCommentModal"
+                                    data-comment-delete-url="{% url 'advertisements:comment_delete' comment.pk %}" 
+                                    {% if comment.author.profile_picture %}
+                                    data-comment-author-image-url="{{ comment.author.profile_picture.url }}" 
+                                    {% else %} 
+                                    data-comment-author-image-url="{% static './images/profile_pic_default.jpg' %}"
+                                    {% endif %} 
+                                    data-comment-author-url="{% url 'profiles:profile_detail' comment.author.slug %}"
+                                    data-comment-author-display-name="{{ comment.author.display_name }}"
+                                    data-comment-created="{{ comment.created|timesince }}"
+                                    data-comment-body="{{ comment.body }}">
+                                    Delete
+                                </a>
+                                {% endif %}
+                            </small>
+                        </div>
+                        <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h4>No comments yet</h4>
+            {% endif %}
+        </section>
+    </div>
+
+    <!-- Delete Ad Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete your ad?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Advertisement will be permanently deleted!
+                </div>
+                <div class="modal-footer">
+                    <form id="ad-delete-form" method="post" enctype="multipart/form-data"
+                        action="{% url 'advertisements:advertisement_delete' ad.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Comment Modal -->
+    <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentModalLabel">Are you sure you want to delete your comment?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex gx-1 align-items-center mb-3">
+                        <div>
+                            <img src="" alt="Author profile picture" width="40" height="40" class="rounded-circle object-fit-cover"
+                                id="modal-comment-author-picture">
+                        </div>
+                        <div class="ms-2 align-items-center">
+                            <div>
+                                <a href="" class="profile-link text-reset text-decoration-none"
+                                    id="modal-author-display-name-link">
+                                    <small class="mb-0" id="modal-author-display-name"></small>
+                                </a>
+                                <small class="text-secondary" id="modal-commment-created"></small>
+                            </div>
+                            <p class="custom-truncate-modal-comment-body mb-0" id="modal-comment-body"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form id="comment-delete-form" method="post" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Message modal -->
+    {% include 'inbox/createmessage_modal.html' with recipient=ad.author form=createmessage_form %}
+
+</div>
+{% endblock content %}
+
+{% block additional_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let deleteCommentModal = document.getElementById('deleteCommentModal');
+        deleteCommentModal.addEventListener('show.bs.modal', function (event) {
+            let button = event.relatedTarget;
+            let deleteUrl = button.getAttribute('data-comment-delete-url');
+            let authorImageUrl = button.getAttribute('data-comment-author-image-url');
+            let authorDisplayNameLink = button.getAttribute('data-comment-author-url');
+            let authorDisplayName = button.getAttribute('data-comment-author-display-name');
+            let commentCreated = button.getAttribute('data-comment-created');
+            let commentBody = button.getAttribute('data-comment-body');
+
+            // Update the modal content
+            let modal = deleteCommentModal;
+            modal.querySelector('#modal-comment-author-picture').src = authorImageUrl;
+            modal.querySelector('#modal-author-display-name').textContent = authorDisplayName;
+            modal.querySelector('#modal-author-display-name-link').parentElement.href = authorDisplayNameLink;
+            modal.querySelector('#modal-commment-created').textContent = ' | ' + commentCreated + ' ago';
+            modal.querySelector('#modal-comment-body').textContent = commentBody;
+
+            // Update the form action URL
+            modal.querySelector('#comment-delete-form').action = deleteUrl;
+        });
+    });
+
+
+    // For dismissing the create message modal when cancel button is clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelButton = document.getElementById('cancel-button');
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function () {
+                var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
+                createMessageModal.hide();
+            });
+        }
+    });
+</script>
+
+{% endblock additional_js %}

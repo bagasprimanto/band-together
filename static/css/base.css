@@ -2,6 +2,7 @@
     --navbar-links-color: rgba(255, 255, 255, 0.85);
     --navbar-dropdown-links-color: #000;
     --bs-dropdown-link-active-bg: black;
+    font-family: sans-serif;
 }
 
 /* Navbar */
@@ -32,6 +33,14 @@ ul.navbar-nav a,
 
 .navbar-collapse .profile-dropdown {
     padding-left: 0px;
+}
+
+img.profile-dropdown {
+    object-fit: cover;
+}
+
+.navbar-nav a.active {
+    color: #fff !important;
 }
 
 body {
@@ -141,4 +150,22 @@ body {
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
     background-color: #303030;
     opacity: 8%;
+}
+
+/* Red dot for inbox */
+.inbox-nav-button {
+    position: relative;
+}
+
+.inbox-nav-button .notification-dot {
+    display: block;
+    content: '';
+    clear: both;
+    position: absolute;
+    bottom: 20px;
+    left: 45px;
+    height: 10px;
+    width: 10px;
+    background: rgb(220, 53, 69);
+    border-radius: 50%;
 }
