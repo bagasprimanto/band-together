@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
@@ -77,6 +78,10 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse("profiles:profile_detail", kwargs={"slug": self.slug})
+
+    def clean(self):
+        if self.birthday and self.birthday > timezone.now().date():
+            raise ValidationError("Birthday cannot be in the future.")
 
     def save(self, *args, **kwargs):
         if not self.slug:
