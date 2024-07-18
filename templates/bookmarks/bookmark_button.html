@@ -1,0 +1,13 @@
+{% load bookmark_filters %}
+
+{% if is_bookmarked %}
+<form class="d-inline-block" method="post" hx-post="{% url 'bookmarks:bookmark_delete' bookmark.id %}" hx-target="#bookmark-button" hx-swap="innerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-secondary">Bookmarked</button>
+</form>
+{% else %}
+<form class="d-inline-block" method="post" hx-post="{% url 'bookmarks:bookmark_create' object|app_label object|model_name object.id %}" hx-target="#bookmark-button" hx-swap="innerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-secondary">Bookmark</button>
+</form>
+{% endif %}

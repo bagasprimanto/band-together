@@ -8,6 +8,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Profile
+from bookmarks.models import Bookmark
 from .forms import (
     ProfileCreateForm,
     ProfileEditGeneralInfoForm,
@@ -17,6 +18,7 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
@@ -110,6 +112,19 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = InboxCreateMessageForm()
+
+        # Returns context regarding bookmarks for the user viewing the profile detail
+        user = self.request.user
+        profile = self.get_object()
+
+        if user.is_authenticated and hasattr(user, "profile"):
+            content_type = ContentType.objects.get_for_model(Profile)
+            bookmark = Bookmark.objects.filter(
+                profile__user=user, content_type=content_type, object_id=profile.id
+            ).first()
+            context["is_bookmarked"] = bookmark is not None
+            context["bookmark"] = bookmark
+
         return context
 
 
