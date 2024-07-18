@@ -13,10 +13,15 @@
     <h1 class="fw-bold">Profiles List</h1>
     <h2 class="fw-normal h4 text-secondary">Discover other musicians and bands!</h2>
     <hr />
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasProfileFilter" role="button"
-        aria-controls="offcanvasProfileFilter">
-        Show filters
-    </a>
+    <div class="d-flex justify-content-start align-items-center">
+        <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasProfileFilter" role="button"
+            aria-controls="offcanvasProfileFilter">
+            Show filters
+        </a>
+        <p class="text-secondary fs-5 mb-0">
+            ({{ profiles_count }} profiles)
+        </p>
+    </div>
 
     <!-- Offcanvas for Profile Filters -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfileFilter"
@@ -64,6 +69,7 @@
                 </label>
                 {{ form.has_youtube_video|as_crispy_field }}
                 {{ form.has_profile_picture|as_crispy_field }}
+                
                 {{ form.order_by|as_crispy_field }}
 
                 <button type="submit" class="btn btn-primary">Filter</button>
@@ -78,7 +84,7 @@
         {% if profiles %}
             {% include 'profiles/profile_list_partial.html' %}
         {% else %}
-            <p class="text-danger">No profiles meet your criteria. Try some other criteria in the filters!</p>
+            <p class="text-secondary text-center">No profiles meet your criteria. <br> Try some other criteria in the filters!</p>
         {% endif %}
     </section>
 </div>

@@ -22,7 +22,7 @@ urlpatterns = [
         name="comment_create",
     ),
     path(
-        "comment/<int:pk>/delete",
+        "<int:pk>/comment/delete",
         CommentDeleteView.as_view(),
         name="comment_delete",
     ),
