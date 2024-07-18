@@ -8,7 +8,7 @@ from .models import OpenMic, Comment
 import folium
 from .utils import extract_lat_lng_from_url
 from .forms import CommentCreateForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from .filters import OpenMicFilter
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -31,13 +31,44 @@ def openmic_list(request):
     else:
         openmics = f.qs
 
+    paginator = Paginator(openmics, settings.PAGE_SIZE)
+    openmics_page = paginator.page(1)  # default to 1 when this view is triggered
+
     context = {
         "form": f.form,
-        "openmics": openmics,
+        "openmics": openmics_page,
         "openmics_count": openmics.count,
         "has_filter": has_filter,
     }
     return render(request, "openmics/openmic_list.html", context)
+
+
+def get_openmics(request):
+    import time
+
+    time.sleep(2)
+
+    if not request.headers.get("HX-Request"):
+        raise Http404()
+
+    page = request.GET.get(
+        "page", 1
+    )  # ?page=2, then this will extract 2. If it doesn't, then default to 1
+
+    f = OpenMicFilter(
+        request.GET, queryset=OpenMic.objects.all().order_by("-last_updated")
+    )
+    has_filter = any(field in request.GET for field in set(f.get_fields()))
+
+    if not has_filter:
+        openmics = OpenMic.objects.all().order_by("-last_updated")
+    else:
+        openmics = f.qs
+
+    paginator = Paginator(openmics, settings.PAGE_SIZE)
+    context = {"openmics": paginator.page(page)}
+
+    return render(request, "openmics/openmic_list_partial.html#openmics_list", context)
 
 
 class OpenMicDetailView(DetailView):

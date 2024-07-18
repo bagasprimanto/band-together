@@ -3,7 +3,16 @@
 
 {% partialdef openmics_list inline=True %}
     {% for openmic in openmics %}
+        {% if forloop.last and openmics.has_next %}
+        <div class="ad-container card d-flex mb-3"
+        hx-get="{% url 'openmics:get_openmics' %}?page={{ openmics.next_page_number }}"
+        hx-trigger="revealed"
+        hx-swap="afterend"
+        hx-include="#filter-form"
+        hx-indicator="#spinner">
+        {% else %}
         <div class="ad-container card d-flex mb-3">
+        {% endif %}
             <div class="row card-body">
                 <div class="col-xl-10 col-12 d-flex flex-column">
                     <div class="flex-grow-1 mb-2">
@@ -47,3 +56,8 @@
         </div>
     {% endfor %}
 {% endpartialdef %}
+
+<!-- Loading Spinner -->
+<div id="spinner" class="w-100 htmx-indicator text-center" >
+    <span class="spinner-border text-secondary" role="status"></span>
+</div>
