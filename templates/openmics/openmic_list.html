@@ -53,6 +53,8 @@
                 </label>
                 {{ form.free|as_crispy_field }}
 
+                {{ form.order_by|as_crispy_field }}
+
                 <button type="submit" class="btn btn-primary">Filter</button>
                 {% if has_filter %}
                 <a href="{% url 'openmics:openmic_list' %}" class="btn btn-secondary ms-1">Clear all
