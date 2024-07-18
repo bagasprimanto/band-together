@@ -27,8 +27,8 @@
                         href="{% url 'advertisements:advertisement_list' %}">Browse Ads</a>
                     </li>
                     <li class="nav-item">
-                        <a {% if "/open-mic/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
-                        href="#">Open Mics</a>
+                        <a {% if "/openmics/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                        href="{% url 'openmics:openmic_list' %}">Open Mics</a>
                     </li>
             </ul>
 

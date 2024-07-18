@@ -10,18 +10,25 @@
 {% block content %}
 <div class="container p-5 dl">
     <h1 class="fw-bold">Advertisements List</h1>
-    <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
+    <div class="d-flex flex-wrap justify-content-between">
+        <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
+        {% if user.is_authenticated and user.profile%}
+            <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
+                Create Ad
+            </a>
+        {% endif %}
+    </div>
     <hr />
     <div class="d-flex justify-content-between">
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
-        aria-controls="offcanvasAdvertisementFilter">
-        Show filters
-    </a>
-    {% if user.is_authenticated and user.profile%}
-    <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
-        Create Ad
-    </a>
-    {% endif %}
+        <div class="d-flex justify-content-start align-items-center">
+            <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
+                aria-controls="offcanvasAdvertisementFilter">
+                Show filters
+            </a>
+            <p class="text-secondary fs-5 mb-0">
+                ({{ ads_count }} adverts)
+            </p>
+        </div>
     </div>
 
     <!-- Offcanvas for Advertisement Filters -->
@@ -78,7 +85,7 @@
         {% if ads %}
             {% include 'advertisements/advertisement_list_partial.html' %}
         {% else %}
-        <p class=" text-danger">No ads meet your criteria. Try some other criteria in the filters!</p>
+        <p class=" text-secondary">No ads meet your criteria. Try some other criteria in the filters!</p>
         {% endif %}
     </section>
 </div>

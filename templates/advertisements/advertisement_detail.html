@@ -14,8 +14,8 @@
 
         <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
             <div class="author-info row d-flex flex-nowrap col-7">
-                {% if ad.author.profile_picture %}
                 <div class="profile-picture">
+                    {% if ad.author.profile_picture %}
                     <img src="{{ ad.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
                     {% else %}
                     <img src="{% static 'images/profile_pic_default.jpg' %}" alt="Author profile picture"
@@ -33,17 +33,17 @@
                 </div>
             </div>
             <div
-                class="col-sm-3 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+                class="col-lg-3 col-md-3 col-sm-4 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
                 {% if user.profile == ad.author %}
-                <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
-                    class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
-                <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
-                    data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
+                    <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
+                        class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
+                    <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
+                        data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
-                {% if user.is_authenticated and user.profile %}
-                <a href="#" class="edit-button btn btn-secondary col-12 me-xl-1 me-lg-0 me-sm-0 me-1">Bookmark</a>
-                {% endif%}
-                <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+                    {% if user.is_authenticated and user.profile %}
+                        <a href="#" class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Bookmark</a>
+                    {% endif%}
+                    <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
                 {% endif %}
             </div>
         </section>
