@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "openmics.apps.OpenmicsConfig",
     "pages.apps.PagesConfig",
     "profiles.apps.ProfilesConfig",
+    "bookmarks.apps.BookmarksConfig",
 ]
 
 MIDDLEWARE = [
