@@ -48,6 +48,11 @@
                     </div>
                 </div>
 
+                <label for="id_order_by" class="form-label">
+                    Advanced Filters:
+                </label>
+                {{ form.free|as_crispy_field }}
+
                 <button type="submit" class="btn btn-primary">Filter</button>
                 {% if has_filter %}
                 <a href="{% url 'openmics:openmic_list' %}" class="btn btn-secondary ms-1">Clear all
