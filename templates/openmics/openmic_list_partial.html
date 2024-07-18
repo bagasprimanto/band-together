@@ -16,9 +16,12 @@
                         </a>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <p class="card-text">
+                        <p class="card-text d-flex flex-column justify-content-center">
                             <small class="text-body-secondary">
                                 {{ openmic.location }}
+                            </small>
+                            <small class="text-body-secondary">
+                                {{ openmic.event_date|date:"d F o" }} <br> {{ openmic.start_time|date:"H:i" }} - {{ openmic.end_time|date:"H:i" }} BST
                             </small>
                         </p>
                         <p class="card-text">
