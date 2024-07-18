@@ -70,6 +70,7 @@ def profile_list(request):
     context = {
         "form": f.form,
         "profiles": profiles_page,
+        "profiles_count": profiles.count,
         "has_filter": has_filter,
     }
 
