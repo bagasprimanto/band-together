@@ -37,13 +37,13 @@
                     <span class="fw-bold">Age</span> - {{ profile.age }} years old
                 </p>
                 {% endif %}
-                {% if user.is_authenticated %}
-                {% if user == profile.user %}
-                <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
-                {% else %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
-                <a class="btn btn-secondary" href="#">Bookmark</a>
-                {% endif %}
+                {% if user.is_authenticated and user.profile %}
+                    {% if user == profile.user %}
+                    <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
+                    {% else %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
+                    <a class="btn btn-secondary" href="#">Bookmark</a>
+                    {% endif %}
                 {% endif %}
             </section>
 
