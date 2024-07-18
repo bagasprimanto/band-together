@@ -3,6 +3,10 @@
 {% load static %}
 {% block title %}Open Mic Detail - BandTogether {% endblock title %}
 
+{% block additional_folium %}
+{{map.header.render|safe}}
+{% endblock additional_folium %}
+
 {% block additional_css %}
 <link rel="stylesheet" href="{% static './css/openmics/openmic_detail.css' %}">
 {% endblock additional_css %}
@@ -46,11 +50,70 @@
         </section>
 
         <section>
-            <h5>Location</h5>
-            <p class="location text-secondary">
-                {{ openmic.location }}
-            </p>
+            <h5>Event Date and Time</h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="location text-secondary ">
+                    {{ openmic.event_date|date:"d F o" }}, {{ openmic.start_time|date:"H:i" }} - {{ openmic.end_time|date:"H:i" }} BST
+                </p>
+            </div>
         </section>
+
+        <section>
+            <h5>Location</h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="location text-secondary">
+                    {{ openmic.address }} <br>
+                    {{ openmic.location }}
+                </p>
+                {% if openmic.google_maps_link %}
+                    <a href="{{ openmic.google_maps_link }}"
+                        class="btn btn-outline-primary"
+                        target="_blank">
+                        View in Google Maps
+                    </a>
+                {% endif %}
+            </div>
+            {% if map %}
+                <div>
+                    <h5>
+                        Venue Location on Map
+                    </h5>
+                    <div class="col-xl-6 col-12">
+                        {{ map|safe }}
+                    </p>
+                </div>
+            {% endif %}
+            {% if error %}
+                <p>{{ error }}</p>
+            {% endif %}
+        </section>
+
+        {% if openmic.venue_phone_number %}
+        <section>
+            <h5>Venue Phone</h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="location text-secondary">
+                    {{ openmic.venue_phone_number }}
+                </p>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Entry Fee -->
+        {% if openmic.entry_fee is not None %}
+        <section>
+            <h5>Entry Fee</h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="location text-secondary">
+                    {% if openmic.entry_fee > 0 %}
+                        £{{ openmic.entry_fee }}
+                    {% else %}
+                        Free
+                    {% endif %}
+                </p>
+            </div>
+        </section>
+        {% endif %}
 
         <!-- Genres -->
         {% if openmic.genres.all %}
@@ -64,8 +127,54 @@
         </section>
         {% endif %}
 
+        <!-- Social Media Links -->
+        {% if openmic.personal_website_social_link or openmic.facebook_social_link or openmic.youtube_social_link or openmic.instagram_social_link %}
+        <section class="social-media-links mb-5">
+            <h5>Social Media Links</h5>
+            <div class="social-media-links-list d-flex flex-wrap col-12">
+
+                {% if openmic.personal_website_social_link %}
+                <div class="social-media-link-group">
+                    <a href="{{ openmic.personal_website_social_link }}" target="_blank">
+                        <img class="social-media-link" src="{% static 'images/globe-language-svgrepo-com.svg' %}"
+                            alt="Personal website globe icon">
+                    </a>
+                </div>
+                {% endif %}
+
+                {% if openmic.facebook_social_link %}
+                <div class="social-media-link-group">
+                    <a href="{{ openmic.facebook_social_link }}" target="_blank">
+                        <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                            alt="Facebook icon">
+                    </a>
+                </div>
+                {% endif %}
+
+                {% if openmic.youtube_social_link %}
+                <div class="social-media-link-group">
+                    <a href="{{ openmic.youtube_social_link }}" target="_blank">
+                        <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                            alt="Youtube icon">
+                    </a>
+                </div>
+                {% endif %}
+
+                {% if openmic.instagram_social_link %}
+                <div class="social-media-link-group">
+                    <a href="{{ openmic.instagram_social_link }}" target="_blank">
+                        <img class="social-media-link"
+                            src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                            alt="Instagram icon">
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
         {% if user.is_authenticated and user.profile %}
-        <section class="d-flex justify-content-between align-items-center mb-5">
+        <section class="d-flex justify-content-between align-items-center mb-2">
             <div>
                 <h2 class="fw-semibold mb-0">
                     Interested?
@@ -84,3 +193,9 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block additional_js %}
+<script>
+    {{map.script.render|safe}}
+</script>
+{% endblock additional_js %}

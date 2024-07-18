@@ -51,3 +51,20 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+/* Social links */
+
+.social-media-link-group {
+    width: 35px;
+    margin-right: 16px;
+    transition: 200ms;
+}
+
+.social-media-link-group:hover {
+    filter: brightness(75%);
+    transform: scale(1.05);
+}
+
+img.social-media-link {
+    width: 100%;
+}
