@@ -69,6 +69,13 @@
             const toast = new bootstrap.Toast(toastElement)
             toast.show()
         }
+
+        // Initialize HTMX on dynamically added content
+        document.body.addEventListener('htmx:afterSwap', function (event) {
+            if (event.detail.target.id === 'bookmark-button') {
+                htmx.process(document.querySelector('#bookmark-button'));
+            }
+        });
     </script>
     {% block additional_js %}
     {% endblock additional_js %}

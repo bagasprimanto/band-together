@@ -1,6 +1,5 @@
 {% extends "_base.html" %}
 {% load static %}
-{% load bookmark_filters %}
 {% block title %}Profile Detail - BandTogether{% endblock title %}
 
 {% block additional_css %}
@@ -43,9 +42,7 @@
                     <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
                     {% else %}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
-                    <div id="bookmark-button" class="d-inline-block">
-                        {% include 'bookmarks/bookmark_button.html' with object=profile is_bookmarked=is_bookmarked bookmark=bookmark %}
-                    </div>
+                    {% include 'bookmarks/bookmark_button.html' with object=profile is_bookmarked=is_bookmarked bookmark=bookmark %}
                     {% endif %}
                 {% endif %}
             </section>
@@ -119,28 +116,6 @@
                 var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
                 createMessageModal.hide();
             });
-        }
-    });
-
-    // Handle HTMX afterRequest event to update the bookmark button and display messages
-    document.body.addEventListener('htmx:afterRequest', function(event) {
-        var response = JSON.parse(event.detail.xhr.responseText);
-        if (response.html) {
-            document.querySelector('#bookmark-button').innerHTML = response.html;
-        }
-        if (response.messages) {
-            document.querySelector('.toast-container').innerHTML = response.messages;
-            var toastElements = [].slice.call(document.querySelectorAll('.toast'));
-            var toastList = toastElements.map(function (toastEl) {
-                return new bootstrap.Toast(toastEl).show();
-            });
-        }
-    });
-
-    // Initialize HTMX on dynamically added content
-    document.body.addEventListener('htmx:afterSwap', function(event) {
-        if (event.detail.target.id === 'bookmark-button') {
-            htmx.process(document.querySelector('#bookmark-button'));
         }
     });
 </script>
