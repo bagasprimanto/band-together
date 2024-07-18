@@ -37,6 +37,7 @@ def advertisement_list(request):
     context = {
         "form": f.form,
         "ads": advertisements_page,
+        "ads_count": advertisements.count,
         "has_filter": has_filter,
     }
     return render(request, "advertisements/advertisement_list.html", context)
