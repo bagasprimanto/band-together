@@ -44,9 +44,6 @@ def openmic_list(request):
 
 
 def get_openmics(request):
-    import time
-
-    time.sleep(2)
 
     if not request.headers.get("HX-Request"):
         raise Http404()
