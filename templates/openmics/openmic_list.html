@@ -12,12 +12,50 @@
     <h1 class="fw-bold">Open Mics List</h1>
     <h2 class="fw-normal h4 text-secondary">Discover the latest Open Mic events in your area!</h2>
     <hr />
-    <div class="d-flex justify-content-between">
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
-        aria-controls="offcanvasAdvertisementFilter">
-        Show filters
-    </a>
-</div>
+    <div class="d-flex justify-content-start align-items-center">
+        <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasOpenMicFilter" role="button"
+            aria-controls="offcanvasOpenMicFilter">
+            Show filters
+        </a>
+        <p class="text-secondary fs-5 mb-0">
+            ({{ openmics_count }} open mics)
+        </p>
+    </div>
+
+    <!-- Offcanvas for OpenMic Filters -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOpenMicFilter"
+        aria-labelledby="offcanvasOpenMicFilterLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasOpenMicFilterLabel">Advertisement Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form method="get" action="{% url 'openmics:openmic_list' %}" id="filter-form">
+                {{ form.title|as_crispy_field }}
+                {{ form.location|as_crispy_field }}
+
+                <div class="form-group mb-2">
+                    {{ form.genres.label_tag }}
+                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                        {% for checkbox in form.genres %}
+                        <div class="form-check d-flex gx-2">
+                            {{ checkbox.tag }}
+                            <div class="ms-1">
+                                {{ checkbox.choice_label }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filter</button>
+                {% if has_filter %}
+                <a href="{% url 'openmics:openmic_list' %}" class="btn btn-secondary ms-1">Clear all
+                    filters</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 
 
     <section class="ad-list mt-3">

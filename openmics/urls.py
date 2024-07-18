@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    OpenMicListView,
+    openmic_list,
     OpenMicDetailView,
     CommentCreateView,
     CommentDeleteView,
@@ -8,7 +8,7 @@ from .views import (
 
 app_name = "openmics"
 urlpatterns = [
-    path("", OpenMicListView.as_view(), name="openmic_list"),
+    path("", openmic_list, name="openmic_list"),
     path("<int:pk>/", OpenMicDetailView.as_view(), name="openmic_detail"),
     path(
         "<int:pk>/comment/",

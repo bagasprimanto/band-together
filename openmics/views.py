@@ -9,12 +9,35 @@ import folium
 from .utils import extract_lat_lng_from_url
 from .forms import CommentCreateForm
 from django.http import HttpResponseRedirect
+from .filters import OpenMicFilter
+from django.conf import settings
+from django.core.paginator import Paginator
 
 
 class OpenMicListView(ListView):
     model = OpenMic
     context_object_name = "openmics"
     template_name = "openmics/openmicList.html"
+
+
+def openmic_list(request):
+    f = OpenMicFilter(
+        request.GET, queryset=OpenMic.objects.all().order_by("-last_updated")
+    )
+    has_filter = any(field in request.GET for field in set(f.get_fields()))
+
+    if not has_filter:
+        openmics = OpenMic.objects.all().order_by("-last_updated")
+    else:
+        openmics = f.qs
+
+    context = {
+        "form": f.form,
+        "openmics": openmics,
+        "openmics_count": openmics.count,
+        "has_filter": has_filter,
+    }
+    return render(request, "openmics/openmic_list.html", context)
 
 
 class OpenMicDetailView(DetailView):
