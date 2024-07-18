@@ -199,7 +199,7 @@
                 {% if user.is_authenticated %}
                     {% if user.profile %}
                         <p class="text-secondary">
-                            Not comfortable messaging them first? Post your questions here!
+                            Any questions about the open mic? Post your questions here!
                         </p>
                         <div class="mb-4">
                             <form method="post" action="{% url 'openmics:comment_create' openmic.pk %}">
