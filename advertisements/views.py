@@ -161,10 +161,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         comment = self.get_object()
-        return (
-            self.request.user.profile == comment.author
-            or self.request.user.is_superuser
-        )
+        return self.request.user.profile == comment.author
 
 
 class AdvertisementEditView(
