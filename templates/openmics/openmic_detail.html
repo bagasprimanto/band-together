@@ -187,7 +187,7 @@
                         </a>
                     </p>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Bookmark</button>
+                {% include 'bookmarks/bookmark_button_detail.html' with object=openmic is_bookmarked=is_bookmarked bookmark=bookmark %}
             </section>
             {% endif %}
 

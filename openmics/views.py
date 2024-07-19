@@ -77,7 +77,7 @@ def get_openmics(request):
     return render(request, "openmics/openmic_list_partial.html#openmics_list", context)
 
 
-class OpenMicDetailView(DetailView):
+class OpenMicDetailView(BookmarkSingleObjectMixin, DetailView):
     model = OpenMic
     context_object_name = "openmic"
     template_name = "openmics/openmic_detail.html"
@@ -113,6 +113,12 @@ class OpenMicDetailView(DetailView):
         context["comments"] = Comment.objects.filter(parent_openmic=openmic).order_by(
             "-created"
         )
+
+        # Get bookmark context for Open Mic
+        bookmark_context = self.get_single_bookmark_context(
+            self.request.user, self.get_object()
+        )
+        context.update(bookmark_context)
 
         return context
 
