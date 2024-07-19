@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, Http404
 from .filters import OpenMicFilter
 from django.conf import settings
 from django.core.paginator import Paginator
+from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
 
 
 class OpenMicListView(ListView):
@@ -39,6 +40,11 @@ def openmic_list(request):
         "openmics_count": openmics.count,
         "has_filter": has_filter,
     }
+
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(request.user, openmics)
+    context.update(bookmark_context)
+
     return render(request, "openmics/openmic_list.html", context)
 
 
@@ -63,6 +69,10 @@ def get_openmics(request):
 
     paginator = Paginator(openmics, settings.PAGE_SIZE)
     context = {"openmics": paginator.page(page)}
+
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(request.user, openmics)
+    context.update(bookmark_context)
 
     return render(request, "openmics/openmic_list_partial.html#openmics_list", context)
 
