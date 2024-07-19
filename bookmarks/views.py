@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,13 +41,8 @@ class CreateBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
             html = render_to_string(
                 "bookmarks/bookmark_button.html", context, request=request
             )
-            message_list = [
-                {"message": message.message, "tags": message.tags}
-                for message in messages.get_messages(request)
-            ]
-            return HttpResponse(
-                html, headers={"HX-Trigger": json.dumps({"messages": message_list})}
-            )
+
+            return HttpResponse(html)
 
         return redirect(model.get_absolute_url())
 
@@ -71,13 +65,8 @@ class DeleteBookmarkView(LoginRequiredMixin, View):
             html = render_to_string(
                 "bookmarks/bookmark_button.html", context, request=request
             )
-            message_list = [
-                {"message": message.message, "tags": message.tags}
-                for message in messages.get_messages(request)
-            ]
-            return HttpResponse(
-                html, headers={"HX-Trigger": json.dumps({"messages": message_list})}
-            )
+
+            return HttpResponse(html)
 
         return redirect(model.get_absolute_url())
 
