@@ -30,17 +30,28 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100 w-100">
-    <!-- Messages -->
+    <!-- Messages rendered -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
         {% for message in messages %}
-        <div class="toast align-items-center border-0 {{ message.tags }}" aria-live="assertive" aria-atomic="true"
-            role="alert">
+        <div class="toast toast-beginning align-items-center border-0 {{ message.tags }}" aria-live="assertive"
+            aria-atomic="true" role="alert">
             <div class="d-flex">
                 <div class="toast-body">{{ message | safe }}</div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
         {% endfor %}
+    </div>
+
+    <!-- Messages rendered after the page is loaded-->
+    <div data-toast-container class="toast-container position-fixed top-0 end-0 p-3">
+        <div data-toast-template class="toast toast-later align-items-center border-0" aria-live="assertive"
+            aria-atomic="true" role="alert">
+            <div class="d-flex">
+                <div data-toast-body class="toast-body"></div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
     </div>
 
     <!-- Nav bar -->
@@ -64,7 +75,8 @@
     <!-- JS -->
     <script src="{% static 'js/base.js' %}"></script>
     <script>
-        const toastElements = document.getElementsByClassName('toast', { delay: 2000 })
+        // For displaying the toast that is rendered ON page load (e.g. sign out, sign in)
+        const toastElements = document.getElementsByClassName('toast-beginning', { delay: 2000 })
         for (const toastElement of toastElements) {
             const toast = new bootstrap.Toast(toastElement)
             toast.show()
@@ -72,8 +84,8 @@
 
         // Initialize HTMX on dynamically added content
         document.body.addEventListener('htmx:afterSwap', function (event) {
-            if (event.detail.target.id === 'bookmark-button') {
-                htmx.process(document.querySelector('#bookmark-button'));
+            if (event.detail.target.classList.contains('bookmark-button')) {
+                htmx.process(document.querySelectorAll('.bookmark-button'));
             }
         });
     </script>
