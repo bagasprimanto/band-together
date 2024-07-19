@@ -87,11 +87,6 @@ class DeleteDetailBookmarkView(LoginRequiredMixin, View):
         return redirect(model.get_absolute_url())
 
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-
 class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         app_label = kwargs.get("app_label")
@@ -118,8 +113,6 @@ class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
                 "bookmarked_objects": {bookmark.object_id: bookmark},
                 "messages": get_messages(request),
             }
-
-            logger.debug(f"Create List Bookmark Context: {context}")
 
             html = render_to_string(
                 "bookmarks/bookmark_button_list.html", context, request=request
