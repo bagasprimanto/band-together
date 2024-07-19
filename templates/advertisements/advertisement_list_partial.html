@@ -47,8 +47,7 @@
                         {% else %}
                         {% if user.is_authenticated and user.profile %}
                         <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
-                            <a href="#"
-                                class="btn btn-outline-secondary w-100">Bookmark</a>
+                            {% include 'bookmarks/bookmark_button.html' with object=ad is_bookmarked=is_bookmarked bookmark=bookmark %}
                         </div>
                         {% endif %}
                         <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">

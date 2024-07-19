@@ -1,15 +1,15 @@
 {% load bookmark_filters %}
 
-<div id="bookmark-button" class="d-inline-block">
+<div id="bookmark-button-{{ object.id }}" class="bookmark-button d-inline-block {% if "/profiles/" in request.path %} {% else %} w-100 {% endif %}">
     {% if is_bookmarked %}
-    <form class="d-inline-block" method="post" hx-post="{% url 'bookmarks:bookmark_delete' bookmark.id %}" hx-target="#bookmark-button" hx-swap="innerHTML">
+    <form method="post" hx-post="{% url 'bookmarks:bookmark_delete' bookmark.id %}" hx-target="#bookmark-button-{{ object.id }}" hx-swap="innerHTML">
         {% csrf_token %}
-        <button type="submit" class="btn btn-outline-secondary">Bookmarked</button>
+        <button type="submit" class="btn btn-outline-secondary {% if "/profiles/" in request.path %} {% else %} w-100 {% endif %}">Bookmarked</button>
     </form>
     {% else %}
-    <form class="d-inline-block" method="post" hx-post="{% url 'bookmarks:bookmark_create' object|app_label object|model_name object.id %}" hx-target="#bookmark-button" hx-swap="innerHTML">
+    <form method="post" hx-post="{% url 'bookmarks:bookmark_create' object|app_label object|model_name object.id %}" hx-target="#bookmark-button-{{ object.id }}" hx-swap="innerHTML">
         {% csrf_token %}
-        <button type="submit" class="btn btn-secondary">Bookmark</button>
+        <button type="submit" class="btn btn-secondary {% if "/profiles/" in request.path %} {% else %} w-100 {% endif %}">Bookmark</button>
     </form>
     {% endif %}
 </div>
