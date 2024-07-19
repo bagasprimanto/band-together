@@ -18,6 +18,7 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.conf import settings
+from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
 
 
 def advertisement_list(request):
@@ -40,10 +41,20 @@ def advertisement_list(request):
         "ads_count": advertisements.count,
         "has_filter": has_filter,
     }
+
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(
+        request.user, advertisements
+    )
+    context.update(bookmark_context)
+
     return render(request, "advertisements/advertisement_list.html", context)
 
 
 def get_advertisements(request):
+    import time
+
+    time.sleep(2)
 
     if not request.headers.get("HX-Request"):
         raise Http404()
@@ -73,6 +84,12 @@ def get_advertisements(request):
     paginator = Paginator(advertisements, settings.PAGE_SIZE)
     context = {"ads": paginator.page(page)}
 
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(
+        request.user, advertisements
+    )
+    context.update(bookmark_context)
+
     return render(
         request,
         "advertisements/advertisement_list_partial.html#advertisements_list",
@@ -100,7 +117,7 @@ class AdvertisementCreateView(
         )
 
 
-class AdvertisementDetailView(DetailView):
+class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
     model = Advertisement
     template_name = "advertisements/advertisement_detail.html"
     context_object_name = "ad"
@@ -113,6 +130,12 @@ class AdvertisementDetailView(DetailView):
         context["comments"] = Comment.objects.filter(
             parent_advertisement=advertisement
         ).order_by("-created")
+
+        # Get bookmark context for Advertisement
+        bookmark_context = self.get_single_bookmark_context(
+            self.request.user, self.get_object()
+        )
+        context.update(bookmark_context)
         return context
 
 

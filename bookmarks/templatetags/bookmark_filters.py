@@ -11,3 +11,8 @@ def app_label(value):
 @register.filter
 def model_name(value):
     return value._meta.model_name
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

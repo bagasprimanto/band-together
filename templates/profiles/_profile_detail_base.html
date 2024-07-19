@@ -42,7 +42,7 @@
                     <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
                     {% else %}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
-                    {% include 'bookmarks/bookmark_button.html' with object=profile is_bookmarked=is_bookmarked bookmark=bookmark %}
+                    {% include 'bookmarks/bookmark_button_detail.html' with object=profile is_bookmarked=is_bookmarked bookmark=bookmark %}
                     {% endif %}
                 {% endif %}
             </section>
