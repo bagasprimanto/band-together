@@ -1,0 +1,48 @@
+{% load static %}
+{% load partials %}
+
+{% partialdef openmics_list inline=True %}
+    {% for openmic in openmics %}
+        <div class="ad-container card d-flex mb-3">
+            <div class="row card-body">
+                <div class="col-xl-10 col-12 d-flex flex-column">
+                    <div class="flex-grow-1 mb-2">
+                        <a href="{% url 'openmics:openmic_detail' openmic.pk %}"
+                            class="text-reset text-decoration-none">
+                            <h5 class="card-title ad-link fw-bold custom-truncate-title">
+                                {{ openmic.title }}
+                            </h5>
+                            <p class="card-text text-secondary custom-truncate-body">{{ openmic.description }}</p>
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text d-flex flex-column justify-content-center">
+                            <small class="text-body-secondary">
+                                {{ openmic.location }}
+                            </small>
+                            <small class="text-body-secondary">
+                                {{ openmic.event_date|date:"d F o" }} <br> {{ openmic.start_time|date:"H:i" }} - {{ openmic.end_time|date:"H:i" }} BST
+                            </small>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-body-secondary">
+                                Updated {{ openmic.last_updated|timesince }} ago
+                            </small>
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="col-xl-2 col-12 d-flex flex-xl-column flex-row justify-content-xl-start text-xl-center text-start">
+                    {% if user.is_authenticated and user.profile %}
+                    <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
+                        {% include 'bookmarks/bookmark_button_list.html' with object=openmic %}
+                    </div>
+                    {% endif %}
+                    <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">
+                        <button href="" class="btn btn-danger w-100">Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endpartialdef %}

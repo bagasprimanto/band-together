@@ -165,28 +165,24 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
 
 
 class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
-    model = Bookmark
+    model = Profile
     template_name = "bookmarks/bookmark_profile_list.html"
     context_object_name = "profiles"
 
     def get_queryset(self):
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_content_type = ContentType.objects.get_for_model(Profile)
-        return (
-            Bookmark.objects.filter(profile=profile, content_type=profile_content_type)
-            .prefetch_related("content_object")
-            .order_by("-created")
+        bookmarked_profile_ids = Bookmark.objects.filter(
+            profile=profile, content_type=profile_content_type
+        ).values_list("object_id", flat=True)
+        return Profile.objects.filter(id__in=bookmarked_profile_ids).order_by(
+            "-created"
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["profiles_count"] = self.get_queryset().count()
         return context
-
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class BookmarkAdvertisementListView(
