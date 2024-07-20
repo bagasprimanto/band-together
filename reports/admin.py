@@ -5,7 +5,7 @@ from .models import Report
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("profile", "object_title", "object_type", "description", "created")
+    list_display = ("object_title", "object_type", "description", "profile", "created")
     list_filter = ("object_type", "created")
     search_fields = ("object_title", "description", "profile__display_name")
     readonly_fields = (
