@@ -125,11 +125,6 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
         return context
 
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-
 class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView):
     model = Profile
     template_name = "profiles/profile_detail_ads.html"

@@ -16,18 +16,13 @@ class BookmarkMixin:
             bookmarks = Bookmark.objects.filter(
                 profile__user=user,
                 content_type=content_type,
-                object_id__in=[obj.id for obj in object_list],
+                object_id__in=object_list.values_list("id", flat=True),
             )
             bookmarked_objects = {
                 bookmark.object_id: bookmark for bookmark in bookmarks
             }
             context["bookmarked_objects"] = bookmarked_objects
         return context
-
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class BookmarkSingleObjectMixin:
@@ -42,6 +37,4 @@ class BookmarkSingleObjectMixin:
             ).first()
             context["is_bookmarked"] = bookmark is not None
             context["bookmark"] = bookmark
-
-            logger.debug(f"Bookmark context for object {obj.id}: {context}")
         return context

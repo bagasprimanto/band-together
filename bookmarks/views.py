@@ -8,6 +8,7 @@ from django.contrib import messages
 from .models import Bookmark
 from profiles.models import Profile
 from advertisements.models import Advertisement
+from .mixins import BookmarkMixin
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.contrib.messages import get_messages
@@ -183,23 +184,40 @@ class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView
         return context
 
 
-class BookmarkAdvertisementListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
-    model = Bookmark
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class BookmarkAdvertisementListView(
+    LoginRequiredMixin, ProfileRequiredMixin, BookmarkMixin, ListView
+):
+    model = Advertisement
     template_name = "bookmarks/bookmark_advertisement_list.html"
     context_object_name = "ads"
 
     def get_queryset(self):
         profile = get_object_or_404(Profile, user=self.request.user)
+
         advertisement_content_type = ContentType.objects.get_for_model(Advertisement)
-        return (
-            Bookmark.objects.filter(
-                profile=profile, content_type=advertisement_content_type
-            )
-            .prefetch_related("content_object")
-            .order_by("-created")
-        )
+
+        bookmarked_ads_ids = Bookmark.objects.filter(
+            profile=profile, content_type=advertisement_content_type
+        ).values_list("object_id", flat=True)
+
+        advertisements = Advertisement.objects.filter(
+            id__in=bookmarked_ads_ids
+        ).order_by("-created")
+
+        return advertisements
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ads_count"] = self.get_queryset().count()
+        queryset = self.get_queryset()
+        context["ads_count"] = queryset.count()
+
+        # Add bookmark context for the ads (list of objects)
+        ads_bookmark_context = self.get_bookmark_context(self.request.user, queryset)
+        context.update(ads_bookmark_context)
+
         return context
