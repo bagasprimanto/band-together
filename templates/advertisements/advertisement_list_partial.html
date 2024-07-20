@@ -45,15 +45,15 @@
                                 class="btn btn-secondary w-100">Edit Ad</a>
                         </div>
                         {% else %}
-                        {% if user.is_authenticated and user.profile %}
-                        <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
-                            {% include 'bookmarks/bookmark_button_list.html' with object=ad %}
-                        </div>
-                        {% endif %}
-                        <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">
-                            <button href="#" class="btn btn-danger w-100" data-ad-id="{{ ad.pk }}"
-                                data-ad-title="{{ ad.title }}">Report</button>
-                        </div>
+                            {% if user.is_authenticated and user.profile %}
+                            <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
+                                {% include 'bookmarks/bookmark_button_list.html' with object=ad %}
+                            </div>
+                            <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">
+                                <button href="#" class="btn btn-danger w-100" data-ad-id="{{ ad.pk }}"
+                                    data-ad-title="{{ ad.title }}">Report</button>
+                            </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
