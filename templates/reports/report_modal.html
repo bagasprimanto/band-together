@@ -1,0 +1,21 @@
+{% load static %}
+
+<!-- Report Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Report an Issue</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="reportFormContainer">
+                <!-- report_form.html -->
+                {% include 'reports/report_form.html' with app_label=app_label model_name=model_name object_id=object.id form=report_form %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block additional_js %}
+<script src="{% static 'js/reports/report_modal.js' %}"></script>
+{% endblock additional_js %}
