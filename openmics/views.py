@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.messages.views import SuccessMessageMixin
 from profiles.mixins import ProfileRequiredMixin
 from .models import OpenMic, Comment
 import folium
@@ -12,6 +11,7 @@ from django.http import HttpResponseRedirect, Http404
 from .filters import OpenMicFilter
 from django.conf import settings
 from django.core.paginator import Paginator
+from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
 
 
 class OpenMicListView(ListView):
@@ -40,6 +40,11 @@ def openmic_list(request):
         "openmics_count": openmics.count,
         "has_filter": has_filter,
     }
+
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(request.user, openmics)
+    context.update(bookmark_context)
+
     return render(request, "openmics/openmic_list.html", context)
 
 
@@ -65,10 +70,14 @@ def get_openmics(request):
     paginator = Paginator(openmics, settings.PAGE_SIZE)
     context = {"openmics": paginator.page(page)}
 
+    # Add bookmark context
+    bookmark_context = BookmarkMixin().get_bookmark_context(request.user, openmics)
+    context.update(bookmark_context)
+
     return render(request, "openmics/openmic_list_partial.html#openmics_list", context)
 
 
-class OpenMicDetailView(DetailView):
+class OpenMicDetailView(BookmarkSingleObjectMixin, DetailView):
     model = OpenMic
     context_object_name = "openmic"
     template_name = "openmics/openmic_detail.html"
@@ -76,6 +85,18 @@ class OpenMicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         openmic = self.get_object()
+
+        # Comments
+        context["comment_form"] = CommentCreateForm()
+        context["comments"] = Comment.objects.filter(parent_openmic=openmic).order_by(
+            "-created"
+        )
+
+        # Get bookmark context for Open Mic
+        bookmark_context = self.get_single_bookmark_context(
+            self.request.user, self.get_object()
+        )
+        context.update(bookmark_context)
 
         # Extract latitude and longitude from the Google Maps URL
         lat, lng = extract_lat_lng_from_url(openmic.google_maps_link)
@@ -98,12 +119,6 @@ class OpenMicDetailView(DetailView):
         # Render the map and add it to the context
         map_html = map._repr_html_()
         context["map"] = map_html
-
-        # Comments
-        context["comment_form"] = CommentCreateForm()
-        context["comments"] = Comment.objects.filter(parent_openmic=openmic).order_by(
-            "-created"
-        )
 
         return context
 

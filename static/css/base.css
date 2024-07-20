@@ -43,6 +43,11 @@ img.profile-dropdown {
     color: #fff !important;
 }
 
+/* Min height for the main body section */
+main {
+    min-height: 100vh !important;
+}
+
 body {
     padding-top: 56px;
 }

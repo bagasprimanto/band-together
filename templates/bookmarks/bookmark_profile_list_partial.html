@@ -1,0 +1,28 @@
+{% load static %}
+{% load partials %}
+
+{% partialdef bookmark_profiles_list inline=True %}
+    {% for profile in profiles %}
+        <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
+            <a href="{% url 'profiles:profile_detail' profile.slug %}" class="text-decoration-none text-reset link">
+                <div>
+                    {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="profile-picture"
+                        class="profile-picture rounded-circle img-fluid" width="150" height="150">
+                    {% else %}
+                    <img src="{% static 'images/profile_pic_default.jpg' %}" alt="profile-picture"
+                        class="profile-picture rounded-circle img-fluid" width="150" height="150">
+                    {% endif %}
+                </div>
+                <p class="display-name custom-truncate mb-0">
+                    {{ profile.display_name }}
+                </p>
+                <p class="mb-0">
+                    <small class="type-country custom-truncate text-secondary">
+                    {{ profile.profile_type }}, {{ profile.location.country }}
+                    </small>    
+                </p>
+            </a>
+        </div>
+    {% endfor %}
+{% endpartialdef %}

@@ -13,7 +13,7 @@
         <h1 class="fw-bold display-4">{{ ad.title }}</h1>
 
         <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
-            <div class="author-info row d-flex flex-nowrap col-7">
+            <div class="author-info row d-flex flex-nowrap fit-content">
                 <div class="profile-picture">
                     {% if ad.author.profile_picture %}
                     <img src="{{ ad.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
@@ -33,17 +33,19 @@
                 </div>
             </div>
             <div
-                class="col-lg-3 col-md-3 col-sm-4 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+                class="col-lg-3 col-12 mt-2 d-flex flex-md-row flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
                 {% if user.profile == ad.author %}
-                    <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
-                        class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
-                    <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
-                        data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
+                <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
+                    class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
+                <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
+                    data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
-                    {% if user.is_authenticated and user.profile %}
-                        <a href="#" class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Bookmark</a>
-                    {% endif%}
-                    <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+                {% if user.is_authenticated and user.profile %}
+                <div class="me-1">
+                    {% include 'bookmarks/bookmark_button_detail.html' with object=ad is_bookmarked=is_bookmarked bookmark=bookmark %}
+                </div>
+                {% endif%}
+                <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
                 {% endif %}
             </div>
         </section>
@@ -100,7 +102,8 @@
                     </a>
                 </p>
             </div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#createMessageModal">Message</button>
         </section>
         {% endif %}
 
@@ -109,22 +112,24 @@
                 Comments
             </h2>
             {% if user.is_authenticated %}
-                {% if user.profile %}
-                    <p class="text-secondary">
-                        Not comfortable messaging them first? Post your questions here!
-                    </p>
-                    <div class="mb-4">
-                        <form method="post" action="{% url 'advertisements:comment_create' ad.pk %}">
-                            {% csrf_token %}
-                            {{ comment_form|crispy }}
-                            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                {% else %}
-                    <p>Create a profile to post a comment! <a href="{% url 'profiles:profile_new' %}"class="btn btn-primary ms-2">Create Profile</a></p>
-                {% endif %}
+            {% if user.profile %}
+            <p class="text-secondary">
+                Not comfortable messaging them first? Post your questions here!
+            </p>
+            <div class="mb-4">
+                <form method="post" action="{% url 'advertisements:comment_create' ad.pk %}">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
             {% else %}
-                <p>Sign in to post a comment! <a href="{% url 'account_login' %}"class="btn btn-primary ms-2">Sign In</a></p>
+            <p>Create a profile to post a comment! <a href="{% url 'profiles:profile_new' %}"
+                    class="btn btn-primary ms-2">Create Profile</a></p>
+            {% endif %}
+            {% else %}
+            <p>Sign in to post a comment! <a href="{% url 'account_login' %}" class="btn btn-primary ms-2">Sign In</a>
+            </p>
             {% endif %}
 
             {% if comments %}
@@ -155,12 +160,12 @@
                                 |
                                 <a href="#" class="profile-link text-reset text-decoration-none" data-bs-toggle="modal"
                                     data-bs-target="#deleteCommentModal"
-                                    data-comment-delete-url="{% url 'advertisements:comment_delete' comment.pk %}" 
-                                    {% if comment.author.profile_picture %}
+                                    data-comment-delete-url="{% url 'advertisements:comment_delete' comment.pk %}"
+                                     {% if comment.author.profile_picture %}
                                     data-comment-author-image-url="{{ comment.author.profile_picture.url }}" 
-                                    {% else %} 
-                                    data-comment-author-image-url="{% static './images/profile_pic_default.jpg' %}"
-                                    {% endif %} 
+                                    {% else %}
+                                    data-comment-author-image-url="{% static './images/profile_pic_default.jpg' %}" 
+                                    {% endif %}
                                     data-comment-author-url="{% url 'profiles:profile_detail' comment.author.slug %}"
                                     data-comment-author-display-name="{{ comment.author.display_name }}"
                                     data-comment-created="{{ comment.created|timesince }}"
@@ -218,8 +223,8 @@
                 <div class="modal-body p-4">
                     <div class="d-flex gx-1 align-items-center mb-3">
                         <div>
-                            <img src="" alt="Author profile picture" width="40" height="40" class="rounded-circle object-fit-cover"
-                                id="modal-comment-author-picture">
+                            <img src="" alt="Author profile picture" width="40" height="40"
+                                class="rounded-circle object-fit-cover" id="modal-comment-author-picture">
                         </div>
                         <div class="ms-2 align-items-center">
                             <div>

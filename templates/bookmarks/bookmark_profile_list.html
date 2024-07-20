@@ -1,0 +1,22 @@
+{% extends "bookmarks/_bookmark_list_base.html" %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_list.css' %}">
+{% endblock additional_css %}
+
+{% block bookmark_list %}
+    <div class="d-flex justify-content-start align-items-center">
+        <p class="text-secondary fs-5 mb-0">
+            ({{ profiles_count }} profiles)
+        </p>
+    </div>
+
+    <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-2">
+        {% if profiles %}
+            {% include 'bookmarks/bookmark_profile_list_partial.html' %}
+        {% else %}
+            <p class="text-secondary text-center">You don't have any bookmarked profiles yet!</p>
+        {% endif %}
+    </section>
+{% endblock bookmark_list %}
