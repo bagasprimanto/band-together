@@ -38,20 +38,16 @@
                         </div>
                     </div>
                     <div
-                        class="col-xl-2 col-12 d-flex flex-xl-column flex-row justify-content-xl-start text-xl-center text-start">
+                        class="col-xl-2 col-12 d-flex flex-xl-column flex-row justify-content-xl-start text-center">
                         {% if user.profile == ad.author %}
-                        <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
+                        <div class="mb-1">
                             <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
-                                class="btn btn-secondary w-100">Edit Ad</a>
+                                class="btn btn-outline-primary w-100">Edit Ad</a>
                         </div>
                         {% else %}
                             {% if user.is_authenticated and user.profile %}
-                            <div class="mb-1 col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5 me-xl-0 me-1">
+                            <div class="mb-1">
                                 {% include 'bookmarks/bookmark_button_list.html' with object=ad %}
-                            </div>
-                            <div class="col-xl-12 col-lg-2 col-md-3 col-sm-4 col-5">
-                                <button href="#" class="btn btn-danger w-100" data-ad-id="{{ ad.pk }}"
-                                    data-ad-title="{{ ad.title }}">Report</button>
                             </div>
                             {% endif %}
                         {% endif %}
