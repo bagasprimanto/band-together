@@ -171,7 +171,7 @@ class BookmarkProfilesListView(LoginRequiredMixin, ProfileRequiredMixin, ListVie
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_content_type = ContentType.objects.get_for_model(Profile)
         return (
-            Bookmark.objects.filter(content_type=profile_content_type)
+            Bookmark.objects.filter(profile=profile, content_type=profile_content_type)
             .prefetch_related("content_object")
             .order_by("-created")
         )
