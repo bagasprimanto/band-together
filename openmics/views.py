@@ -86,6 +86,18 @@ class OpenMicDetailView(BookmarkSingleObjectMixin, DetailView):
         context = super().get_context_data(**kwargs)
         openmic = self.get_object()
 
+        # Comments
+        context["comment_form"] = CommentCreateForm()
+        context["comments"] = Comment.objects.filter(parent_openmic=openmic).order_by(
+            "-created"
+        )
+
+        # Get bookmark context for Open Mic
+        bookmark_context = self.get_single_bookmark_context(
+            self.request.user, self.get_object()
+        )
+        context.update(bookmark_context)
+
         # Extract latitude and longitude from the Google Maps URL
         lat, lng = extract_lat_lng_from_url(openmic.google_maps_link)
 
@@ -107,18 +119,6 @@ class OpenMicDetailView(BookmarkSingleObjectMixin, DetailView):
         # Render the map and add it to the context
         map_html = map._repr_html_()
         context["map"] = map_html
-
-        # Comments
-        context["comment_form"] = CommentCreateForm()
-        context["comments"] = Comment.objects.filter(parent_openmic=openmic).order_by(
-            "-created"
-        )
-
-        # Get bookmark context for Open Mic
-        bookmark_context = self.get_single_bookmark_context(
-            self.request.user, self.get_object()
-        )
-        context.update(bookmark_context)
 
         return context
 
