@@ -14,10 +14,9 @@
 
     <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-2">
         {% if profiles %}
-            {% include 'bookmarks/bookmark_profiles_list_partial.html' %}
+            {% include 'bookmarks/bookmark_profile_list_partial.html' %}
         {% else %}
-            <p class="text-secondary text-center">You don't have any bookmarked profiles!</p>
+            <p class="text-secondary text-center">You don't have any bookmarked profiles yet!</p>
         {% endif %}
     </section>
-</div>
 {% endblock bookmark_list %}

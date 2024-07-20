@@ -7,6 +7,7 @@ from django.views.generic import View, ListView
 from django.contrib import messages
 from .models import Bookmark
 from profiles.models import Profile
+from advertisements.models import Advertisement
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.contrib.messages import get_messages
@@ -162,9 +163,9 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
         return redirect(model.get_absolute_url())
 
 
-class BookmarkProfilesListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
+class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
     model = Bookmark
-    template_name = "bookmarks/bookmark_profiles_list.html"
+    template_name = "bookmarks/bookmark_profile_list.html"
     context_object_name = "profiles"
 
     def get_queryset(self):
@@ -179,4 +180,26 @@ class BookmarkProfilesListView(LoginRequiredMixin, ProfileRequiredMixin, ListVie
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["profiles_count"] = self.get_queryset().count()
+        return context
+
+
+class BookmarkAdvertisementListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
+    model = Bookmark
+    template_name = "bookmarks/bookmark_advertisement_list.html"
+    context_object_name = "ads"
+
+    def get_queryset(self):
+        profile = get_object_or_404(Profile, user=self.request.user)
+        advertisement_content_type = ContentType.objects.get_for_model(Advertisement)
+        return (
+            Bookmark.objects.filter(
+                profile=profile, content_type=advertisement_content_type
+            )
+            .prefetch_related("content_object")
+            .order_by("-created")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["ads_count"] = self.get_queryset().count()
         return context

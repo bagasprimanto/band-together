@@ -1,7 +1,7 @@
 {% load static %}
 {% load partials %}
 
-{% partialdef bookmark_profiles_list_ inline=True %}
+{% partialdef bookmark_profiles_list inline=True %}
     {% for bookmark in profiles %}
         {% with profile=bookmark.content_object %}
             <div class="profile-container d-flex flex-column col-sm-1 text-center mb-2">
