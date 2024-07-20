@@ -1,40 +1,11 @@
-{% extends "_base.html" %}
+{% extends "bookmarks/_bookmark_list_base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
-{% block title %}Bookmark Profiles - BandTogether{% endblock title %}
 
 {% block additional_css %}
 <link rel="stylesheet" href="{% static './css/profiles/profile_list.css' %}">
 {% endblock additional_css %}
 
-{% block content %}
-<div class="container my-5">
-    <h1 class="fw-bold">Bookmarks</h1>
-    <h2 class="fw-normal h4 text-secondary">Manage your bookmarked items here!</h2>
-    <!-- Tabs -->
-    <section class="tabs mb-3">
-        <ul class="nav nav-underline">
-            <li class="nav-item">
-                <a  class="nav-link active"
-                    href="{% url 'bookmarks:bookmark_profiles_list' %}" >
-                        Profiles
-                    </a>
-            </li>
-            <li class="nav-item">
-                <a  class="nav-link"
-                    href="#" >
-                        Ads
-                    </a>
-            </li>
-            <li class="nav-item">
-                <a  class="nav-link"
-                    href="#" >
-                        Open Mics
-                    </a>
-            </li>
-        </ul>
-    </section>
-
+{% block bookmark_list %}
     <div class="d-flex justify-content-start align-items-center">
         <p class="text-secondary fs-5 mb-0">
             ({{ profiles_count }} profiles)
@@ -49,4 +20,4 @@
         {% endif %}
     </section>
 </div>
-{% endblock content %}
+{% endblock bookmark_list %}

@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+{% block title %}Bookmark Lists - BandTogether{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold">Bookmarks</h1>
+    <h2 class="fw-normal h4 text-secondary">Manage your bookmarked items here!</h2>
+    <!-- Tabs -->
+    <section class="tabs mb-3">
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+                <a  class="nav-link active"
+                    href="{% url 'bookmarks:bookmark_profiles_list' %}" >
+                        Profiles
+                    </a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link"
+                    href="#" >
+                        Ads
+                    </a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link"
+                    href="#" >
+                        Open Mics
+                    </a>
+            </li>
+        </ul>
+    </section>
+
+   {% block bookmark_list %}
+   {% endblock bookmark_list %}
+</div>
+{% endblock content %}
