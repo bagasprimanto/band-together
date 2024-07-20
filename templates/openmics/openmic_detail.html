@@ -36,9 +36,11 @@
                         <p class="mb-0 text-secondary">Last updated {{ openmic.last_updated|timesince }} ago</p>
                     </div>
                 </div>
+                {% if user.is_authenticated and user.profile %}
                 <div class="edit-button">
                     {% include 'reports/report_button.html' %}
                 </div>
+                {% endif %}
             </section>
 
             <section class="mb-5">
