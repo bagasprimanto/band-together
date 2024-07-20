@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     BookmarkProfileListView,
     BookmarkAdvertisementListView,
+    BookmarkOpenMicListView,
     CreateDetailBookmarkView,
     DeleteDetailBookmarkView,
     CreateListBookmarkView,
@@ -16,6 +17,11 @@ urlpatterns = [
         "ads/",
         BookmarkAdvertisementListView.as_view(),
         name="bookmark_advertisement_list",
+    ),
+    path(
+        "openmics/",
+        BookmarkOpenMicListView.as_view(),
+        name="bookmark_openmic_list",
     ),
     path(
         "create/detail/<str:app_label>/<str:model_name>/<int:object_id>/",

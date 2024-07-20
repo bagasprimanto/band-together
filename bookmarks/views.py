@@ -8,6 +8,7 @@ from django.contrib import messages
 from .models import Bookmark
 from profiles.models import Profile
 from advertisements.models import Advertisement
+from openmics.models import OpenMic
 from .mixins import BookmarkMixin
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
@@ -229,6 +230,47 @@ class BookmarkAdvertisementListView(
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
         context["ads_count"] = queryset.count()
+
+        # Add bookmark context for the ads (list of objects)
+        ads_bookmark_context = self.get_bookmark_context(self.request.user, queryset)
+        context.update(ads_bookmark_context)
+
+        return context
+
+
+class BookmarkOpenMicListView(
+    LoginRequiredMixin, ProfileRequiredMixin, BookmarkMixin, ListView
+):
+    model = OpenMic
+    template_name = "bookmarks/bookmark_openmic_list.html"
+    context_object_name = "openmics"
+
+    def get_queryset(self):
+        profile = get_object_or_404(Profile, user=self.request.user)
+        openmic_content_type = ContentType.objects.get_for_model(OpenMic)
+
+        # Subquery to fetch the created date of the bookmark
+        bookmark_subquery = Bookmark.objects.filter(
+            profile=profile,
+            content_type=openmic_content_type,
+            object_id=OuterRef("pk"),
+        ).values("created")[:1]
+
+        # Annotate the Advertisement queryset with the bookmark created date and order by it
+        return (
+            OpenMic.objects.filter(
+                id__in=Bookmark.objects.filter(
+                    profile=profile, content_type=openmic_content_type
+                ).values("object_id")
+            )
+            .annotate(bookmark_created=Subquery(bookmark_subquery))
+            .order_by("-bookmark_created")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        context["openmics_count"] = queryset.count()
 
         # Add bookmark context for the ads (list of objects)
         ads_bookmark_context = self.get_bookmark_context(self.request.user, queryset)
