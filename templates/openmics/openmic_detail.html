@@ -36,10 +36,11 @@
                         <p class="mb-0 text-secondary">Last updated {{ openmic.last_updated|timesince }} ago</p>
                     </div>
                 </div>
-                <div
-                    class="col-lg-3 col-md-3 col-sm-4 col-12 mt-2 d-flex flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
-                        <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+                {% if user.is_authenticated and user.profile %}
+                <div class="edit-button">
+                    {% include 'reports/report_button.html' %}
                 </div>
+                {% endif %}
             </section>
 
             <section class="mb-5">
@@ -304,6 +305,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Report Modal -->
+    {% include 'reports/report_modal.html' with app_label=app_label model_name=model_name object=openmic form=report_form %}
 {% endblock content %}
 
 {% block additional_js %}

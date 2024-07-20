@@ -19,6 +19,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.conf import settings
 from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
+from reports.forms import ReportForm
 
 
 def advertisement_list(request):
@@ -52,10 +53,6 @@ def advertisement_list(request):
 
 
 def get_advertisements(request):
-    import time
-
-    time.sleep(2)
-
     if not request.headers.get("HX-Request"):
         raise Http404()
 
@@ -136,6 +133,13 @@ class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
             self.request.user, self.get_object()
         )
         context.update(bookmark_context)
+
+        # Pass context for report button
+        advertisement = self.get_object()
+        context["report_form"] = ReportForm()
+        context["app_label"] = advertisement._meta.app_label
+        context["model_name"] = advertisement._meta.model_name
+
         return context
 
 

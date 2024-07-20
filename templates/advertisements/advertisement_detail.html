@@ -13,7 +13,7 @@
         <h1 class="fw-bold display-4">{{ ad.title }}</h1>
 
         <section class="d-flex flex-wrap col-12 align-items-center justify-content-between mb-3">
-            <div class="author-info row d-flex flex-nowrap fit-content">
+            <div class="author-info d-flex flex-nowrap">
                 <div class="profile-picture">
                     {% if ad.author.profile_picture %}
                     <img src="{{ ad.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
@@ -22,7 +22,7 @@
                         class="rounded-circle">
                     {% endif %}
                 </div>
-                <div class="author-sub-info col-12 d-flex flex-column justify-content-center px-0">
+                <div class="author-sub-info d-flex flex-column justify-content-center px-0">
                     <p class="mb-0">Posted by
                         <a href="{% url 'profiles:profile_detail' ad.author.slug %}"
                             class="profile-link text-reset text-decoration-none">
@@ -40,12 +40,14 @@
                 <button type="button" class="delete-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2"
                     data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
-                {% if user.is_authenticated and user.profile %}
-                <div class="me-1">
-                    {% include 'bookmarks/bookmark_button_detail.html' with object=ad is_bookmarked=is_bookmarked bookmark=bookmark %}
-                </div>
-                {% endif%}
-                <a href="#" class="edit-button btn btn-danger col-4 mt-xl-0 mt-lg-2 mt-md-2 mt-sm-2">Report</a>
+                    {% if user.is_authenticated and user.profile %}
+                    <div class="me-1">
+                        {% include 'bookmarks/bookmark_button_detail.html' with object=ad is_bookmarked=is_bookmarked bookmark=bookmark %}
+                    </div>
+                    <div class="edit-button">
+                        {% include 'reports/report_button.html' %}
+                    </div>
+                    {% endif%}
                 {% endif %}
             </div>
         </section>
@@ -251,6 +253,9 @@
 
     <!-- Create Message modal -->
     {% include 'inbox/createmessage_modal.html' with recipient=ad.author form=createmessage_form %}
+
+    <!-- Report Modal -->
+    {% include 'reports/report_modal.html' with app_label=app_label model_name=model_name object=ad form=report_form %}
 
 </div>
 {% endblock content %}

@@ -1,0 +1,8 @@
+{% load crispy_forms_tags %}
+
+<!-- report_form.html -->
+<form id="reportForm" method="post" hx-post="{% url 'reports:report_create' app_label=app_label model_name=model_name object_id=object.id %}" hx-target="#reportFormContainer" hx-swap="innerHTML">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+</form>
