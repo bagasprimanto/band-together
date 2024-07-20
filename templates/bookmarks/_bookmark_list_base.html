@@ -9,19 +9,19 @@
     <section class="tabs mb-3">
         <ul class="nav nav-underline">
             <li class="nav-item">
-                <a  class="nav-link active"
+                <a  {% if "/profiles/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'bookmarks:bookmark_profile_list' %}" >
                         Profiles
                     </a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link"
+                <a  {% if "/ads/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'bookmarks:bookmark_advertisement_list' %}" >
                         Ads
                     </a>
             </li>
             <li class="nav-item">
-                <a  class="nav-link"
+                <a  {% if "/openmics/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
                     href="{% url 'bookmarks:bookmark_openmic_list' %}" >
                         Open Mics
                     </a>
