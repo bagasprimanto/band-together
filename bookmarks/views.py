@@ -12,6 +12,7 @@ from .mixins import BookmarkMixin
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from django.contrib.messages import get_messages
+from django.db.models import OuterRef, Subquery
 
 
 class CreateDetailBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
@@ -172,11 +173,21 @@ class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView
     def get_queryset(self):
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_content_type = ContentType.objects.get_for_model(Profile)
-        bookmarked_profile_ids = Bookmark.objects.filter(
-            profile=profile, content_type=profile_content_type
-        ).values_list("object_id", flat=True)
-        return Profile.objects.filter(id__in=bookmarked_profile_ids).order_by(
-            "-created"
+
+        # Subquery to fetch the created date of the bookmark
+        bookmark_subquery = Bookmark.objects.filter(
+            profile=profile, content_type=profile_content_type, object_id=OuterRef("pk")
+        ).values("created")[:1]
+
+        # Annotate the Profile queryset with the bookmark created date and order by it
+        return (
+            Profile.objects.filter(
+                id__in=Bookmark.objects.filter(
+                    profile=profile, content_type=profile_content_type
+                ).values("object_id")
+            )
+            .annotate(bookmark_created=Subquery(bookmark_subquery))
+            .order_by("-bookmark_created")
         )
 
     def get_context_data(self, **kwargs):
@@ -194,18 +205,25 @@ class BookmarkAdvertisementListView(
 
     def get_queryset(self):
         profile = get_object_or_404(Profile, user=self.request.user)
-
         advertisement_content_type = ContentType.objects.get_for_model(Advertisement)
 
-        bookmarked_ads_ids = Bookmark.objects.filter(
-            profile=profile, content_type=advertisement_content_type
-        ).values_list("object_id", flat=True)
+        # Subquery to fetch the created date of the bookmark
+        bookmark_subquery = Bookmark.objects.filter(
+            profile=profile,
+            content_type=advertisement_content_type,
+            object_id=OuterRef("pk"),
+        ).values("created")[:1]
 
-        advertisements = Advertisement.objects.filter(
-            id__in=bookmarked_ads_ids
-        ).order_by("-created")
-
-        return advertisements
+        # Annotate the Advertisement queryset with the bookmark created date and order by it
+        return (
+            Advertisement.objects.filter(
+                id__in=Bookmark.objects.filter(
+                    profile=profile, content_type=advertisement_content_type
+                ).values("object_id")
+            )
+            .annotate(bookmark_created=Subquery(bookmark_subquery))
+            .order_by("-bookmark_created")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
