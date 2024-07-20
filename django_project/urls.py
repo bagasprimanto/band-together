@@ -33,4 +33,5 @@ urlpatterns = [
     path("inbox/", include("inbox.urls")),
     path("openmics/", include("openmics.urls")),
     path("bookmarks/", include("bookmarks.urls")),
+    path("reports/", include("reports.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

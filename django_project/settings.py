@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "profiles.apps.ProfilesConfig",
     "bookmarks.apps.BookmarksConfig",
     "htmx_messages.apps.HtmxMessagesConfig",
+    "reports.apps.ReportsConfig",
 ]
 
 MIDDLEWARE = [

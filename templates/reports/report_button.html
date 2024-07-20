@@ -1,0 +1,7 @@
+<!-- Trigger button for the modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal"
+    hx-get="{% url 'reports:report_create' app_label=app_label model_name=model_name object_id=object.id %}"
+    hx-target="#reportFormContainer"
+    hx-swap="innerHTML">
+    Report
+</button>

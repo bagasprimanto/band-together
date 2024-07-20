@@ -26,6 +26,7 @@ from .filters import ProfileFilter
 from django.core.paginator import Paginator
 from django.conf import settings
 from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
+from reports.forms import ReportForm
 
 
 class ProfileCreateView(
@@ -112,7 +113,8 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = InboxCreateMessageForm()
+        context["create_message_form"] = InboxCreateMessageForm()
+        context["report_form"] = ReportForm()
 
         # Get bookmark context for Profile model
         # Add bookmark context
@@ -121,6 +123,12 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
             self.request.user, self.get_object()
         )
         context.update(profile_bookmark_context)
+
+        # Pass context for report button
+        profile = self.get_object()
+
+        context["app_label"] = profile._meta.app_label
+        context["model_name"] = profile._meta.model_name
 
         return context
 
