@@ -63,9 +63,9 @@
                         {% if user.profile %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profile.slug %}">My Profile</a>
                         <a class="dropdown-item" href="{% url 'bookmarks:bookmark_profile_list' %}">Bookmarks</a>
-                        <a class="dropdown-item" href="#">Settings</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_new' %}">Create Profile</a>
+                        <a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a>
                         {% endif %}
                         <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                     </div>
