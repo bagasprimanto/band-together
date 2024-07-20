@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- Report Modal -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -13,3 +15,7 @@
         </div>
     </div>
 </div>
+
+{% block additional_js %}
+<script src="{% static 'js/reports/report_modal.js' %}"></script>
+{% endblock additional_js %}
