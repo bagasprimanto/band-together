@@ -193,12 +193,14 @@
 </section>
 
 <!-- Report section -->
+ {% if user != profile.user %}
 <section class="profile-dates mb-5">
     <div class="created-date">
         <span class="">See an issue with this profile? Report it!</span>
         {% include 'reports/report_button.html' %}
     </div>
 </section>
+{% endif %}
 
 <!-- Report Modal -->
 {% include 'reports/report_modal.html' with app_label=app_label model_name=model_name object_id=object.id form=report_form %}
