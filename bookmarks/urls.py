@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    ListBookmarksView,
+    BookmarkProfilesListView,
     CreateDetailBookmarkView,
     DeleteDetailBookmarkView,
     CreateListBookmarkView,
@@ -10,7 +10,9 @@ from .views import (
 app_name = "bookmarks"
 
 urlpatterns = [
-    path("", ListBookmarksView.as_view(), name="bookmark_list"),
+    path(
+        "profiles/", BookmarkProfilesListView.as_view(), name="bookmark_profiles_list"
+    ),
     path(
         "create/detail/<str:app_label>/<str:model_name>/<int:object_id>/",
         CreateDetailBookmarkView.as_view(),

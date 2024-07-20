@@ -162,11 +162,21 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
         return redirect(model.get_absolute_url())
 
 
-class ListBookmarksView(LoginRequiredMixin, ListView):
+class BookmarkProfilesListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
     model = Bookmark
-    template_name = "bookmarks/bookmark_list.html"
-    context_object_name = "bookmarks"
+    template_name = "bookmarks/bookmark_profiles_list.html"
+    context_object_name = "profiles"
 
     def get_queryset(self):
         profile = get_object_or_404(Profile, user=self.request.user)
-        return Bookmark.objects.filter(profile=profile).select_related("content_type")
+        profile_content_type = ContentType.objects.get_for_model(Profile)
+        return (
+            Bookmark.objects.filter(content_type=profile_content_type)
+            .prefetch_related("content_object")
+            .order_by("-created")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["profiles_count"] = self.get_queryset().count()
+        return context

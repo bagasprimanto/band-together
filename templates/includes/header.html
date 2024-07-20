@@ -62,6 +62,7 @@
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownMenuLink">
                         {% if user.profile %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profile.slug %}">My Profile</a>
+                        <a class="dropdown-item" href="{% url 'bookmarks:bookmark_profiles_list' %}">Bookmarks</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_new' %}">Create Profile</a>

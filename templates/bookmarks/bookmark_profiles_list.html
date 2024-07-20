@@ -1,7 +1,6 @@
 {% extends "_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% load partials %}
 {% block title %}Bookmark Profiles - BandTogether{% endblock title %}
 
 {% block additional_css %}
@@ -12,7 +11,30 @@
 <div class="container my-5">
     <h1 class="fw-bold">Bookmarks</h1>
     <h2 class="fw-normal h4 text-secondary">Manage your bookmarked items here!</h2>
-    <hr />
+    <!-- Tabs -->
+    <section class="tabs mb-3">
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+                <a  class="nav-link active"
+                    href="{% url 'bookmarks:bookmark_profiles_list' %}" >
+                        Profiles
+                    </a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link"
+                    href="#" >
+                        Ads
+                    </a>
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link"
+                    href="#" >
+                        Open Mics
+                    </a>
+            </li>
+        </ul>
+    </section>
+
     <div class="d-flex justify-content-start align-items-center">
         <p class="text-secondary fs-5 mb-0">
             ({{ profiles_count }} profiles)
@@ -21,7 +43,7 @@
 
     <section class="profile-list mt-3 d-flex flex-wrap justify-content-evenly row-cols-sm-6 row-cols-2 gx-2">
         {% if profiles %}
-            {% include 'profiles/profile_list_partial.html' %}
+            {% include 'bookmarks/bookmark_profiles_list_partial.html' %}
         {% else %}
             <p class="text-secondary text-center">You don't have any bookmarked profiles!</p>
         {% endif %}
