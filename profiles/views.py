@@ -8,6 +8,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Profile
+from bookmarks.models import Bookmark
 from .forms import (
     ProfileCreateForm,
     ProfileEditGeneralInfoForm,
@@ -17,12 +18,14 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
+from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
 from django.core.paginator import Paginator
 from django.conf import settings
+from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
 
 
 class ProfileCreateView(
@@ -100,7 +103,7 @@ def get_profiles(request):
     return render(request, "profiles/profile_list_partial.html#profiles_list", context)
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
     model = Profile
     template_name = "profiles/profile_detail_about.html"
     context_object_name = "profile"
@@ -110,10 +113,19 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = InboxCreateMessageForm()
+
+        # Get bookmark context for Profile model
+        # Add bookmark context
+        # Add bookmark context for profile (single object)
+        profile_bookmark_context = self.get_single_bookmark_context(
+            self.request.user, self.get_object()
+        )
+        context.update(profile_bookmark_context)
+
         return context
 
 
-class ProfileAdsDetailView(DetailView):
+class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView):
     model = Profile
     template_name = "profiles/profile_detail_ads.html"
     context_object_name = "profile"
@@ -122,16 +134,33 @@ class ProfileAdsDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Get InboxCreateMessageForm
         context["form"] = InboxCreateMessageForm()
 
-        advertisements = Advertisement.objects.filter(
-            author=self.get_object()
-        ).order_by("-last_updated")
+        # Get advertisements for the profile
+        profile = self.get_object()
+        advertisements = Advertisement.objects.filter(author=profile).order_by(
+            "-last_updated"
+        )
         paginator = Paginator(advertisements, settings.PAGE_SIZE)
         advertisements_page = paginator.page(
             1
         )  # default to 1 when this view is triggered
         context["ads"] = advertisements_page
+
+        # Add bookmark context for profile (single object)
+        profile_bookmark_context = self.get_single_bookmark_context(
+            self.request.user, profile
+        )
+        context.update(profile_bookmark_context)
+
+        # Add bookmark context for advertisements (list of objects)
+        ads_bookmark_context = self.get_bookmark_context(
+            self.request.user, advertisements_page.object_list
+        )
+        context.update(ads_bookmark_context)
+
         return context
 
 

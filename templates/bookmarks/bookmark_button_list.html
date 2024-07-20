@@ -1,0 +1,17 @@
+{% load bookmark_filters %}
+
+<div id="bookmark-button-{{ object.id }}" class="bookmark-button d-inline-block w-100">
+    {% if bookmarked_objects and object.id in bookmarked_objects %}
+        {% with bookmark=bookmarked_objects|get_item:object.id %}
+        <form method="post" hx-post="{% url 'bookmarks:bookmark_delete_list' bookmark.id %}" hx-target="#bookmark-button-{{ object.id }}" hx-swap="outerHTML">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-secondary w-100">Bookmarked</button>
+        </form>
+        {% endwith %}
+    {% else %}
+    <form method="post" hx-post="{% url 'bookmarks:bookmark_create_list' object|app_label object|model_name object.id %}" hx-target="#bookmark-button-{{ object.id }}" hx-swap="outerHTML">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary w-100">Bookmark</button>
+    </form>
+    {% endif %}
+</div>

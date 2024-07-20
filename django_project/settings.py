@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "openmics.apps.OpenmicsConfig",
     "pages.apps.PagesConfig",
     "profiles.apps.ProfilesConfig",
+    "bookmarks.apps.BookmarksConfig",
+    "htmx_messages.apps.HtmxMessagesConfig",
 ]
 
 MIDDLEWARE = [
@@ -78,6 +80,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "htmx_messages.middleware.HtmxMessagesMiddleware",
     # 3rd party
     # Django-allauth
     "allauth.account.middleware.AccountMiddleware",
@@ -146,7 +149,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "htmx_messages/static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -158,11 +164,11 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Django Messages
 MESSAGE_TAGS = {
-    messages.DEBUG: "alert-info",
-    messages.INFO: "alert-info",
-    messages.SUCCESS: "alert-success",
-    messages.WARNING: "alert-warning",
-    messages.ERROR: "alert-danger",
+    messages.DEBUG: "bg-light",
+    messages.INFO: "text-white bg-primary",
+    messages.SUCCESS: "text-white bg-success",
+    messages.WARNING: "text-dark bg-warning",
+    messages.ERROR: "text-white bg-danger",
 }
 
 # Media files (Uploaded files)
