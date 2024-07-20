@@ -196,27 +196,12 @@
 <section class="profile-dates mb-5">
     <div class="created-date">
         <span class="">See an issue with this profile? Report it!</span>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
-            Report
-        </button>
+        {% include 'reports/report_button.html' %}
     </div>
 </section>
 
 <!-- Report Modal -->
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">Report an Issue</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="reportFormContainer">
-                <!-- report_form.html -->
-                {% include 'reports/report_form.html' with app_label=app_label model_name=model_name object_id=object.id form=report_form %}
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'reports/report_modal.html' with app_label=app_label model_name=model_name object_id=object.id form=report_form %}
 
 
 {% endblock profile_detail_content %}
