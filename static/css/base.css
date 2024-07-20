@@ -5,10 +5,6 @@
     font-family: sans-serif;
 }
 
-main {
-    min-height: 100vh !important;
-}
-
 /* Navbar */
 
 .navbar-brand,
@@ -45,6 +41,11 @@ img.profile-dropdown {
 
 .navbar-nav a.active {
     color: #fff !important;
+}
+
+/* Min height for the main body section */
+main {
+    min-height: 100vh !important;
 }
 
 body {
