@@ -114,7 +114,6 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["create_message_form"] = InboxCreateMessageForm()
-        context["report_form"] = ReportForm()
 
         # Get bookmark context for Profile model
         # Add bookmark context
@@ -126,7 +125,7 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
 
         # Pass context for report button
         profile = self.get_object()
-
+        context["report_form"] = ReportForm()
         context["app_label"] = profile._meta.app_label
         context["model_name"] = profile._meta.model_name
 
