@@ -6,6 +6,7 @@
 
 {% block additional_css %}
 <link rel="stylesheet" href="{% static './css/profiles/profile_list.css' %}">
+<link rel="stylesheet" href="{% static './css/profiles/location_autocomplete_form.css' %}">
 {% endblock additional_css %}
 
 {% block content %}
@@ -13,24 +14,19 @@
     <h1 class="fw-bold">Profiles List</h1>
     <h2 class="fw-normal h4 text-secondary">Discover other musicians and bands!</h2>
     <hr />
-    <div class="d-flex justify-content-start align-items-center">
-        <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasProfileFilter" role="button"
-            aria-controls="offcanvasProfileFilter">
-            Show filters
-        </a>
+    <div class="d-flex justify-content-start align-items-center mb-2">
+        <a class="btn btn-primary me-2" data-bs-toggle="collapse" href="#collapseProfileFilter" role="button" aria-expanded="false" aria-controls="collapseProfileFilter">
+            Show Filters
+          </a>
         <p class="text-secondary fs-5 mb-0">
             ({{ profiles_count }} profiles)
         </p>
     </div>
 
     <!-- Offcanvas for Profile Filters -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfileFilter"
-        aria-labelledby="offcanvasProfileFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasProfileFilterLabel">Profile Filters</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
+    <div class="collapse" id="collapseProfileFilter">
+        <div class="card card-body">
+            <h4>Profile Filters</h5>
             <form method="get" action="{% url 'profiles:profile_list' %}" id="filter-form">
                 {{ form.display_name|as_crispy_field }}
                 {{ form.profile_type|as_crispy_field }}

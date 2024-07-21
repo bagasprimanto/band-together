@@ -53,7 +53,7 @@ urlpatterns = [
         name="profile_edit_socials",
     ),
     path(
-        "locations-autocomplete/",
+        "location-autocomplete/",
         LocationAutocomplete.as_view(),
         name="location_autocomplete",
     ),

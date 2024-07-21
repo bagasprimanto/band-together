@@ -69,7 +69,7 @@ class LocationAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__icontains=self.q)
 
-        return qs
+        return qs[:10]
 
 
 def profile_list(request):
