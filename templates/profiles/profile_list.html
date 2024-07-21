@@ -25,7 +25,7 @@
     <!-- Offcanvas for Profile Filters -->
     <div class="collapse" id="collapseProfileFilter">
         <div class="card card-body">
-            <h4>Profile Filters</h5>
+            <h4>Profile Filters</h4>
             <form method="get" action="{% url 'profiles:profile_list' %}" id="filter-form">
                 {{ form.display_name|as_crispy_field }}
                 {{ form.profile_type|as_crispy_field }}
