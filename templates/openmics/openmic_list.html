@@ -8,14 +8,13 @@
 {% endblock additional_css %}
 
 {% block content %}
-<div class="container p-5 dl">
+<div class="container my-5">
     <h1 class="fw-bold">Open Mics List</h1>
     <h2 class="fw-normal h4 text-secondary">Discover the latest Open Mic events in your area!</h2>
     <hr />
-    <div class="d-flex justify-content-start align-items-center">
-        <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasOpenMicFilter" role="button"
-            aria-controls="offcanvasOpenMicFilter">
-            Show filters
+    <div class="d-flex justify-content-start align-items-center mb-2">
+        <a class="btn btn-primary me-2" data-bs-toggle="collapse" href="#collapseOpenMicFilter" role="button" aria-expanded="false" aria-controls="collapseOpenMicFilter">
+            Show Filters
         </a>
         <p class="text-secondary fs-5 mb-0">
             ({{ openmics_count }} open mics)
@@ -23,13 +22,9 @@
     </div>
 
     <!-- Offcanvas for OpenMic Filters -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOpenMicFilter"
-        aria-labelledby="offcanvasOpenMicFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasOpenMicFilterLabel">Open Mic Filters</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
+    <div class="collapse" id="collapseOpenMicFilter">
+        <div class="card card-body">
+            <h4>Advertisement Filters</h4>
             <form method="get" action="{% url 'openmics:openmic_list' %}" id="filter-form">
                 {{ form.title|as_crispy_field }}
                 {{ form.location|as_crispy_field }}

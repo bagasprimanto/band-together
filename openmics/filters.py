@@ -2,6 +2,8 @@ import django_filters
 from django.forms import CheckboxSelectMultiple, CheckboxInput
 from .models import OpenMic
 from profiles.models import Genre
+from dal import autocomplete
+from cities_light.models import City
 
 
 def get_genre_choices():
@@ -10,6 +12,11 @@ def get_genre_choices():
 
 class OpenMicFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(field_name="title", lookup_expr="icontains")
+
+    location = django_filters.ModelChoiceFilter(
+        queryset=City.objects.all(),
+        widget=autocomplete.ModelSelect2(url="profiles:location_autocomplete"),
+    )
 
     genres = django_filters.ModelMultipleChoiceFilter(
         queryset=Genre.objects.all(),
