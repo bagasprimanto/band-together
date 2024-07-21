@@ -12,6 +12,7 @@ from .views import (
     ProfileEditSocialsView,
     profile_list,
     get_profiles,
+    LocationAutocomplete,
 )
 
 app_name = "profiles"
@@ -50,5 +51,10 @@ urlpatterns = [
         "<slug:slug>/edit/socials/",
         ProfileEditSocialsView.as_view(),
         name="profile_edit_socials",
+    ),
+    path(
+        "locations-autocomplete/",
+        LocationAutocomplete.as_view(),
+        name="location_autocomplete",
     ),
 ]

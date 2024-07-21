@@ -27,6 +27,8 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
 from reports.forms import ReportForm
+from dal import autocomplete
+from cities_light.models import City
 
 
 class ProfileCreateView(
@@ -57,6 +59,17 @@ class ProfileCreateView(
     def get_success_url(self):
         # Returns the URL to redirect to after the form is successfully submitted
         return reverse("profiles:profile_detail", kwargs={"slug": self.object.slug})
+
+
+class LocationAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+
+        qs = City.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs
 
 
 def profile_list(request):

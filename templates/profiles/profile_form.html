@@ -1,6 +1,11 @@
 {% extends "_base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}Profile Create - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_form.css' %}">
+{% endblock additional_css %}
 
 {% block content %}
 <div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
