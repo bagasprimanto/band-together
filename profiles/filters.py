@@ -2,6 +2,8 @@ import django_filters
 from django.forms import CheckboxSelectMultiple, CheckboxInput
 from django.db.models import Q
 from .models import Profile, Genre, Skill, ProfileType
+from dal import autocomplete
+from cities_light.models import City
 
 
 def get_profile_type_choices():
@@ -28,6 +30,11 @@ class ProfileFilter(django_filters.FilterSet):
         field_name="profile_type",
         choices=get_profile_type_choices(),
         widget=CheckboxSelectMultiple,
+    )
+
+    location = django_filters.ModelChoiceFilter(
+        queryset=City.objects.all(),
+        widget=autocomplete.ModelSelect2(url="profiles:location_autocomplete"),
     )
 
     genres = django_filters.ModelMultipleChoiceFilter(

@@ -8,7 +8,7 @@
 {% endblock additional_css %}
 
 {% block content %}
-<div class="container p-5 dl">
+<div class="container my-5">
     <h1 class="fw-bold">Advertisements List</h1>
     <div class="d-flex flex-wrap justify-content-between">
         <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
@@ -19,11 +19,10 @@
         {% endif %}
     </div>
     <hr />
-    <div class="d-flex justify-content-between">
+    <div class="d-flex mb-2">
         <div class="d-flex justify-content-start align-items-center">
-            <a class="btn btn-primary me-2" data-bs-toggle="offcanvas" href="#offcanvasAdvertisementFilter" role="button"
-                aria-controls="offcanvasAdvertisementFilter">
-                Show filters
+            <a class="btn btn-primary me-2" data-bs-toggle="collapse" href="#collapseAdvertisementFilter" role="button" aria-expanded="false" aria-controls="collapseAdvertisementFilter">
+                Show Filters
             </a>
             <p class="text-secondary fs-5 mb-0">
                 ({{ ads_count }} adverts)
@@ -32,13 +31,9 @@
     </div>
 
     <!-- Offcanvas for Advertisement Filters -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAdvertisementFilter"
-        aria-labelledby="offcanvasAdvertisementFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasAdvertisementFilterLabel">Advertisement Filters</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
+    <div class="collapse" id="collapseAdvertisementFilter">
+        <div class="card card-body">
+            <h4>Advertisement Filters</h4>
             <form method="get" action="{% url 'advertisements:advertisement_list' %}" id="filter-form">
                 {{ form.title|as_crispy_field }}
                 {{ form.ad_type|as_crispy_field }}

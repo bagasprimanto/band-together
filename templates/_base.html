@@ -21,6 +21,11 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <!-- CSS for Autocomplete Location field -->
+    <link rel="stylesheet" href="{% static './css/profiles/location_autocomplete_form.css' %}">
+
+    
     {% block additional_css %}
     {% endblock additional_css %}
 
@@ -55,14 +60,8 @@
     <!-- JS -->
     <script src="{% static 'js/base.js' %}"></script>
     <script src="{% static 'js/htmx_messages/toasts.js' %}"></script>
-    <script>
-        // Initialize HTMX on dynamically added content
-        document.body.addEventListener('htmx:afterSwap', function (event) {
-            if (event.detail.target.classList.contains('bookmark-button')) {
-                htmx.process(document.querySelectorAll('.bookmark-button'));
-            }
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
     {% block additional_js %}
     {% endblock additional_js %}
 </body>

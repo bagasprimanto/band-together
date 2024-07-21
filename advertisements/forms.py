@@ -4,6 +4,8 @@ from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.layout import Layout, Submit, Button
 from .models import Advertisement, Comment
 from profiles.models import Genre, Skill
+from cities_light.models import City
+from dal import autocomplete
 
 
 class AdvertisementCreateForm(forms.ModelForm):
@@ -16,6 +18,13 @@ class AdvertisementCreateForm(forms.ModelForm):
     description = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "Enter your description here..."}),
         help_text="Do not put personal information in your ad. Your ad will be available to the public!",
+    )
+
+    location = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        widget=autocomplete.ModelSelect2(
+            url="profiles:location_autocomplete", attrs={"class": "form-control"}
+        ),
     )
 
     genres = forms.ModelMultipleChoiceField(
