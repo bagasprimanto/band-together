@@ -179,6 +179,41 @@
 </section>
 {% endif %}
 
+<!-- Influences -->
+{% if profile.influences %}
+<section class="profile-bio mb-3">
+    <h3>Influences</h3>
+    <p>{{ profile.influences|linebreaks }}</p>
+</section>
+{% endif %}
+
+<!-- Additional Info -->
+{% if profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
+<section class="profile-bio mb-3">
+    <h3>Additional Info</h3>
+
+    {% if profile.gigs_played %}
+    <h5>Gigs Played:</h5>
+    <p>{{ profile.get_gigs_played_display }}</p>
+    {% endif %}
+
+    {% if profile.practice_frequency %}
+    <h5>Tend to Practice:</h5>
+    <p>{{ profile.get_practice_frequency_display }}</p>
+    {% endif %}
+
+    {% if profile.nights_gig %}
+    <h5>Available to gig:</h5>
+    <p>{{ profile.get_nights_gig_display }}</p>
+    {% endif %}
+
+    {% if profile.availability %}
+    <h5>Most available:</h5>
+    <p>{{ profile.get_availability_display }}</p>
+    {% endif %}
+</section>
+{% endif %}
+
 <!-- Profile dates -->
 <section class="profile-dates mb-5">
     <div class="created-date">
