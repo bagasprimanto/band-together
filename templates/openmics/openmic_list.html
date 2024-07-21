@@ -24,7 +24,7 @@
     <!-- Offcanvas for OpenMic Filters -->
     <div class="collapse" id="collapseOpenMicFilter">
         <div class="card card-body">
-            <h4>Advertisement Filters</h4>
+            <h4>Open Mic Filters</h4>
             <form method="get" action="{% url 'openmics:openmic_list' %}" id="filter-form">
                 {{ form.title|as_crispy_field }}
                 {{ form.location|as_crispy_field }}
