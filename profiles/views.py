@@ -12,6 +12,7 @@ from bookmarks.models import Bookmark
 from .forms import (
     ProfileCreateForm,
     ProfileEditGeneralInfoForm,
+    ProfileEditAdditionalInfoForm,
     ProfileEditPicturesForm,
     ProfileEditGenresForm,
     ProfileEditSkillsForm,
@@ -207,6 +208,12 @@ class ProfileEditGeneralInfoView(ProfileEditBaseView):
 
     form_class = ProfileEditGeneralInfoForm
     template_name = "profiles/profile_edit_general_info.html"
+
+
+class ProfileEditAdditionalInfoView(ProfileEditBaseView):
+
+    form_class = ProfileEditAdditionalInfoForm
+    template_name = "profiles/profile_edit_additional_info.html"
 
 
 class ProfileEditPicturesView(ProfileEditBaseView):

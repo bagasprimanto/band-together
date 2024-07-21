@@ -16,6 +16,10 @@
                     href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">General Info</a>
             </li>
             <li class="nav-item">
+                <a {% if "/additional-info/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
+                    href="{% url 'profiles:profile_edit_additional_info' user.profile.slug %}">Additional Info</a>
+            </li>
+            <li class="nav-item">
                 <a {% if "/pictures/" in request.path %} class="nav-link active" {% else %} class="nav-link" {% endif%} 
                     href="{% url 'profiles:profile_edit_pictures' user.profile.slug %}">Pictures</a>
             </li>

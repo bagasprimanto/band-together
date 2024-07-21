@@ -5,6 +5,7 @@ from .views import (
     ProfileDetailView,
     ProfileAdsDetailView,
     ProfileEditGeneralInfoView,
+    ProfileEditAdditionalInfoView,
     ProfileEditPicturesView,
     ProfileEditGenresView,
     ProfileEditSkillsView,
@@ -26,6 +27,11 @@ urlpatterns = [
         "<slug:slug>/edit/general-info/",
         ProfileEditGeneralInfoView.as_view(),
         name="profile_edit_general_info",
+    ),
+    path(
+        "<slug:slug>/edit/additional-info/",
+        ProfileEditAdditionalInfoView.as_view(),
+        name="profile_edit_additional_info",
     ),
     path(
         "<slug:slug>/edit/pictures/",
