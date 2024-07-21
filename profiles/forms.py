@@ -104,6 +104,7 @@ class ProfileEditGeneralInfoForm(forms.ModelForm):
 
     location = forms.ModelChoiceField(
         queryset=City.objects.all(),
+        widget=autocomplete.ModelSelect2(url="profiles:location_autocomplete"),
         help_text="Location is only used for displaying your profile info.",
     )
 

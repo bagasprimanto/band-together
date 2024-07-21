@@ -1,6 +1,10 @@
 {% extends "profiles/_profile_edit_base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/location_autocomplete_form.css' %}">
+{% endblock additional_css %}
 
 <!-- Form Legend -->
 {% block edit_form_legend %}Update your general info here!{% endblock edit_form_legend %}
