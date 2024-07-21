@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div
-                class="col-lg-3 col-12 mt-2 d-flex flex-md-row flex-wrap justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-start">
+                class="col-lg-3 col-12 mt-2 d-flex flex-md-row flex-wrap justify-content-lg-end justify-content-start">
                 {% if user.profile == ad.author %}
                 <a href="{% url 'advertisements:advertisement_edit' ad.pk %}"
                     class="edit-button btn btn-secondary col-4 me-xl-1 me-lg-0 me-sm-0 me-1">Edit Ad</a>
@@ -41,10 +41,10 @@
                     data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Ad</button>
                 {% else %}
                     {% if user.is_authenticated and user.profile %}
-                    <div class="me-1">
+                    <div class="me-xl-1 me-lg-0 me-1">
                         {% include 'bookmarks/bookmark_button_detail.html' with object=ad is_bookmarked=is_bookmarked bookmark=bookmark %}
                     </div>
-                    <div class="edit-button">
+                    <div class="mt-xl-0 mt-lg-1 mt-0">
                         {% include 'reports/report_button.html' %}
                     </div>
                     {% endif%}

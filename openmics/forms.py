@@ -1,5 +1,15 @@
 from django import forms
-from .models import Comment
+from .models import Comment, OpenMic
+from dal import autocomplete
+
+
+class OpenMicCreateForm(forms.ModelForm):
+    class Meta:
+        model = OpenMic
+        fields = "__all__"
+        widgets = {
+            "location": autocomplete.ModelSelect2(url="profiles:location_autocomplete")
+        }
 
 
 class CommentCreateForm(forms.ModelForm):
