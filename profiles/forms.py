@@ -7,12 +7,13 @@ from .models import (
     Profile,
     Genre,
     Skill,
+    COMMITMENT_CHOICES,
     GIGS_PLAYED_CHOICES,
     PRACTICE_CHOICES,
     NIGHTS_GIG_CHOICES,
     AVAILABILITY_CHOICES,
-    TIMEZONES_CHOICES,
 )
+from .timezone_choices import TIMEZONES_CHOICES
 from cities_light.models import City
 from dal import autocomplete
 
@@ -194,7 +195,11 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
         label="Your musical influences",
         required=False,
     )
-
+    commitment = forms.ChoiceField(
+        choices=COMMITMENT_CHOICES,
+        label="Your level of commitment",
+        required=False,
+    )
     gigs_played = forms.ChoiceField(
         choices=GIGS_PLAYED_CHOICES,
         label="How many gigs have you played?",
@@ -230,6 +235,7 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             "influences",
+            "commitment",
             "gigs_played",
             "practice_frequency",
             "nights_gig",
@@ -247,6 +253,7 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
         model = Profile
         fields = [
             "influences",
+            "commitment",
             "gigs_played",
             "practice_frequency",
             "nights_gig",
