@@ -84,6 +84,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "htmx_messages.middleware.HtmxMessagesMiddleware",
+    "profiles.middleware.TimezoneMiddleware",
     # 3rd party
     # Django-allauth
     "allauth.account.middleware.AccountMiddleware",

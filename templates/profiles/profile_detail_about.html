@@ -182,15 +182,20 @@
 <!-- Influences -->
 {% if profile.influences %}
 <section class="profile-bio mb-3">
-    <h3>Influences</h3>
+    <h3 class="mb-0">Influences</h3>
     <p>{{ profile.influences|linebreaks }}</p>
 </section>
 {% endif %}
 
 <!-- Additional Info -->
-{% if profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
+{% if profile.commitment or profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
 <section class="profile-bio mb-3">
     <h3>Additional Info</h3>
+
+    {% if profile.commitment %}
+    <h5>Level of commitment:</h5>
+    <p>{{ profile.get_commitment_display }}</p>
+    {% endif %}
 
     {% if profile.gigs_played %}
     <h5>Gigs Played:</h5>
@@ -217,13 +222,13 @@
 <!-- Profile dates -->
 <section class="profile-dates mb-5">
     <div class="created-date">
-        <span class="fw-bold">Profile created</span> {{ profile.created|date:"r" }}
+        <span class="fw-bold">Profile created</span> {{ profile.created|date:"d F Y" }}
     </div>
     <div class="last-updated-date">
-        <span class="fw-bold">Profile last updated</span> {{ profile.last_updated|date:"r" }}
+        <span class="fw-bold">Profile last updated</span> {{ profile.last_updated|timesince }} ago
     </div>
     <div class="last-login-date">
-        <span class="fw-bold">Last Login</span> {{ profile.user.last_login|date:"r" }}
+        <span class="fw-bold">Last Login</span> {{ profile.user.last_login|timesince }} ago
     </div>
 </section>
 

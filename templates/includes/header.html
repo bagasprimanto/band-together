@@ -66,7 +66,7 @@
                         {% else %}
                         <a class="dropdown-item" href="{% url 'profiles:profile_new' %}">Create Profile</a>
                         {% endif %}
-                        <a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a>
+                        <a class="dropdown-item" href="{% url 'profiles:profile_settings' %}">Settings</a>
                         <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
                     </div>
                 </li>

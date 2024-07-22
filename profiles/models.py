@@ -4,6 +4,17 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+import zoneinfo
+
+# Import the fixed list of timezone choices
+from .timezone_choices import TIMEZONES_CHOICES
+
+COMMITMENT_CHOICES = [
+    ("", "----"),
+    ("just_for_fun", "Just for Fun"),
+    ("moderately_committed", "Moderately Commited"),
+    ("committed", "Committed"),
+]
 
 GIGS_PLAYED_CHOICES = [
     ("", "----"),
@@ -112,6 +123,17 @@ class Profile(models.Model):
         max_length=20,
         choices=AVAILABILITY_CHOICES,
         blank=True,
+    )
+    commitment = models.CharField(
+        max_length=30,
+        choices=COMMITMENT_CHOICES,
+        blank=True,
+    )
+    timezone = models.CharField(
+        verbose_name="Time zone",
+        max_length=50,
+        default="UTC",
+        choices=TIMEZONES_CHOICES,
     )
 
     @property
