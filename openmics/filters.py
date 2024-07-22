@@ -35,12 +35,6 @@ class OpenMicFilter(django_filters.FilterSet):
             return queryset.filter(entry_fee=0)
         return queryset
 
-    SORT_CHOICES = (("event_date", "Event Date (soonest first)"),)
-
-    order_by = django_filters.ChoiceFilter(
-        label="Sort by", choices=SORT_CHOICES, method="filter_by_order"
-    )
-
     def filter_by_order(self, queryset, name, value):
         expression = "-last_updated" if value == "" else "event_date"
         return queryset.order_by(expression)
@@ -52,5 +46,4 @@ class OpenMicFilter(django_filters.FilterSet):
             "location",
             "genres",
             "free",
-            "order_by",
         ]
