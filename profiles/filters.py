@@ -1,6 +1,7 @@
 import django_filters
 from django.forms import CheckboxSelectMultiple, CheckboxInput
 from django.db.models import Q
+from django.utils.timezone import now, timedelta
 from .models import Profile, Genre, Skill, ProfileType
 from dal import autocomplete
 from cities_light.models import City
@@ -80,6 +81,27 @@ class ProfileFilter(django_filters.FilterSet):
             )
         return queryset
 
+    # Choices for the last login date range filter
+    LAST_LOGIN_CHOICES = (
+        (1, "Last 1 week"),
+        (2, "Last 2 weeks"),
+        (3, "Last 3 weeks"),
+        (4, "Last 4 weeks"),
+        (5, "Last 5 weeks"),
+        (6, "Last 6 weeks"),
+    )
+
+    last_login_range = django_filters.ChoiceFilter(
+        label="Last Logged in Within...",
+        choices=LAST_LOGIN_CHOICES,
+        method="filter_by_last_login_range",
+    )
+
+    def filter_by_last_login_range(self, queryset, name, value):
+        value = int(value)
+        cutoff_date = now() - timedelta(weeks=value)
+        return queryset.filter(user__last_login__gte=cutoff_date)
+
     SORT_CHOICES = (
         ("last_updated", "Last Profile Updated Date"),
         ("last_login", "Last Login Date"),
@@ -103,5 +125,6 @@ class ProfileFilter(django_filters.FilterSet):
             "skills",
             "has_youtube_video",
             "has_profile_picture",
+            "last_login_range",
             "order_by",
         ]
