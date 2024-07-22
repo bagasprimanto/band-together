@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
-import zoneinfo
+from django_resized import ResizedImageField
 
 # Import the fixed list of timezone choices
 from .timezone_choices import TIMEZONES_CHOICES
