@@ -116,7 +116,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="location text-secondary">
                             {% if openmic.entry_fee > 0 %}
-                                £{{ openmic.entry_fee }}
+                                {{ openmic.entry_fee_currency }} {{ openmic.entry_fee }}
                             {% else %}
                                 Free
                             {% endif %}

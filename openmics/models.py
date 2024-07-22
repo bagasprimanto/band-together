@@ -24,6 +24,7 @@ class OpenMic(models.Model):
     event_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    entry_fee_currency = models.CharField(max_length=10, blank=True)
     entry_fee = models.DecimalField(
         max_digits=6,
         decimal_places=2,
