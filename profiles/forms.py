@@ -61,6 +61,7 @@ class ProfileCreateForm(forms.ModelForm):
             url="profiles:timezone_autocomplete",
             attrs={
                 "class": "form-control",
+                "data-placeholder": "Select a time zone...",
             },
         ),
         label="Set your current time zone",
