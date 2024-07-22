@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Profile Settings - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold">Change Timezone</h1>
+    <h2 class="fw-normal h4 text-secondary mb-5">Change your timezone here!</h2>
+
+    <!-- Bio -->
+    <section class="profile-bio mb-3">
+        <h3>Change Timezone</h3>
+        {% crispy form %}    
+    </section>
+</div>
+{% endblock content %}

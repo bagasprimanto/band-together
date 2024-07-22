@@ -4,6 +4,9 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+import zoneinfo
+
+TIMEZONES_CHOICES = [(tz, tz) for tz in zoneinfo.available_timezones()]
 
 GIGS_PLAYED_CHOICES = [
     ("", "----"),
@@ -112,6 +115,12 @@ class Profile(models.Model):
         max_length=20,
         choices=AVAILABILITY_CHOICES,
         blank=True,
+    )
+    timezone = models.CharField(
+        verbose_name="Time zone",
+        max_length=50,
+        default="UTC",
+        choices=TIMEZONES_CHOICES,
     )
 
     @property

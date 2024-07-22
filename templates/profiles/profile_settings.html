@@ -24,9 +24,9 @@
     {% if user.is_authenticated and user.profile %}
     <!-- Change Timezones -->
     <section class="profile-bio mb-3">
-        <h3>Timezones</h3>
-        <p>Set your timezone here!</p>
-        <a href="#" class="btn btn-primary">Change Timezone</a>
+        <h3>Time Zone</h3>
+        <p>Your current timezone: <span class="fw-bold">{{ user.profile.timezone }}</span></p>
+        <a class="btn btn-primary" href="{% url 'profiles:profile_settings_timezone' slug=user.profile.slug %}">Change Time Zone</a>
     </section>
 
     <hr />

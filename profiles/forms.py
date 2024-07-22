@@ -11,6 +11,7 @@ from .models import (
     PRACTICE_CHOICES,
     NIGHTS_GIG_CHOICES,
     AVAILABILITY_CHOICES,
+    TIMEZONES_CHOICES,
 )
 from cities_light.models import City
 from dal import autocomplete
@@ -45,9 +46,24 @@ class ProfileCreateForm(forms.ModelForm):
     location = forms.ModelChoiceField(
         queryset=City.objects.all(),
         widget=autocomplete.ModelSelect2(
-            url="profiles:location_autocomplete", attrs={"class": "form-control"}
+            url="profiles:location_autocomplete",
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Select a location...",
+            },
         ),
         help_text="Location is only used for displaying your profile info.",
+    )
+
+    timezone = forms.ChoiceField(
+        choices=TIMEZONES_CHOICES,
+        widget=autocomplete.ListSelect2(
+            url="profiles:timezone_autocomplete",
+            attrs={
+                "class": "form-control",
+            },
+        ),
+        label="Set your current time zone",
     )
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +78,7 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_type",
             "display_name",
             "location",
+            "timezone",
             "profile_picture",
             InlineCheckboxes(
                 "genres",
@@ -85,6 +102,7 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_type",
             "display_name",
             "location",
+            "timezone",
             "profile_picture",
             "genres",
             "skills",
@@ -517,4 +535,34 @@ class ProfileEditSocialsForm(forms.ModelForm):
             "youtube_social_link",
             "instagram_social_link",
             "soundcloud_social_link",
+        ]
+
+
+class ProfileEditTimezoneForm(forms.ModelForm):
+    timezone = forms.ChoiceField(
+        choices=TIMEZONES_CHOICES,
+        widget=autocomplete.ListSelect2(
+            url="profiles:timezone_autocomplete",
+            attrs={
+                "class": "form-control",
+            },
+        ),
+        label="Set your current time zone",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileEditTimezoneForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)  # Create an instance of the FormHelper class
+        self.helper.form_id = "profile-timezone-info-form"
+        self.helper.form_method = "POST"
+
+        self.helper.layout = Layout(
+            "timezone",
+            Submit("submit", "Submit", css_class="btn btn-primary"),
+        )
+
+    class Meta:
+        model = Profile
+        fields = [
+            "timezone",
         ]
