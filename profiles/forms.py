@@ -568,6 +568,12 @@ class ProfileEditTimezoneForm(forms.ModelForm):
         self.helper.layout = Layout(
             "timezone",
             Submit("submit", "Submit", css_class="btn btn-primary"),
+            Button(
+                "cancel",
+                "Cancel",
+                css_class="btn btn-secondary",
+                onclick="window.history.back()",
+            ),
         )
 
     class Meta:
