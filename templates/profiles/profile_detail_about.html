@@ -188,9 +188,14 @@
 {% endif %}
 
 <!-- Additional Info -->
-{% if profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
+{% if profile.commitment or profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
 <section class="profile-bio mb-3">
     <h3>Additional Info</h3>
+
+    {% if profile.commitment %}
+    <h5>Level of commitment:</h5>
+    <p>{{ profile.get_commitment_display }}</p>
+    {% endif %}
 
     {% if profile.gigs_played %}
     <h5>Gigs Played:</h5>
