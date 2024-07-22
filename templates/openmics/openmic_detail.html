@@ -60,9 +60,9 @@
 
                 <section>
                     <h5>Event Date and Time</h5>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div>
                         <p class="location text-secondary ">
-                            {{ openmic.event_date|date:"d F o" }}, {{ openmic.start_time|date:"H:i" }} - {{ openmic.end_time|date:"H:i" }} BST
+                            {{ openmic.event_date|date:"d F o" }}, {{ openmic.start_time|date:"H:i" }} - {{ openmic.end_time|date:"H:i" }} Local time ({{ openmic.location }})
                         </p>
                     </div>
                 </section>
@@ -82,15 +82,16 @@
                             </a>
                         {% endif %}
                     </div>
+                </section>
+
+                <section>
                     {% if map %}
-                        <div>
-                            <h5>
-                                Venue Location on Map
-                            </h5>
-                            <div class="col-xl-6 col-12">
-                                {{ map|safe }}
-                            </p>
-                        </div>
+                    <div>
+                        <h5>Venue Location on Map</h5>
+                        <div class="col-xl-6 col-12">
+                            {{ map|safe }}
+                        </p>
+                    </div>
                     {% endif %}
                     {% if error %}
                         <p>{{ error }}</p>
