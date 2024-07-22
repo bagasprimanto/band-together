@@ -24,6 +24,7 @@ class OpenMic(models.Model):
     event_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    entry_fee_currency = models.CharField(max_length=10, blank=True)
     entry_fee = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -43,6 +44,10 @@ class OpenMic(models.Model):
 
     def get_absolute_url(self):
         return reverse("openmics:openmic_detail", kwargs={"pk": self.pk})
+
+    @property
+    def is_expired(self):
+        return self.event_date < date.today()
 
     def clean(self):
 
