@@ -8,14 +8,13 @@
 
 .hero-image-2 img {
     right: 50px;
-    top: 20px;
+    top: 10px;
     animation: bounce 2.01s infinite;
     animation-delay: 0.2s;
 }
 
 .hero-image-1 img {
     left: 10px;
-    bottom: 10px;
     animation: bounce 2s infinite;
 }
 
