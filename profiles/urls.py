@@ -13,6 +13,7 @@ from .views import (
     ProfileEditSocialsView,
     profile_list,
     get_profiles,
+    ProfileSettingsView,
     LocationAutocomplete,
 )
 
@@ -58,6 +59,7 @@ urlpatterns = [
         ProfileEditSocialsView.as_view(),
         name="profile_edit_socials",
     ),
+    path("settings/", ProfileSettingsView.as_view(), name="profile_settings"),
     path(
         "location-autocomplete/",
         LocationAutocomplete.as_view(),

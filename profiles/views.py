@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views.generic import (
     CreateView,
     DetailView,
     UpdateView,
+    TemplateView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -19,7 +20,6 @@ from .forms import (
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
 )
-from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
@@ -244,3 +244,7 @@ class ProfileEditSocialsView(ProfileEditBaseView):
 
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
+
+
+class ProfileSettingsView(LoginRequiredMixin, TemplateView):
+    template_name = "profiles/profile_settings.html"
