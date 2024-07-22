@@ -211,6 +211,9 @@ class ProfileEditBaseView(
         profile = self.get_object()
         return self.request.user == profile.user
 
+    def get_success_url(self):
+        return self.request.path
+
 
 class ProfileEditGeneralInfoView(ProfileEditBaseView):
 
