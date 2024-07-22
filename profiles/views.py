@@ -4,10 +4,14 @@ from django.views.generic import (
     CreateView,
     DetailView,
     UpdateView,
+    TemplateView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
+from .mixins import ProfileRequiredMixin
 from .models import Profile
+from .timezone_choices import TIMEZONES_CHOICES
 from bookmarks.models import Bookmark
 from .forms import (
     ProfileCreateForm,
@@ -18,15 +22,14 @@ from .forms import (
     ProfileEditSkillsForm,
     ProfileEditMusicVideosForm,
     ProfileEditSocialsForm,
+    ProfileEditTimezoneForm,
 )
-from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
 from django.core.paginator import Paginator
 from django.conf import settings
-from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
 from reports.forms import ReportForm
 from dal import autocomplete
 from cities_light.models import City
@@ -71,6 +74,11 @@ class LocationAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs[:10]
+
+
+class TimezoneAutocompleteFromList(autocomplete.Select2ListView):
+    def get_list(self):
+        return TIMEZONES_CHOICES
 
 
 def profile_list(request):
@@ -203,6 +211,9 @@ class ProfileEditBaseView(
         profile = self.get_object()
         return self.request.user == profile.user
 
+    def get_success_url(self):
+        return self.request.path
+
 
 class ProfileEditGeneralInfoView(ProfileEditBaseView):
 
@@ -244,3 +255,31 @@ class ProfileEditSocialsView(ProfileEditBaseView):
 
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
+
+
+class ProfileSettingsView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+    template_name = "profiles/profile_settings.html"
+
+
+class ProfileEditTimezoneView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    SuccessMessageMixin,
+    UpdateView,
+):
+    model = Profile
+    template_name = "profiles/profile_settings_timezone.html"
+    form_class = ProfileEditTimezoneForm
+    success_message = "Successfully changed timezone!"
+    success_url = reverse_lazy("profiles:profile_settings")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user

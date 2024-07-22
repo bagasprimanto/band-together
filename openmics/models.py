@@ -30,7 +30,7 @@ class OpenMic(models.Model):
         null=True,
         blank=True,
         validators=[MinValueValidator(0)],
-    )  # Assuming that this app will later only be deployed in the UK only
+    )  # Assuming that this app will later only be deployed anywhere
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     personal_website_social_link = models.URLField(null=True, blank=True)

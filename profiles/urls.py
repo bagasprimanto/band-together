@@ -13,7 +13,10 @@ from .views import (
     ProfileEditSocialsView,
     profile_list,
     get_profiles,
+    ProfileSettingsView,
+    ProfileEditTimezoneView,
     LocationAutocomplete,
+    TimezoneAutocompleteFromList,
 )
 
 app_name = "profiles"
@@ -58,9 +61,20 @@ urlpatterns = [
         ProfileEditSocialsView.as_view(),
         name="profile_edit_socials",
     ),
+    path("settings/", ProfileSettingsView.as_view(), name="profile_settings"),
+    path(
+        "settings/<slug:slug>/timezone/",
+        ProfileEditTimezoneView.as_view(),
+        name="profile_settings_timezone",
+    ),
     path(
         "location-autocomplete/",
         LocationAutocomplete.as_view(),
         name="location_autocomplete",
+    ),
+    path(
+        "timezone-autocomplete/",
+        TimezoneAutocompleteFromList.as_view(),
+        name="timezone_autocomplete",
     ),
 ]

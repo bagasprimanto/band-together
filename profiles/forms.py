@@ -7,11 +7,13 @@ from .models import (
     Profile,
     Genre,
     Skill,
+    COMMITMENT_CHOICES,
     GIGS_PLAYED_CHOICES,
     PRACTICE_CHOICES,
     NIGHTS_GIG_CHOICES,
     AVAILABILITY_CHOICES,
 )
+from .timezone_choices import TIMEZONES_CHOICES
 from cities_light.models import City
 from dal import autocomplete
 
@@ -45,9 +47,25 @@ class ProfileCreateForm(forms.ModelForm):
     location = forms.ModelChoiceField(
         queryset=City.objects.all(),
         widget=autocomplete.ModelSelect2(
-            url="profiles:location_autocomplete", attrs={"class": "form-control"}
+            url="profiles:location_autocomplete",
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Select a location...",
+            },
         ),
         help_text="Location is only used for displaying your profile info.",
+    )
+
+    timezone = forms.ChoiceField(
+        choices=TIMEZONES_CHOICES,
+        widget=autocomplete.ListSelect2(
+            url="profiles:timezone_autocomplete",
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Select a time zone...",
+            },
+        ),
+        label="Set your current time zone",
     )
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +80,7 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_type",
             "display_name",
             "location",
+            "timezone",
             "profile_picture",
             InlineCheckboxes(
                 "genres",
@@ -85,6 +104,7 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_type",
             "display_name",
             "location",
+            "timezone",
             "profile_picture",
             "genres",
             "skills",
@@ -149,8 +169,8 @@ class ProfileEditGeneralInfoForm(forms.ModelForm):
             "bio",
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -175,7 +195,11 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
         label="Your musical influences",
         required=False,
     )
-
+    commitment = forms.ChoiceField(
+        choices=COMMITMENT_CHOICES,
+        label="Your level of commitment",
+        required=False,
+    )
     gigs_played = forms.ChoiceField(
         choices=GIGS_PLAYED_CHOICES,
         label="How many gigs have you played?",
@@ -211,14 +235,15 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             "influences",
+            "commitment",
             "gigs_played",
             "practice_frequency",
             "nights_gig",
             "availability",
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -228,6 +253,7 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
         model = Profile
         fields = [
             "influences",
+            "commitment",
             "gigs_played",
             "practice_frequency",
             "nights_gig",
@@ -264,8 +290,8 @@ class ProfileEditPicturesForm(forms.ModelForm):
             "cover_picture",
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -307,8 +333,8 @@ class ProfileEditGenresForm(forms.ModelForm):
             ),
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -349,8 +375,8 @@ class ProfileEditSkillsForm(forms.ModelForm):
             ),
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -428,8 +454,8 @@ class ProfileEditMusicVideosForm(forms.ModelForm):
             "youtube_link_6",
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -502,8 +528,8 @@ class ProfileEditSocialsForm(forms.ModelForm):
             "soundcloud_social_link",
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
-                "cancel",
-                "Cancel",
+                "back-to-profile",
+                "Back to Profile",
                 css_class="btn btn-secondary",
                 onclick=f"window.location.href='{profile_url}'",
             ),
@@ -517,4 +543,41 @@ class ProfileEditSocialsForm(forms.ModelForm):
             "youtube_social_link",
             "instagram_social_link",
             "soundcloud_social_link",
+        ]
+
+
+class ProfileEditTimezoneForm(forms.ModelForm):
+    timezone = forms.ChoiceField(
+        choices=TIMEZONES_CHOICES,
+        widget=autocomplete.ListSelect2(
+            url="profiles:timezone_autocomplete",
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Select a time zone...",
+            },
+        ),
+        label="Set your current time zone",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileEditTimezoneForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)  # Create an instance of the FormHelper class
+        self.helper.form_id = "profile-timezone-info-form"
+        self.helper.form_method = "POST"
+
+        self.helper.layout = Layout(
+            "timezone",
+            Submit("submit", "Submit", css_class="btn btn-primary"),
+            Button(
+                "cancel",
+                "Cancel",
+                css_class="btn btn-secondary",
+                onclick="window.history.back()",
+            ),
+        )
+
+    class Meta:
+        model = Profile
+        fields = [
+            "timezone",
         ]

@@ -1,0 +1,42 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Profile Settings - BandTogether{% endblock title %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+{% endblock additional_css %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold">Profile Settings</h1>
+    <h2 class="fw-normal h4 text-secondary mb-5">Manage your profile settings here!</h2>
+
+    <!-- Bio -->
+    <section class="profile-bio mb-3">
+        <h3>Change Password</h3>
+        <p>Feeling like changing your password? Press this button!</p>
+        <a href="{% url 'account_change_password' %}" class="btn btn-primary">Change Password</a>
+    </section>
+
+    <hr />
+
+    {% if user.is_authenticated and user.profile %}
+    <!-- Change Timezones -->
+    <section class="profile-bio mb-3">
+        <h3>Time Zone</h3>
+        <p>Your current timezone: <span class="fw-bold">{{ user.profile.timezone }}</span></p>
+        <a class="btn btn-primary" href="{% url 'profiles:profile_settings_timezone' slug=user.profile.slug %}">Change Time Zone</a>
+    </section>
+
+    <hr />
+    {% endif %}
+
+    <!-- Delete Account -->
+    <section class="profile-bio mb-3">
+        <h3 class="text-danger">(DANGER ZONE) Delete Account</h3>
+        <p class="fw-bold">Once you delete your account, there is no going back. Please be certain.</p>
+        <a href="#" class="btn btn-danger">Delete My Account</a>
+    </section>
+</div>
+{% endblock content %}
