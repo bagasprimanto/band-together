@@ -45,7 +45,7 @@ class OpenMic(models.Model):
         return reverse("openmics:openmic_detail", kwargs={"pk": self.pk})
 
     @property
-    def expired(self):
+    def is_expired(self):
         return self.event_date < date.today()
 
     def clean(self):
