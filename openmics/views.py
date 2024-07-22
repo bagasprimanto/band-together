@@ -13,6 +13,7 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
 from reports.forms import ReportForm
+from datetime import date
 
 
 class OpenMicListView(ListView):
@@ -23,12 +24,17 @@ class OpenMicListView(ListView):
 
 def openmic_list(request):
     f = OpenMicFilter(
-        request.GET, queryset=OpenMic.objects.all().order_by("-last_updated")
+        request.GET,
+        queryset=OpenMic.objects.filter(event_date__gte=date.today()).order_by(
+            "event_date"
+        ),
     )
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     if not has_filter:
-        openmics = OpenMic.objects.all().order_by("-last_updated")
+        openmics = OpenMic.objects.filter(event_date__gte=date.today()).order_by(
+            "event_date"
+        )
     else:
         openmics = f.qs
 
@@ -59,12 +65,17 @@ def get_openmics(request):
     )  # ?page=2, then this will extract 2. If it doesn't, then default to 1
 
     f = OpenMicFilter(
-        request.GET, queryset=OpenMic.objects.all().order_by("-last_updated")
+        request.GET,
+        queryset=OpenMic.objects.filter(event_date__gte=date.today()).order_by(
+            "event_date"
+        ),
     )
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
     if not has_filter:
-        openmics = OpenMic.objects.all().order_by("-last_updated")
+        openmics = OpenMic.objects.filter(event_date__gte=date.today()).order_by(
+            "event_date"
+        )
     else:
         openmics = f.qs
 

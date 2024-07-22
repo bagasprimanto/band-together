@@ -44,6 +44,10 @@ class OpenMic(models.Model):
     def get_absolute_url(self):
         return reverse("openmics:openmic_detail", kwargs={"pk": self.pk})
 
+    @property
+    def expired(self):
+        return self.event_date < date.today()
+
     def clean(self):
 
         if self.event_date:
