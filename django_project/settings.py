@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     "template_partials",
     # Django-phonenumber-field
     "phonenumber_field",
+    # Django-cleanup,
+    "django_cleanup.apps.CleanupConfig",
     # Local
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",
