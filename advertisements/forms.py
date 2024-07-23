@@ -23,7 +23,11 @@ class AdvertisementCreateForm(forms.ModelForm):
     location = forms.ModelChoiceField(
         queryset=City.objects.all(),
         widget=autocomplete.ModelSelect2(
-            url="profiles:location_autocomplete", attrs={"class": "form-control"}
+            url="profiles:location_autocomplete",
+            attrs={
+                "class": "form-control",
+                "data-placeholder": "Select a location...",
+            },
         ),
     )
 
