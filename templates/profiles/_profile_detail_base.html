@@ -12,7 +12,7 @@
 <div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
 </div>
 {% else %}
-<div class="fill" style="background-image: url('{% static "images/cover_pic_default.jpg" %}');">
+<div class="fill" style="background-image: url('{% static "./images/profiles/cover_pic_default.jpg" %}');">
 </div>
 {% endif %}
 
@@ -23,7 +23,7 @@
             {% if profile.profile_picture %}
             <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
             {% else %}
-            <img src="{% static 'images/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
+            <img src="{% static './images/profiles/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
             {% endif %}
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">

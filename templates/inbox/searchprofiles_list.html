@@ -6,7 +6,7 @@
     hx-target="#new-message"
     hx-swap="innerHTTML" >
     <div class="profile-picture-chat-list">
-        <img class="rounded-circle object-fit-cover" src="{% if profile.profile_picture %}  {{ profile.profile_picture.url }} {% else %} {% static './images/profile_pic_default.jpg' %} {% endif %}"
+        <img class="rounded-circle object-fit-cover" src="{% if profile.profile_picture %}  {{ profile.profile_picture.url }} {% else %} {% static './images/profiles/profile_pic_default.jpg' %} {% endif %}"
             alt="user img" width="40" height="40">
     </div>
     <div class="flex-grow-1 ms-3">
