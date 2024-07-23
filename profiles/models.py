@@ -77,12 +77,14 @@ class Profile(models.Model):
     location = models.ForeignKey(
         "cities_light.City", on_delete=models.SET_NULL, null=True, blank=True
     )
-    profile_picture = models.ImageField(
+    profile_picture = ResizedImageField(
+        size=[500, 500],  # Resize to width = 500px, height = 500px
         upload_to="profiles/profile_pics/",
         null=True,
         blank=True,
     )
-    cover_picture = models.ImageField(
+    cover_picture = ResizedImageField(
+        size=[1920, None],  # Resize to width = 1920px, height = auto
         upload_to="profiles/cover_pics/",
         null=True,
         blank=True,
