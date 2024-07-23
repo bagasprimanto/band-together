@@ -65,6 +65,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     # Django-cleanup,
     "django_cleanup.apps.CleanupConfig",
+    # Django-embed-videos,
+    "embed_video",
     # Local
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",
@@ -188,6 +190,9 @@ PAGE_SIZE = 20
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Django embed video
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Django-Allauth
 SITE_ID = 1
