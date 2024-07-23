@@ -1,4 +1,28 @@
+/* Homepage animations */
+.hidden {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+@media(prefers-reduced-motion) {
+    .hidden {
+        transition: none;
+    }
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
 /* Hero */
+.hero-background {
+    display: flex;
+    align-items: center;
+}
+
 .hero-image-1 img,
 .hero-image-2 img {
     min-height: 320px;
@@ -8,7 +32,7 @@
 
 .hero-image-2 img {
     right: 50px;
-    top: 10px;
+    top: 20px;
     animation: bounce 2.01s infinite;
     animation-delay: 0.2s;
 }
