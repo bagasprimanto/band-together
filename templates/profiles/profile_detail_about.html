@@ -1,6 +1,7 @@
 {% extends "profiles/_profile_detail_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load embed_video_tags %}
 {% load profile_filters %}
 
 {% block profile_detail_content %}
@@ -22,55 +23,67 @@
             
             {% if profile.youtube_link_1 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_1|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_1|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_1 as youtube_link_1 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_1.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_1.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
     
             {% if profile.youtube_link_2 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_2|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_2|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_2 as youtube_link_2 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_2.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_2.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
     
             {% if profile.youtube_link_3 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_3|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_3|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_3 as youtube_link_3 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_3.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_3.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
     
             {% if profile.youtube_link_4 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_4|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_4|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_4 as youtube_link_4 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_4.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_4.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
     
             {% if profile.youtube_link_5 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_5|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_5|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_5 as youtube_link_5 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_5.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_5.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
     
             {% if profile.youtube_link_6 %}
             <div class="thumbnail-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ profile.youtube_link_6|youtube_embed }}">
-                    <img class="play-button" src="{% static 'images/play-button.svg' %}" alt="play button">
-                    <img class="thumbnail" src="{{ profile.youtube_link_6|youthumbnail:'l' }}" alt="YouTube Thumbnail" />
+                {% video profile.youtube_link_6 as youtube_link_6 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal" data-video-url="{{ youtube_link_6.url }}">
+                    <img class="play-button" src="{% static './images/profiles/profile_detail/play-button.svg' %}" alt="play button">
+                    <img class="thumbnail" src="{{ youtube_link_6.thumbnail }}" alt="YouTube Thumbnail" />
                 </a>
+                {% endvideo %}
             </div>
             {% endif %}
         {% else %}
@@ -133,7 +146,7 @@
         {% if profile.personal_website_social_link %}
         <div class="social-media-link-group">
             <a href="{{ profile.personal_website_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/globe-language-svgrepo-com.svg' %}"
+                <img class="social-media-link" src="{% static './images/profiles/profile_detail/globe-language-svgrepo-com.svg' %}"
                     alt="Personal website globe icon">
             </a>
         </div>
@@ -142,7 +155,7 @@
         {% if profile.facebook_social_link %}
         <div class="social-media-link-group">
             <a href="{{ profile.facebook_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/facebook-logo-svgrepo-com.svg' %}"
+                <img class="social-media-link" src="{% static './images/profiles/profile_detail/facebook-logo-svgrepo-com.svg' %}"
                     alt="Facebook icon">
             </a>
         </div>
@@ -151,7 +164,7 @@
         {% if profile.youtube_social_link %}
         <div class="social-media-link-group">
             <a href="{{ profile.youtube_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/youtube-symbol-svgrepo-com.svg' %}"
+                <img class="social-media-link" src="{% static './images/profiles/profile_detail/youtube-symbol-svgrepo-com.svg' %}"
                     alt="Youtube icon">
             </a>
         </div>
@@ -161,7 +174,7 @@
         <div class="social-media-link-group">
             <a href="{{ profile.instagram_social_link }}" target="_blank">
                 <img class="social-media-link"
-                    src="{% static 'images/instagram-social-network-logo-of-photo-camera-svgrepo-com.svg' %}"
+                    src="{% static './images/profiles/profile_detail/instagram-logo-svgrepo-com.svg' %}"
                     alt="Instagram icon">
             </a>
         </div>
@@ -170,7 +183,7 @@
         {% if profile.soundcloud_social_link %}
         <div class="social-media-link-group">
             <a href="{{ profile.soundcloud_social_link }}" target="_blank">
-            <img class="social-media-link" src="{% static 'images/soundcloud-logo-svgrepo-com.svg' %}"
+            <img class="social-media-link" src="{% static './images/profiles/profile_detail/soundcloud-logo-svgrepo-com.svg' %}"
                 alt="Soundcloud icon">
             </a>
         </div>
@@ -233,7 +246,7 @@
 </section>
 
 <!-- Report section -->
- {% if user != profile.user %}
+ {% if user.is_authenticated and user != profile.user %}
 <section class="profile-dates mb-5">
     <div class="created-date">
         <span class="">See an issue with this profile? Report it!</span>

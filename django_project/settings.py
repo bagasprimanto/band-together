@@ -31,7 +31,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.0.84"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.12.85"]
 
 
 # Application definition
@@ -63,6 +63,10 @@ INSTALLED_APPS = [
     "template_partials",
     # Django-phonenumber-field
     "phonenumber_field",
+    # Django-cleanup,
+    "django_cleanup.apps.CleanupConfig",
+    # Django-embed-videos,
+    "embed_video",
     # Local
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",
@@ -186,6 +190,9 @@ PAGE_SIZE = 20
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Django embed video
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Django-Allauth
 SITE_ID = 1
