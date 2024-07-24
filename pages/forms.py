@@ -4,11 +4,23 @@ from .models import Feedback
 
 class FeedbackForm(forms.ModelForm):
 
+    email = forms.EmailField(
+        max_length=100,
+        widget=forms.EmailInput(attrs={"placeholder": "email@example.com"}),
+        label="Your email address",
+        required=False,
+        help_text="Feel free to leave your email so we can get back to you",
+    )
+
+    subject = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={"placeholder": "Your subject here..."}),
+    )
+
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Your message here..."})
+    )
+
     class Meta:
         model = Feedback
         fields = "__all__"
-        widgets = {
-            "email": forms.EmailInput(attrs={"placeholder": "email@example.com"}),
-            "subject": forms.TextInput(attrs={"placeholder": "Your subject here..."}),
-            "message": forms.Textarea(attrs={"placeholder": "Your message here..."}),
-        }
