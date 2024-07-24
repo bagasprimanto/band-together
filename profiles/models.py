@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
-import zoneinfo
+from django_resized import ResizedImageField
+from embed_video.fields import EmbedVideoField
 
 # Import the fixed list of timezone choices
 from .timezone_choices import TIMEZONES_CHOICES
@@ -77,12 +78,14 @@ class Profile(models.Model):
     location = models.ForeignKey(
         "cities_light.City", on_delete=models.SET_NULL, null=True, blank=True
     )
-    profile_picture = models.ImageField(
+    profile_picture = ResizedImageField(
+        size=[500, 500],  # Resize to width = 500px, height = 500px
         upload_to="profiles/profile_pics/",
         null=True,
         blank=True,
     )
-    cover_picture = models.ImageField(
+    cover_picture = ResizedImageField(
+        size=[1920, None],  # Resize to width = 1920px, height = auto
         upload_to="profiles/cover_pics/",
         null=True,
         blank=True,
@@ -93,12 +96,12 @@ class Profile(models.Model):
     slug = models.SlugField(unique=True, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    youtube_link_1 = models.URLField(null=True, blank=True)
-    youtube_link_2 = models.URLField(null=True, blank=True)
-    youtube_link_3 = models.URLField(null=True, blank=True)
-    youtube_link_4 = models.URLField(null=True, blank=True)
-    youtube_link_5 = models.URLField(null=True, blank=True)
-    youtube_link_6 = models.URLField(null=True, blank=True)
+    youtube_link_1 = EmbedVideoField(null=True, blank=True)
+    youtube_link_2 = EmbedVideoField(null=True, blank=True)
+    youtube_link_3 = EmbedVideoField(null=True, blank=True)
+    youtube_link_4 = EmbedVideoField(null=True, blank=True)
+    youtube_link_5 = EmbedVideoField(null=True, blank=True)
+    youtube_link_6 = EmbedVideoField(null=True, blank=True)
     personal_website_social_link = models.URLField(null=True, blank=True)
     facebook_social_link = models.URLField(null=True, blank=True)
     youtube_social_link = models.URLField(null=True, blank=True)

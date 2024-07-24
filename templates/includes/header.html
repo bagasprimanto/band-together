@@ -11,7 +11,7 @@
 
         <!-- BandTogether Logo -->
         <a class="navbar-brand" href="{% url 'pages:home' %}">
-            <img src="{% static 'images/BandTogetherLogo.svg' %}" alt="BandTogether Logo" class="logo">
+            <img src="{% static './images/pages/header/BandTogetherLogo.svg' %}" alt="BandTogether Logo" class="logo">
             BandTogether
         </a>
 
@@ -55,7 +55,7 @@
                         <img src="{{ user.profile.profile_picture.url }}"
                             width="40" height="40" class="rounded-circle object-fit-cover">
                         {% else %}
-                        <img src="{% static 'images/profile_pic_default.jpg' %}"
+                        <img src="{% static './images/profiles/profile_pic_default.jpg' %}"
                             width="40" height="40" class="rounded-circle object-fit-cover">
                         {% endif %}
                     </a>

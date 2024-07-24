@@ -138,7 +138,6 @@ a.add img {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
-    text-transform: capitalize;
     margin-bottom: 0;
 }
 
@@ -175,7 +174,6 @@ a.add img {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
-    text-transform: capitalize;
     margin-bottom: 0;
 }
 
@@ -433,7 +431,6 @@ li.repaly .time {
     cursor: pointer;
     color: #343945;
     font-weight: 400;
-    text-transform: capitalize;
     font-size: 13px;
 }
 
@@ -641,7 +638,6 @@ body {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
-    text-transform: capitalize;
     margin-bottom: 0;
 }
 
