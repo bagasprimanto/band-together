@@ -9,6 +9,7 @@ class FeedbackAdmin(admin.ModelAdmin):
         "subject",
         "email",
         "message",
+        "created",
     ]
 
 
