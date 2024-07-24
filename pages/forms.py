@@ -5,7 +5,6 @@ from .models import Feedback
 class FeedbackForm(forms.ModelForm):
 
     email = forms.EmailField(
-        max_length=100,
         widget=forms.EmailInput(attrs={"placeholder": "email@example.com"}),
         label="Your email address",
         required=False,
