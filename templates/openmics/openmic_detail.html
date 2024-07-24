@@ -236,6 +236,7 @@
                                     class="rounded-circle object-fit-cover">
                             </div>
                             {% endif %}
+                            {% if comment.author %}
                             <div class="ms-2 align-items-center">
                                 <div>
                                     <a href="{% url 'profiles:profile_detail' comment.author.slug %}"
@@ -266,6 +267,21 @@
                                 </div>
                                 <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
                             </div>
+                            {% else %}
+                            <div class="ms-2 align-items-center">
+                                <div>
+                                    <a href="#"
+                                        class="openmic-link text-reset text-decoration-none">
+                                        <small class="mb-0">[Deleted profile]
+                                        </small>
+                                    </a>
+                                    <small class="text-secondary">
+                                        | {{ comment.created|timesince }} ago
+                                    </small>
+                                </div>
+                                <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
+                            </div>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
