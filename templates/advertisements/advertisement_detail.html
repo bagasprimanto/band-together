@@ -149,6 +149,7 @@
                             class="rounded-circle object-fit-cover">
                     </div>
                     {% endif %}
+                    {% if comment.author %}
                     <div class="ms-2 align-items-center">
                         <div>
                             <a href="{% url 'profiles:profile_detail' comment.author.slug %}"
@@ -163,7 +164,7 @@
                                 <a href="#" class="profile-link text-reset text-decoration-none" data-bs-toggle="modal"
                                     data-bs-target="#deleteCommentModal"
                                     data-comment-delete-url="{% url 'advertisements:comment_delete' comment.pk %}"
-                                     {% if comment.author.profile_picture %}
+                                    {% if comment.author.profile_picture %}
                                     data-comment-author-image-url="{{ comment.author.profile_picture.url }}" 
                                     {% else %}
                                     data-comment-author-image-url="{% static './images/profiles/profile_pic_default.jpg' %}" 
@@ -179,6 +180,20 @@
                         </div>
                         <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
                     </div>
+                    {% else %}
+                    <div class="ms-2 align-items-center">
+                        <div>
+                            <a href="#"
+                                class="profile-link text-reset text-decoration-none">
+                                <small class="mb-0"> [Deleted profile] </small>
+                            </a>
+                            <small class="text-secondary">
+                                | {{ comment.created|timesince }} ago
+                            </small>
+                        </div>
+                        <p class="custom-truncate-comment-body mb-0">{{ comment.body }}</p>
+                    </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
