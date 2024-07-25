@@ -21,7 +21,7 @@ class BookmarkModelTest(TestCase):
             object_id=cls.profile.id,
         )
 
-    def test_bookmark_creation(self):
+    def test_bookmark_creation_for_profile(self):
         bookmark = Bookmark.objects.get(id=self.bookmark.id)
         self.assertEqual(bookmark.profile, self.profile)
         self.assertEqual(bookmark.content_type, self.content_type)
@@ -41,7 +41,7 @@ class BookmarkModelTest(TestCase):
             duplicate_bookmark.full_clean()  # This should raise a ValidationError
             duplicate_bookmark.save()
 
-    def test_str_representation(self):
+    def test_bookmark_str_representation(self):
         bookmark = Bookmark.objects.get(id=self.bookmark.id)
         expected_str = f"Bookmark(profile={self.profile}, content_type={self.content_type}, object_id={self.profile.id})"
         self.assertEqual(str(bookmark), expected_str)
