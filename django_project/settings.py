@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     # Django-embed-videos,
     "embed_video",
+    # Django storages
+    "storages",
     # Local
     "accounts.apps.AccountsConfig",
     "advertisements.apps.AdvertisementsConfig",
@@ -182,6 +184,15 @@ MESSAGE_TAGS = {
 # Media files (Uploaded files)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# AWS Configuration
+AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+
+# Basic storage configuration for Amazon S3
+AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
 
 # Pagination page size
 PAGE_SIZE = 20
