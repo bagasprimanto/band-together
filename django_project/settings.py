@@ -11,22 +11,25 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from environs import Env
+
+# from environs import Env
+import environ
+import os
+
 from django.contrib import messages
 
-# Read environment variables
-env = Env()
-env.read_env()
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -186,13 +189,23 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # AWS Configuration
-AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 
 # Basic storage configuration for Amazon S3
-AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
 AWS_S3_FILE_OVERWRITE = False
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
 
 # Pagination page size
 PAGE_SIZE = 20
@@ -227,8 +240,8 @@ LOGOUT_REDIRECT_URL = "pages:home"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": env.str("GOOGLE_CLIENT_ID"),
-            "secret": env.str("GOOGLE_CLIENT_SECRET"),
+            "client_id": env("GOOGLE_CLIENT_ID"),
+            "secret": env("GOOGLE_CLIENT_SECRET"),
             "key": "",
         },
         "SCOPE": [
@@ -246,7 +259,7 @@ EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "apikey"  # Name for all the SenGrid accounts
-EMAIL_HOST_PASSWORD = env.str("SENDGRID_API_KEY")
+EMAIL_HOST_PASSWORD = env("SENDGRID_API_KEY")
 
 # The email you'll be sending emails from
-DEFAULT_FROM_EMAIL = env.str("FROM_EMAIL", default="noreply@gmail.com")
+DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="noreply@gmail.com")
