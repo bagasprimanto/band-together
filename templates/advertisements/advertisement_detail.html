@@ -90,7 +90,7 @@
         </section>
         {% endif %}
 
-        {% if ad.author != user.profile %}
+        {% if user.is_authenticated and user.profile and ad.author != user.profile %}
         <section class="d-flex justify-content-between align-items-center mb-5">
             <div>
                 <h2 class="fw-semibold mb-0">

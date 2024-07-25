@@ -1,8 +1,8 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.urls import reverse, resolve
 
-from .views import HomePageView, AboutPageView, FeedbackPageView
-from .models import Feedback
+from pages.views import HomePageView, AboutPageView, FeedbackPageView
+from pages.models import Feedback
 
 
 class HomePageTests(SimpleTestCase):

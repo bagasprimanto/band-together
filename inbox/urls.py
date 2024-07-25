@@ -2,10 +2,6 @@ from django.urls import path
 from .views import (
     InboxView,
     InboxDetailView,
-    create_message,
-    create_reply,
-    notify_newmessage,
-    notify_inbox,
     SearchProfilesView,
     CreateMessageView,
     CreateReplyView,
