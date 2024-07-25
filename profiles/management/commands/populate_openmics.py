@@ -3,7 +3,10 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 from profiles.models import Profile, Genre
 from advertisements.models import AdType
-from openmics.models import OpenMic  # Ensure you import the OpenMic model correctly
+from openmics.models import (
+    OpenMic,
+    Comment,
+)  # Ensure you import the OpenMic model correctly
 from cities_light.models import City
 from datetime import datetime, date, timedelta
 
@@ -65,5 +68,14 @@ class Command(BaseCommand):
                 instagram_social_link=fake.url(),
             )
             openmic.genres.set(random.sample(genre_objects, min(2, len(genre_objects))))
+
+            # Create Comments for OpenMics
+            for _ in range(3):
+                Comment.objects.create(
+                    author=random.choice(profile_objects),
+                    parent_openmic=openmic,
+                    body=fake.sentence(nb_words=10),
+                    created=fake.date_time_this_year(),
+                )
 
         self.stdout.write(self.style.SUCCESS("Successfully populated the database"))
