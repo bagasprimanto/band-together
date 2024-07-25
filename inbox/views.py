@@ -86,39 +86,6 @@ class SearchProfilesView(ListView):
         return super().render_to_response(context, **response_kwargs)
 
 
-def create_message(request, profile_slug):
-    recipient = get_object_or_404(Profile, slug=profile_slug)
-    create_message_form = InboxCreateMessageForm()
-
-    if request.method == "POST":
-        form = InboxCreateMessageForm(request.POST)
-        if form.is_valid():
-            message = form.save(commit=False)
-            message.sender = request.user.profile
-
-            my_conversations = request.user.profile.conversations.all()
-            for c in my_conversations:
-                if recipient in c.participants.all():
-                    message.conversation = c
-                    message.save()
-                    c.lastmessage_created = timezone.now()
-                    c.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
-                    c.save()
-                    return redirect("inbox:inbox_detail", conversation_pk=c.pk)
-            new_conversation = Conversation.objects.create()
-            new_conversation.participants.add(request.user.profile, recipient)
-            new_conversation.save()
-            message.conversation = new_conversation
-            message.save()
-            return redirect("inbox:inbox_detail", conversation_pk=new_conversation.pk)
-
-    context = {
-        "recipient": recipient,
-        "form": create_message_form,
-    }
-    return render(request, "inbox/createmessage_form.html", context)
-
-
 class CreateMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
     form_class = InboxCreateMessageForm
     template_name = "inbox/createmessage_form.html"
@@ -164,31 +131,6 @@ class CreateMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
             "form": form,
         }
         return render(request, self.template_name, context)
-
-
-def create_reply(request, conversation_pk):
-    create_message_form = InboxCreateMessageForm()
-    my_conversations = request.user.profile.conversations.all()
-    conversation = get_object_or_404(my_conversations, id=conversation_pk)
-
-    if request.method == "POST":
-        form = InboxCreateMessageForm(request.POST)
-        if form.is_valid():
-            message = form.save(commit=False)
-            message.sender = request.user.profile
-            message.conversation = conversation
-            message.save()
-            conversation.lastmessage_created = timezone.now()
-            conversation.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
-            conversation.save()
-            return redirect("inbox:inbox_detail", conversation_pk=conversation.pk)
-
-    context = {
-        "form": create_message_form,
-        "conversation": conversation,
-    }
-
-    return render(request, "inbox/createreply_form.html", context)
 
 
 class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
@@ -237,15 +179,6 @@ class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-def notify_newmessage(request, conversation_pk):
-    conversation = get_object_or_404(Conversation, id=conversation_pk)
-    latest_message = conversation.messages.first()
-    if conversation.is_seen == False and latest_message.sender != request.user.profile:
-        return render(request, "inbox/notify_icon.html")
-    else:
-        return HttpResponse("")
-
-
 class NotifyNewMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
     def get(self, request, conversation_pk):
@@ -260,17 +193,6 @@ class NotifyNewMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
             return render(request, "inbox/notify_icon.html")
         else:
             return HttpResponse("")
-
-
-def notify_inbox(request):
-    my_conversations = Conversation.objects.filter(
-        participants=request.user.profile, is_seen=False
-    )
-    for c in my_conversations:
-        latest_message = c.messages.first()
-        if latest_message.sender != request.user.profile:
-            return render(request, "inbox/notify_icon.html")
-    return HttpResponse("")
 
 
 class NotifyInboxView(LoginRequiredMixin, ProfileRequiredMixin, View):
