@@ -337,7 +337,8 @@
 {% endblock content %}
 
 {% block additional_js %}
-<script src="{% static 'js/openmics/openmic_detail/openmic_comment_modal.js' %}"></script>
+<script src="{% static 'js/comment_modal.js' %}"></script>
+<script src="{% static 'js/inbox/create_message_modal_dismiss.js' %}"></script>
 <script>
     {{map.script.render|safe}}
 </script>

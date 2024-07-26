@@ -83,42 +83,6 @@
 {% endblock content %}
 
 {% block additional_js %}
-<script>
-    //For storing and returning the create message modal content
-    document.addEventListener('DOMContentLoaded', function () {
-        var originalModalContent = document.querySelector("#createMessageModal .modal-body").innerHTML;
-
-        document.getElementById('createMessageModal').addEventListener('hidden.bs.modal', function () {
-            document.querySelector("#createMessageModal .modal-body").innerHTML = originalModalContent;
-            htmx.process(document.querySelector("#createMessageModal .modal-body")); // Reinitialize HTMX on the new content
-        });
-
-        document.addEventListener('click', function (event) {
-            if (event.target && event.target.id === 'cancel-button') {
-                document.querySelector("#createMessageModal .modal-body").innerHTML = originalModalContent;
-                htmx.process(document.querySelector("#createMessageModal .modal-body")); // Reinitialize HTMX on the new content
-            }
-        });
-    });
-
-
-    //For filtering the list of chatlist based on text input
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('inlineFormInputGroup');
-        const conversationList = document.querySelectorAll('.chat-list .chat-item-list');
-
-        searchInput.addEventListener('input', function () {
-            const filter = searchInput.value.toLowerCase();
-            conversationList.forEach(function (item) {
-                const participantName = item.querySelector('.profile-display-name').innerText.toLowerCase();
-                if (participantName.includes(filter)) {
-                    item.classList.remove('d-none');
-                } else {
-                    item.classList.add('d-none');
-                }
-            });
-        });
-    });
-
-</script>
+<script src="{% static 'js/inbox/inbox_restore_create_message_modal.js' %}"></script>
+<script src="{% static 'js/inbox/inbox_filter_conversation_list.js' %}"></script>
 {% endblock additional_js %}
