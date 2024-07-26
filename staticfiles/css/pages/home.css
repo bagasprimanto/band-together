@@ -1,0 +1,80 @@
+/* Homepage animations */
+.hidden {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+@media(prefers-reduced-motion) {
+    .hidden {
+        transition: none;
+    }
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+/* Hero */
+.hero-background {
+    display: flex;
+    align-items: center;
+}
+
+.hero-image-1 img,
+.hero-image-2 img {
+    min-height: 320px;
+    object-fit: cover;
+    position: relative;
+}
+
+.hero-image-2 img {
+    right: 50px;
+    top: 20px;
+    animation: bounce 2.01s infinite;
+    animation-delay: 0.2s;
+}
+
+.hero-image-1 img {
+    left: 10px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    /* Animation for hero images */
+    0% {
+        transform: translateY(-15px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
+
+.hero-background {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 44%, rgba(119, 119, 119, 1) 100%);
+}
+
+/* How-To Images */
+img.how-to-image {
+    object-fit: cover;
+}
+
+/* Benefits */
+img.benefits-image {
+    width: 32px;
+}
+
+footer {
+    width: 100%;
+}

@@ -3,7 +3,7 @@
 {% block title %}Profile Detail - BandTogether{% endblock title %}
 
 {% block additional_css %}
-<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/profiles/profile_detail.css' %}">
 {% endblock additional_css %}
 
 {% block content %}
@@ -23,7 +23,7 @@
             {% if profile.profile_picture %}
             <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
             {% else %}
-            <img src="{% static './images/profiles/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
+            <img src="{% static 'images/profiles/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
             {% endif %}
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">

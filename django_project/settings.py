@@ -32,7 +32,7 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.12.85"]
 
@@ -86,6 +86,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # Whitenoise
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -166,6 +168,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     BASE_DIR / "htmx_messages/static",
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -199,11 +202,13 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
 
 STORAGES = {
+    # Media file (image) management
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
     },
+    # Image, CSS and JS files
     "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 

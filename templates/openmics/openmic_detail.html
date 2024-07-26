@@ -8,7 +8,7 @@
 {% endblock additional_folium %}
 
 {% block additional_css %}
-<link rel="stylesheet" href="{% static './css/openmics/openmic_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/openmics/openmic_detail.css' %}">
 {% endblock additional_css %}
 
 {% block content %}
@@ -30,7 +30,7 @@
                             {% if openmic.author.profile_picture %}
                             <img src="{{ openmic.author.profile_picture.url }}" alt="Author profile picture" class="rounded-circle">
                             {% else %}
-                            <img src="{% static './images/profiles/profile_pic_default.jpg' %}" alt="Author profile picture"
+                            <img src="{% static 'images/profiles/profile_pic_default.jpg' %}" alt="Author profile picture"
                                 class="rounded-circle">
                             {% endif %}
                         </div>
@@ -146,7 +146,7 @@
                         {% if openmic.personal_website_social_link %}
                         <div class="social-media-link-group">
                             <a href="{{ openmic.personal_website_social_link }}" target="_blank">
-                                <img class="social-media-link" src="{% static './images/profiles/profile_detail/globe-language-svgrepo-com.svg' %}"
+                                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/globe-language-svgrepo-com.svg' %}"
                                     alt="Personal website globe icon">
                             </a>
                         </div>
@@ -155,7 +155,7 @@
                         {% if openmic.facebook_social_link %}
                         <div class="social-media-link-group">
                             <a href="{{ openmic.facebook_social_link }}" target="_blank">
-                                <img class="social-media-link" src="{% static './images/profiles/profile_detail/facebook-logo-svgrepo-com.svg' %}"
+                                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/facebook-logo-svgrepo-com.svg' %}"
                                     alt="Facebook icon">
                             </a>
                         </div>
@@ -164,7 +164,7 @@
                         {% if openmic.youtube_social_link %}
                         <div class="social-media-link-group">
                             <a href="{{ openmic.youtube_social_link }}" target="_blank">
-                                <img class="social-media-link" src="{% static './images/profiles/profile_detail/youtube-symbol-svgrepo-com.svg' %}"
+                                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/youtube-symbol-svgrepo-com.svg' %}"
                                     alt="Youtube icon">
                             </a>
                         </div>
@@ -174,7 +174,7 @@
                         <div class="social-media-link-group">
                             <a href="{{ openmic.instagram_social_link }}" target="_blank">
                                 <img class="social-media-link"
-                                    src="{% static './images/profiles/profile_detail/instagram-logo-svgrepo-com.svg' %}"
+                                    src="{% static 'images/profiles/profile_detail/instagram-logo-svgrepo-com.svg' %}"
                                     alt="Instagram icon">
                             </a>
                         </div>
@@ -232,7 +232,7 @@
                             </div>
                             {% else %}
                             <div>
-                                <img src="{% static './images/profiles/profile_pic_default.jpg' %}" alt="" width="40" height="40"
+                                <img src="{% static 'images/profiles/profile_pic_default.jpg' %}" alt="" width="40" height="40"
                                     class="rounded-circle object-fit-cover">
                             </div>
                             {% endif %}
@@ -254,7 +254,7 @@
                                             {% if comment.author.profile_picture %}
                                             data-comment-author-image-url="{{ comment.author.profile_picture.url }}" 
                                             {% else %} 
-                                            data-comment-author-image-url="{% static './images/profiles/profile_pic_default.jpg' %}"
+                                            data-comment-author-image-url="{% static 'images/profiles/profile_pic_default.jpg' %}"
                                             {% endif %} 
                                             data-comment-author-url="{% url 'profiles:profile_detail' comment.author.slug %}"
                                             data-comment-author-display-name="{{ comment.author.display_name }}"

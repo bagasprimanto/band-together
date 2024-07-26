@@ -1,0 +1,8 @@
+.select2 {
+    width: 100% !important;
+}
+
+.select2-selection {
+    height: 2.35rem !important;
+    position: relative;
+}
