@@ -3,7 +3,7 @@
 {% block title %}Profile Detail - BandTogether{% endblock title %}
 
 {% block additional_css %}
-<link rel="stylesheet" href="{% static './css/profiles/profile_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/profiles/profile_detail.css' %}">
 {% endblock additional_css %}
 
 {% block content %}
@@ -12,7 +12,7 @@
 <div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
 </div>
 {% else %}
-<div class="fill" style="background-image: url('{% static "./images/profiles/cover_pic_default.jpg" %}');">
+<div class="fill" style="background-image: url('{% static "images/profiles/cover_pic_default.jpg" %}');">
 </div>
 {% endif %}
 
@@ -23,7 +23,7 @@
             {% if profile.profile_picture %}
             <img src="{{ profile.profile_picture.url }}" alt="" class="rounded-circle shadow-sm">
             {% else %}
-            <img src="{% static './images/profiles/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
+            <img src="{% static 'images/profiles/profile_pic_default.jpg' %}" alt="" class="rounded-circle shadow-sm">
             {% endif %}
         </div>
         <div class="profile-sub-info col-12 ms-4 mt-0">
@@ -88,35 +88,6 @@
 {% endblock content %}
 
 {% block additional_js %}
-<script>
-
-    // For inserting the youtube video's embed URL inside the modal
-    var videoModal = document.getElementById('videoModal')
-    videoModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget // Button that triggered the modal
-        var videoUrl = button.getAttribute('data-video-url') // Extract info from data-* attributes
-        var modalTitle = videoModal.querySelector('.modal-title')
-        var videoFrame = videoModal.querySelector('#videoFrame')
-
-        // Update the modal's content.
-        videoFrame.src = videoUrl
-    })
-
-    // Remove URL from videoframe src attribute when modal is dimissed
-    videoModal.addEventListener('hidden.bs.modal', function (event) {
-        var videoFrame = videoModal.querySelector('#videoFrame')
-        videoFrame.src = ''
-    })
-
-    // For dismissing the create message modal when cancel button is clicked
-    document.addEventListener('DOMContentLoaded', function () {
-        var cancelButton = document.getElementById('cancel-button');
-        if (cancelButton) {
-            cancelButton.addEventListener('click', function () {
-                var createMessageModal = bootstrap.Modal.getInstance(document.getElementById('createMessageModal'));
-                createMessageModal.hide();
-            });
-        }
-    });
-</script>
+<script src="{% static 'js/profiles/profile_detail/youtube_modal.js' %}"></script>
+<script src="{% static 'js/inbox/create_message_modal_dismiss.js' %}"></script>
 {% endblock additional_js %}
