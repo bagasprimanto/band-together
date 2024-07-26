@@ -296,4 +296,15 @@ DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="noreply@gmail.com")
 SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
 
 # Django Cities Light
-CITIES_LIGHT_INCLUDE_COUNTRIES = ["UK", "ID"]
+CITIES_LIGHT_INCLUDE_COUNTRIES = [
+    "CA",
+    "CN",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "ID",
+    "MY",
+    "SG",
+    "US",
+]
