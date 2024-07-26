@@ -133,17 +133,17 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # Development sqlite3
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # Render PostgreSQL database (Live)
 import dj_database_url
 
-DATABASES = {"default": dj_database_url.parse(env("DATABASE_URL"), conn_max_age=600)}
+# DATABASES = {"default": dj_database_url.parse(env("DATABASE_URL"), conn_max_age=600)}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -291,3 +291,6 @@ EMAIL_HOST_PASSWORD = env("SENDGRID_API_KEY")
 
 # The email you'll be sending emails from
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="noreply@gmail.com")
+
+# Youtube embed
+SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
