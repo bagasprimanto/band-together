@@ -294,3 +294,6 @@ DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="noreply@gmail.com")
 
 # Youtube embed
 SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
+
+# Django Cities Light
+CITIES_LIGHT_INCLUDE_COUNTRIES = ["UK", "ID"]
