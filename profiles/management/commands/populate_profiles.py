@@ -18,6 +18,10 @@ class Command(BaseCommand):
         self.stdout.write("Populating data profiles...")
 
         User = get_user_model()
+        profile_types = list(ProfileType.objects.all())
+        cities = list(City.objects.all())
+        genres = list(Genre.objects.all())
+        skills = list(Skill.objects.all())
 
         # Create Users and profiles
         for _ in range(500):
@@ -29,10 +33,10 @@ class Command(BaseCommand):
             profile = Profile.objects.create(
                 user=user,
                 display_name=fake.name(),
-                profile_type=ProfileType.objects.first(),
-                location=City.objects.first(),
+                profile_type=random.choice(profile_types) if profile_types else None,
+                location=random.choice(cities) if cities else None,
             )
-            profile.genres.set(Genre.objects.all()[:3])
-            profile.skills.set(Skill.objects.all()[:3])
+            profile.genres.set(random.sample(genres, min(len(genres), 3)))
+            profile.skills.set(random.sample(skills, min(len(skills), 3)))
 
         self.stdout.write(self.style.SUCCESS("Successfully populated the database"))

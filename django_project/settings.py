@@ -22,6 +22,8 @@ env = environ.Env(
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Read environment variables
 environ.Env.read_env(BASE_DIR / ".env")
 
 
@@ -32,9 +34,7 @@ environ.Env.read_env(BASE_DIR / ".env")
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.12.85"]
+DEBUG = env("DEBUG")
 
 
 # Application definition
@@ -125,18 +125,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "django_project.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -170,7 +158,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     BASE_DIR / "htmx_messages/static",
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -192,28 +179,6 @@ MESSAGE_TAGS = {
 # Media files (Uploaded files)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-
-# AWS Configuration
-AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
-
-# Basic storage configuration for Amazon S3
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-AWS_S3_FILE_OVERWRITE = False
-AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
-
-
-STORAGES = {
-    # Media file (image) management
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
-    },
-    # Image, CSS and JS files
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
 
 # Pagination page size
 PAGE_SIZE = 20
@@ -271,3 +236,79 @@ EMAIL_HOST_PASSWORD = env("SENDGRID_API_KEY")
 
 # The email you'll be sending emails from
 DEFAULT_FROM_EMAIL = env("FROM_EMAIL", default="noreply@gmail.com")
+
+# Youtube embed
+SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
+
+# Django Cities Light
+CITIES_LIGHT_INCLUDE_COUNTRIES = [
+    "CA",
+    "CN",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "ID",
+    "MY",
+    "SG",
+    "US",
+]
+
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.12.85"]
+
+    # Database
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+    # Development sqlite3
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+            "OPTIONS": {
+                "location": MEDIA_ROOT,
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+else:
+    ALLOWED_HOSTS = ["*"]
+
+    # Database
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+    # Render PostgreSQL database (Live)
+    import dj_database_url
+
+    DATABASES = {
+        "default": dj_database_url.parse(env("DATABASE_URL"), conn_max_age=600)
+    }
+
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STORAGES = {
+        # Media file (image) management
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+        },
+        # Image, CSS and JS files
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+
+    # AWS Configuration
+    AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+
+    # Basic storage configuration for Amazon S3
+    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
