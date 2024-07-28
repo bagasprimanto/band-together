@@ -13,7 +13,7 @@ class Command(BaseCommand):
         self.stdout.write("Populating data...")
 
         # Create AdTypes
-        ad_types = ["Looking for Band", "Looking for Musician"]
+        ad_types = ["Musician Available", "Musician Wanted"]
         for ad_type in ad_types:
             AdType.objects.get_or_create(name=ad_type)
 
