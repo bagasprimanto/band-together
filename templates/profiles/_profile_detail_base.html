@@ -34,7 +34,11 @@
                 </p>
                 {% if profile.birthday %}
                 <p class="fw-normal">
-                    <span class="fw-bold">Age</span> - {{ profile.age }} years old
+                    <span class="fw-bold">Age</span> - {{ profile.age }} years old 
+                    {% if profile.profile_type|lower == "band" %} 
+                        <img class="info-icon-tooltip" src="{% static 'images/profiles/profile_detail/info-circle.svg' %}"
+                        alt="Personal website globe icon" data-bs-toggle="tooltip" data-bs-title="Age of the band member who created this profile"> 
+                    {% endif %}
                 </p>
                 {% endif %}
                 {% if user.is_authenticated and user.profile %}
