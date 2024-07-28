@@ -213,7 +213,7 @@ class ProfileEditBaseView(
         return self.request.user == profile.user
 
     def get_success_url(self):
-        return self.request.path
+        return reverse("profiles:profile_detail", kwargs={"slug": self.object.slug})
 
 
 class ProfileEditGeneralInfoView(ProfileEditBaseView):
