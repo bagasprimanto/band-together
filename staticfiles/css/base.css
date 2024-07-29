@@ -5,6 +5,12 @@
     font-family: sans-serif;
 }
 
+/* Font */
+* {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif !important;
+}
+
+
 /* Navbar */
 
 .navbar-brand,
