@@ -84,11 +84,11 @@ class ProfileCreateForm(forms.ModelForm):
             "profile_picture",
             InlineCheckboxes(
                 "genres",
-                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+                css_class="flex-wrap col-md-6 col-12 row-cols-3",
             ),
             InlineCheckboxes(
                 "skills",
-                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+                css_class="flex-wrap col-md-6 col-12 row-cols-3",
             ),
             "bio",
             Submit("submit", "Submit", css_class="btn btn-primary"),

@@ -29,9 +29,16 @@
                 {{ form.title|as_crispy_field }}
                 {{ form.location|as_crispy_field }}
 
-                <div class="form-group mb-2">
+                <div class="form-group mt-3 mb-3 d-flex flex-wrap">
+                    <label for="id_order_by" class="form-label col-12">
+                        Event Date Range:
+                    </label>
+                    {{ form.event_date }}
+                </div>
+
+                <div class="form-group col-md-4 col-12 mb-2">
                     {{ form.genres.label_tag }}
-                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                    <div class="d-flex flex-wrap row-cols-2">
                         {% for checkbox in form.genres %}
                         <div class="form-check d-flex gx-2">
                             {{ checkbox.tag }}
