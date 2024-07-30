@@ -392,44 +392,32 @@ class ProfileEditSkillsForm(forms.ModelForm):
 class ProfileEditMusicVideosForm(forms.ModelForm):
 
     youtube_link_1 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here...."}),
         required=False,
     )
 
     youtube_link_2 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here..."}),
         required=False,
     )
 
     youtube_link_3 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here..."}),
         required=False,
     )
 
     youtube_link_4 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here..."}),
         required=False,
     )
 
     youtube_link_5 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here..."}),
         required=False,
     )
 
     youtube_link_6 = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/watch?..."}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "YouTube URL here..."}),
         required=False,
     )
 
@@ -481,30 +469,22 @@ class ProfileEditSocialsForm(forms.ModelForm):
     )
 
     facebook_social_link = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.facebook.com/example-profile/"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "https://www.facebook.com/..."}),
         required=False,
     )
 
     youtube_social_link = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.youtube.com/example-profile"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "https://www.youtube.com/..."}),
         required=False,
     )
 
     instagram_social_link = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://www.instagram.com/example-profile"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "https://www.instagram.com/..."}),
         required=False,
     )
 
     soundcloud_social_link = forms.URLField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "https://soundcloud.com/example-profile"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "https://soundcloud.com/..."}),
         required=False,
     )
 
