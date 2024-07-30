@@ -4,6 +4,12 @@ from .models import OpenMic
 from profiles.models import Genre
 from dal import autocomplete
 from cities_light.models import City
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column, Submit
+from django_filters import DateFromToRangeFilter
+from django_filters.widgets import DateRangeWidget
+from django_filters import DateFromToRangeFilter
+from django_filters.widgets import DateRangeWidget
 
 
 def get_genre_choices():
@@ -16,6 +22,11 @@ class OpenMicFilter(django_filters.FilterSet):
     location = django_filters.ModelChoiceFilter(
         queryset=City.objects.all(),
         widget=autocomplete.ModelSelect2(url="profiles:location_autocomplete"),
+    )
+
+    event_date = DateFromToRangeFilter(
+        field_name="event_date",
+        widget=DateRangeWidget(attrs={"type": "date"}),
     )
 
     genres = django_filters.ModelMultipleChoiceFilter(
@@ -44,6 +55,7 @@ class OpenMicFilter(django_filters.FilterSet):
         fields = [
             "title",
             "location",
+            "event_date",
             "genres",
             "free",
         ]

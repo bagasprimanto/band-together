@@ -16,30 +16,18 @@
                 <div class="col-6 hero-image-1">
                     <img class="rounded col-xxl-12 img-fluid shadow position-relative"
                         src="{% static 'images/pages/home/LandingPage1.jpg' %}" alt="Girl playing violin">
-                    <!-- <p class="photo-attribute">
-                                Photo by <a
-                                    href="https://unsplash.com/@luwadlinbosman?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Luwadlin
-                                    Bosman</a> on <a
-                                    href="https://unsplash.com/photos/a-woman-in-a-blue-dress-playing-a-violin-pD1KUHCZ9Yc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                            </p> -->
                 </div>
                 <div class="col-6 hero-image-2">
                     <img class="rounded col-xxl-12 img-fluid shadow position-relative"
                         src="{% static 'images/pages/home/LandingPage2.jpg' %}" alt="Man playing drums.">
-                    <!-- <p class="photo-attribute">
-                                Photo by <a
-                                    href="https://unsplash.com/@chrisbulilan?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Chris
-                                    Bulilan</a> on <a
-                                    href="https://unsplash.com/photos/man-in-black-knit-cap-holding-brown-stick-1oJMdG-rrH0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                            </p> -->
                 </div>
             </div>
             <div class="col-md-6 hero-text d-flex align-items-center order-md-1 mt-4">
                 <div>
                     <h1 class="display-1 fw-bold lh-1">Connect.</br>Create Music.</h1>
                     <h2 class="text-light-emphasis h4 lh-1">
-                        BandTogether is the place to find like-minded hobbyist musicians
-                        locally for free!
+                        BandTogether is the place to network with local hobbyist musicians and bands
+                        for free!
                     </h2>
                     <a href="{% url 'account_signup' %}" class="btn btn-primary mt-3">Sign Up!</a>
                 </div>
@@ -54,120 +42,52 @@
         <div class="row d-flex justify-content-around mb-3 order-md-2 mb-5 hidden">
             <div class="col-md-5 order-md-1 mb-3">
                 <img class="rounded img-fluid how-to-image shadow"
-                    src="{% static 'images/pages/home/Step1SignUp.gif' %}" alt="Signing Up GIF image">
+                    src="{% static 'images/pages/home/CreateProfile.jpg' %}" alt="Create Profile image">
             </div>
             <div class="col-md-5 row d-flex flex-column justify-content-center">
-                <h3 class="col-12">Step 1: Sign Up</h3>
+                <h3 class="col-12">Showcase Your Musical Profile</h3>
                 <p class="col-12 text-secondary">
-                    Create an account with BandTogether to start your musical journey.
-                    Provide your basic information and verify your email to get started.
+                    Create a free profile and display your best music portfolio to attract collaborators! 
+                    Share your best music videos, and link to your social accounts all in one place.
                 </p>
             </div>
         </div>
         <div class="row d-flex justify-content-around mb-5 hidden">
             <div class="col-md-5 mb-3">
                 <img class="rounded img-fluid how-to-image shadow"
-                    src="{% static 'images/pages/home/Step2CreateProfile.gif' %}" alt="Create Profile GIF image">
+                    src="{% static 'images/pages/home/BrowseProfiles.jpg' %}" alt="Browse Profiles image">
             </div>
             <div class="col-md-5 row d-flex flex-column justify-content-center">
-                <h3 class="col-12">Step 2: Create Your Profile</h3>
+                <h3 class="col-12">Network with Musicians and Bands</h3>
                 <p class="col-12 text-secondary">
-                    Fill out your profile with details about your musical interests, skills, and experience.
-                    Upload your profile picture and share your story to attract potential collaborators.
+                    Meet online with other musicians and bands! Browse through our list of profiles and connect with them through messaging.
                 </p>
             </div>
         </div>
         <div class="row d-flex justify-content-around mb-5 order-md-2 hidden">
             <div class="col-md-5 order-md-1 mb-3">
                 <img class="rounded img-fluid how-to-image shadow"
-                    src="{% static 'images/pages/home/Step3Connect.gif' %}" alt="Connect with musicians GIF image">
+                    src="{% static 'images/pages/home/BrowseAds.jpg' %}" alt="Browse Ads image">
             </div>
             <div class="col-md-5 row d-flex flex-column justify-content-center">
-                <h3 class="col-12">Step 3: Explore and Connect</h3>
+                <h3 class="col-12">Create and Browse Ads</h3>
                 <p class="col-12 text-secondary">
-                    Browse through profiles of other musicians, bands, and advertisements! Connect with like-minded
-                    individuals and start collaborating on musical projects.
+                    Post your own or browse other ads to find band members or join projects! 
+                    Connect with like-minded musicians and start collaborating today!
                 </p>
             </div>
         </div>
         <div class="row d-flex justify-content-around mb-5 hidden">
             <div class="col-md-5 mb-3">
                 <img class="rounded img-fluid how-to-image shadow"
-                    src="{% static 'images/pages/home/Step4OpenMic.gif' %}" alt="Join Open Mic GIF image">
+                    src="{% static 'images/pages/home/OpenMics.jpg' %}" alt="Open Mic event image">
             </div>
             <div class="col-md-5 row d-flex flex-column justify-content-center">
-                <h3 class="col-12">Step 4: Join Open Mics</h3>
+                <h3 class="col-12">Meet Offline at Nearby Open Mics</h3>
                 <p class="col-12 text-secondary">
-                    Find and sign up for open mic events in your area.
-                    Showcase your talent, gain exposure, and connect with local audiences and fellow musicians.
+                    Connect with fellow musicians at local open mic events. 
+                    Discover and join open mics in your area from our curated list!
                 </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Benefits -->
-<section class="container h-50 benefits mb-5">
-    <div class="container">
-        <h2 class="h2 text-center mb-4 fw-semibold hidden">Why Use BandTogether?</h2>
-        <div class="row">
-            <div class="row d-flex flex-column mb-3 col-md-6 hidden">
-                <div class="col-12 mb-2">
-                    <img class="rounded img-fluid benefits-image text-light"
-                        src="{% static 'images/pages/home/palette-fill.svg' %}" alt="">
-                </div>
-                <div class="row col-12">
-                    <h3 class="h4 col-12">Create Your Personalized Profile</h3>
-                    <p class="col-12 text-secondary">
-                        Join BandTogether and create a profile that showcases your unique talents.
-                        Our platform allows you to highlight your skills, genres,
-                        and influences, making it easier for others to find and collaborate with you.
-                    </p>
-                </div>
-            </div>
-            <div class="row d-flex flex-column mb-3 col-md-6 hidden">
-                <div class="col-12 mb-2">
-                    <img class="rounded img-fluid benefits-image text-light"
-                        src="{% static 'images/pages/home/people-fill.svg' %}" alt="">
-                </div>
-                <div class="row col-12">
-                    <h3 class="h4 col-12">Discover Opportunities</h3>
-                    <p class="col-12 text-secondary">
-                        Whether you're looking for gigs, bands, or simply want to jam, BandTogether opens the door to
-                        endless opportunities.
-                        Explore listings for opportunities near you.
-                        Find the perfect fit for your musical journey.
-                    </p>
-                </div>
-            </div>
-            <div class="row d-flex flex-column mb-3 col-md-6 hidden">
-                <div class="col-12 mb-2">
-                    <img class="rounded img-fluid benefits-image text-light"
-                        src="{% static 'images/pages/home/mailbox2-flag.svg' %}" alt="">
-                </div>
-                <div class="row col-12">
-                    <h3 class="h4 col-12">Connect with Like-minded Musicians</h3>
-                    <p class="col-12 text-secondary">
-                        BandTogether is more than just a platform; it's a community for musicians of all levels.
-                        Meet and network with musicians through instant messaging!
-                        Collaborate on projects and grow together.
-                    </p>
-                </div>
-            </div>
-            <div class="row d-flex flex-column mb-3 col-md-6 hidden">
-                <div class="col-12 mb-2">
-                    <img class="rounded img-fluid benefits-image text-light"
-                        src="{% static 'images/pages/home/meta-sign.svg' %}" alt="">
-                </div>
-                <div class="row col-12">
-                    <h3 class="h4 col-12">Find and Join Open Mics</h3>
-                    <p class="col-12 text-secondary">
-                        Looking for a stage to perform and meet up? BandTogether makes it easy to find open mic events
-                        in your area.
-                        Open mics are a great way to gain exposure, practice your live performance skills, and meet
-                        other musicians.
-                    </p>
-                </div>
             </div>
         </div>
     </div>

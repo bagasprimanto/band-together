@@ -39,9 +39,9 @@
                 {{ form.ad_type|as_crispy_field }}
                 {{ form.location|as_crispy_field }}
 
-                <div class="form-group mb-2">
+                <div class="form-group col-md-4 col-12 mb-2">
                     {{ form.genres.label_tag }}
-                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                    <div class="d-flex flex-wrap row-cols-2">
                         {% for checkbox in form.genres %}
                         <div class="form-check d-flex gx-2">
                             {{ checkbox.tag }}
@@ -53,9 +53,9 @@
                     </div>
                 </div>
 
-                <div class="form-group mb-2">
+                <div class="form-group col-md-4 col-12 mb-2">
                     {{ form.skills.label_tag }}
-                    <div class="d-flex flex-wrap row-cols-md-3 row-cols-2">
+                    <div class="d-flex flex-wrap row-cols-2">
                         {% for checkbox in form.skills %}
                         <div class="form-check d-flex gx-2">
                             {{ checkbox.tag }}
