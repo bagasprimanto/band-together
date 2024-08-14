@@ -177,55 +177,66 @@
 {% endif %}
 
 <!-- Social Media Links -->
-{% if profile.personal_website_social_link or profile.facebook_social_link or profile.youtube_social_link or profile.instagram_social_link or profile.soundcloud_social_link %}
+{% if profile.personal_website_social_link or profile.facebook_social_link or profile.youtube_social_link or profile.instagram_social_link or profile.soundcloud_social_link or user.profile == profile %}
 <section class="social-media-links mb-5">
-    <h3>Social Media Links</h3>
+    <h3>
+        Social Media Links
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_socials' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
+        </a>
+        {% endif %}
+    </h3>
     <div class="social-media-links-list d-flex flex-wrap col-12">
 
-        {% if profile.personal_website_social_link %}
-        <div class="social-media-link-group">
-            <a href="{{ profile.personal_website_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/globe-language-svgrepo-com.svg' %}"
-                    alt="Personal website globe icon">
-            </a>
-        </div>
-        {% endif %}
+        {% if profile.personal_website_social_link or profile.facebook_social_link or profile.youtube_social_link or profile.instagram_social_link or profile.soundcloud_social_link %}
+            {% if profile.personal_website_social_link %}
+            <div class="social-media-link-group">
+                <a href="{{ profile.personal_website_social_link }}" target="_blank">
+                    <img class="social-media-link" src="{% static 'images/profiles/profile_detail/globe-language-svgrepo-com.svg' %}"
+                        alt="Personal website globe icon">
+                </a>
+            </div>
+            {% endif %}
 
-        {% if profile.facebook_social_link %}
-        <div class="social-media-link-group">
-            <a href="{{ profile.facebook_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/facebook-logo-svgrepo-com.svg' %}"
-                    alt="Facebook icon">
-            </a>
-        </div>
-        {% endif %}
+            {% if profile.facebook_social_link %}
+            <div class="social-media-link-group">
+                <a href="{{ profile.facebook_social_link }}" target="_blank">
+                    <img class="social-media-link" src="{% static 'images/profiles/profile_detail/facebook-logo-svgrepo-com.svg' %}"
+                        alt="Facebook icon">
+                </a>
+            </div>
+            {% endif %}
 
-        {% if profile.youtube_social_link %}
-        <div class="social-media-link-group">
-            <a href="{{ profile.youtube_social_link }}" target="_blank">
-                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/youtube-symbol-svgrepo-com.svg' %}"
-                    alt="Youtube icon">
-            </a>
-        </div>
-        {% endif %}
+            {% if profile.youtube_social_link %}
+            <div class="social-media-link-group">
+                <a href="{{ profile.youtube_social_link }}" target="_blank">
+                    <img class="social-media-link" src="{% static 'images/profiles/profile_detail/youtube-symbol-svgrepo-com.svg' %}"
+                        alt="Youtube icon">
+                </a>
+            </div>
+            {% endif %}
 
-        {% if profile.instagram_social_link %}
-        <div class="social-media-link-group">
-            <a href="{{ profile.instagram_social_link }}" target="_blank">
-                <img class="social-media-link"
-                    src="{% static 'images/profiles/profile_detail/instagram-logo-svgrepo-com.svg' %}"
-                    alt="Instagram icon">
-            </a>
-        </div>
-        {% endif %}
+            {% if profile.instagram_social_link %}
+            <div class="social-media-link-group">
+                <a href="{{ profile.instagram_social_link }}" target="_blank">
+                    <img class="social-media-link"
+                        src="{% static 'images/profiles/profile_detail/instagram-logo-svgrepo-com.svg' %}"
+                        alt="Instagram icon">
+                </a>
+            </div>
+            {% endif %}
 
-        {% if profile.soundcloud_social_link %}
-        <div class="social-media-link-group">
-            <a href="{{ profile.soundcloud_social_link }}" target="_blank">
-            <img class="social-media-link" src="{% static 'images/profiles/profile_detail/soundcloud-logo-svgrepo-com.svg' %}"
-                alt="Soundcloud icon">
-            </a>
-        </div>
+            {% if profile.soundcloud_social_link %}
+            <div class="social-media-link-group">
+                <a href="{{ profile.soundcloud_social_link }}" target="_blank">
+                <img class="social-media-link" src="{% static 'images/profiles/profile_detail/soundcloud-logo-svgrepo-com.svg' %}"
+                    alt="Soundcloud icon">
+                </a>
+            </div>
+            {% endif %}
+        {% elif user == profile.user %}
+        <p>No social media links available. Edit your profile to add your social media links!</p>
         {% endif %}
     </div>
 </section>
