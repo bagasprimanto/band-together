@@ -8,12 +8,23 @@
 
 {% block content %}
 <!-- Background image -->
-{% if profile.cover_picture %}
-<div class="fill" style="background-image: url({{ profile.cover_picture.url }});">
-</div>
-{% else %}
-<div class="fill" style="background-image: url('{% static "images/profiles/cover_pic_default.jpg" %}');">
-</div>
+
+{% if user.profile == profile %}
+<a class="edit-cover-picture-hover text-decoration-none text-reset"  href="{% url 'profiles:profile_edit_pictures' profile.slug %}">
+{% endif %}
+    <div class="fill d-flex justify-content-center align-items-center {% if user.profile == profile %} edit-cover-picture-hover {% endif %}" 
+        {% if profile.cover_picture %}
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ profile.cover_picture.url }});"
+        {% else %}
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "images/profiles/cover_pic_default.jpg" %}');"
+        {% endif %}
+        >
+        {% if user.profile == profile %}
+        <div class="btn-edit-cover-picture edit-cover-picture-hover btn btn-primary text-white cover-picture-edit position-absolute z-2">Edit cover picture</div>
+        {% endif %}
+    </div>
+{% if user.profile == profile %}
+</a>
 {% endif %}
 
 <div class="container col-sm-10 col-md-8 col-12">
