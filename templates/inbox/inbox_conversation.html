@@ -53,6 +53,7 @@
         hx-get="{% url 'inbox:inbox_createreply' conversation.pk %}"
         hx-target="this"
         hx-swap="outerHTML scroll:#scroller:bottom">
+        <img src="{% static 'images/inbox/send-fill.svg' %}" alt="Send symbol"/>
             Reply
         </button>
     </div>
