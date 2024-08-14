@@ -1,10 +1,10 @@
 {% extends "profiles/_profile_detail_base.html" %}
-
+{% load static %}
 {% block profile_detail_content %}
 <section class="classifieds-list mt-3">
     {% if user.is_authenticated and user.profile == profile %}
             <a class="btn btn-primary mb-2" href="{% url 'advertisements:advertisement_new'%}" role="button">
-                Create Ad
+                <img src="{% static 'images/advertisements/advertisement_list/plus-circle.svg' %}" /> Create Ad
             </a>
     {% endif %}
     {% if ads %}
