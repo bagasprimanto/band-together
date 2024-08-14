@@ -8,22 +8,19 @@
 
 .edit-cover-picture-hover {
     transition: filter 0.3s ease-in-out
-        /* Add transition for filter and opacity */
 }
 
 .edit-cover-picture-hover:hover {
     filter: brightness(120%);
 }
 
-.edit-cover-picture-hover:hover .btn-edit-cover-picture.edit-cover-picture-hover {
-    /* Darken background image */
+.edit-cover-picture-hover:hover .btn-edit-cover-picture {
     opacity: 1;
 }
 
-.btn-edit-cover-picture.edit-cover-picture-hover {
+.btn-edit-cover-picture {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
-    /* Add transition for opacity */
 }
 
 .profile-picture img {
