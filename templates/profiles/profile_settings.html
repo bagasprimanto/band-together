@@ -36,7 +36,25 @@
     <section class="profile-bio mb-3">
         <h3 class="text-danger">(DANGER ZONE) Delete Account</h3>
         <p class="fw-bold">Once you delete your account, there is no going back. Please be certain.</p>
-        <a href="#" class="btn btn-danger">Delete My Account</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#featureNotReadyModal">Delete My Account</button>
     </section>
 </div>
+
+<!-- Feature Not Ready Modal -->
+<div class="modal fade" id="featureNotReadyModal" tabindex="-1" aria-labelledby="featureNotReadyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="featureNotReadyModalLabel">Delete Account feature coming soon!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          The Delete Account feature is still under development. We will release it soon!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
