@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}Profile Edit - BandTogether{% endblock title %}
 
@@ -52,81 +53,8 @@
     {% block edit_form %}
     {% endblock edit_form %}
 </div>
-
-<!-- Modal HTML (Bootstrap 5) -->
-<div class="modal fade" id="unsavedChangesModal" tabindex="-1" aria-labelledby="unsavedChangesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="unsavedChangesModalLabel">Unsaved Changes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                You have unsaved changes. Are you sure you want to leave this page?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stay on Page</button>
-                <button type="button" class="btn btn-primary" id="leavePageButton">Leave Page</button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock content %}
 
 {% block additional_js %}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.querySelector("form"); // Assuming there's only one form on the page
-        const submitButton = form.querySelector("input[type='submit']");
-        let formIsChanged = false;
-    
-        initFormHash(form); // Initialize the form hash
-    
-        form.addEventListener("input", function() {
-            formIsChanged = formChanged(form); // Check if form is changed on any input
-        });
-    
-        submitButton.addEventListener("click", function() {
-            // Temporarily disable the beforeunload event when the form is being submitted
-            window.removeEventListener("beforeunload", beforeUnloadHandler);
-        });
-    
-        window.addEventListener("beforeunload", beforeUnloadHandler);
-    
-        function beforeUnloadHandler(e) {
-            if (formIsChanged) {
-                const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave this page?';
-                e.returnValue = confirmationMessage; // Standard for most browsers
-                return confirmationMessage;          // Standard for most modern browsers
-            }
-        }
-    });
-    
-    function initFormHash(form) {
-        form.setAttribute("data-initial-hash", getFormHash(form));
-    }
-    
-    function getFormHash(form) {
-        const formValues = {};
-    
-        form.querySelectorAll("input, textarea, select").forEach(input => {
-            const inputType = input.getAttribute("type");
-            const inputName = input.getAttribute("name");
-    
-            if (inputType === "hidden" || !inputName) return;
-    
-            if (inputType === "checkbox" || inputType === "radio") {
-                formValues[inputName] = input.checked;
-            } else {
-                formValues[inputName] = input.value;
-            }
-        });
-    
-        return JSON.stringify(formValues);
-    }
-    
-    function formChanged(form) {
-        return (form.getAttribute("data-initial-hash") !== getFormHash(form));
-    }      
-</script>
+<script src="{% static 'js/profiles/profile_edit/profile_edit_leave_confirmation.js' %}"></script>
 {% endblock additional_js %}
