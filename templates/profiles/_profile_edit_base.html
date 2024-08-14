@@ -8,6 +8,9 @@
     <!-- Title -->
     <h1 class="fw-bold">Edit Profile</h1>
 
+    <!-- Back to Profile button -->
+    <a href="{% url 'profiles:profile_detail' user.profile.slug %}"class="btn btn-secondary">← Back to Profile</a>
+
     <!-- Tabs -->
     <section class="tabs mb-3">
         <ul class="nav nav-underline">
