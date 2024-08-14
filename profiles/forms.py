@@ -66,6 +66,7 @@ class ProfileCreateForm(forms.ModelForm):
             },
         ),
         label="Set your current time zone",
+        help_text='Need help? <a href="https://nodatime.org/TimeZones" target="_blank">Learn more about time zones</a>',
     )
 
     def __init__(self, *args, **kwargs):
@@ -537,6 +538,7 @@ class ProfileEditTimezoneForm(forms.ModelForm):
             },
         ),
         label="Set your current time zone",
+        help_text='Need help? <a href="https://nodatime.org/TimeZones" target="_blank">Learn more about time zones</a>',
     )
 
     def __init__(self, *args, **kwargs):
