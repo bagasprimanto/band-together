@@ -1,9 +1,13 @@
 {% extends "_base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}Profile Edit - BandTogether{% endblock title %}
 
 {% block content %}
 <div class="container my-5 col-sm-10 col-md-8 col-12 border border-1 p-5 rounded shadow">
+
+    <!-- Back to Profile button -->
+    <a href="{% url 'profiles:profile_detail' user.profile.slug %}"class="btn btn-secondary mb-2">← Back to Profile</a>
 
     <!-- Title -->
     <h1 class="fw-bold">Edit Profile</h1>
@@ -50,3 +54,7 @@
     {% endblock edit_form %}
 </div>
 {% endblock content %}
+
+{% block additional_js %}
+<script src="{% static 'js/profiles/profile_edit/profile_edit_leave_confirmation.js' %}"></script>
+{% endblock additional_js %}
