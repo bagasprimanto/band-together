@@ -6,10 +6,22 @@
 
 {% block profile_detail_content %}
 <!-- Bio -->
-{% if profile.bio %}
+{% if profile.bio or user.profile == profile %}
 <section class="profile-bio mb-3">
-    <h3>Bio</h3>
+    <h3>
+        Bio 
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+        </a>
+        {% endif %}
+    </h3>
+    
+    {% if profile.bio %}
     <p>{{ profile.bio }}</p>
+    {% elif user.profile == profile %}
+    <p>No profile bio. Edit your profile bio.</p>
+    {% endif %}
 </section>
 {% endif %}
 
@@ -17,6 +29,11 @@
 <section class="profile-music-video mb-3">
     <h3>
         Music Videos
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_music_videos' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+        </a>
+        {% endif %}
     </h3>
     <div id="slider" class="videos-container container-fluid ps-2">
         {% if profile.youtube_link_1 or profile.youtube_link_2 or profile.youtube_link_3 or profile.youtube_link_4 or profile.youtube_link_5 or profile.youtube_link_6 %}

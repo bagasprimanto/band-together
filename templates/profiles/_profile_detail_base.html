@@ -20,7 +20,10 @@
         {% endif %}
         >
         {% if user.profile == profile %}
-        <div class="btn-edit-cover-picture btn btn-primary text-white cover-picture-edit position-absolute z-2">Edit cover picture</div>
+        <div class="btn-edit-cover-picture btn btn-primary text-white cover-picture-edit position-absolute z-2">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+            Edit cover picture
+        </div>
         {% endif %}
     </div>
 {% if user.profile == profile %}
@@ -54,7 +57,10 @@
                 {% endif %}
                 {% if user.is_authenticated and user.profile %}
                     {% if user == profile.user %}
-                    <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">Edit Profile</a>
+                    <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' user.profile.slug %}">
+                        <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+                        Edit Profile
+                    </a>
                     {% else %}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMessageModal">Message</button>
                     {% include 'bookmarks/bookmark_button_detail.html' with object=profile is_bookmarked=is_bookmarked bookmark=bookmark %}
