@@ -56,6 +56,12 @@ class ProfileCreateForm(forms.ModelForm):
         help_text="Location is only used for displaying your profile info.",
     )
 
+    bio = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Add your profile bio here..."}),
+        label="Tell us your profile bio",
+        required=False,
+    )
+
     timezone = forms.ChoiceField(
         choices=TIMEZONES_CHOICES,
         widget=autocomplete.ListSelect2(
@@ -97,10 +103,6 @@ class ProfileCreateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        labels = {
-            "profile_picture": "Add a profile picture",
-            "bio": "Tell us your profile bio",
-        }
         fields = [
             "profile_type",
             "display_name",
