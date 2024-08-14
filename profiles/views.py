@@ -9,7 +9,6 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from bookmarks.mixins import BookmarkSingleObjectMixin, BookmarkMixin
-from .mixins import ProfileRequiredMixin
 from .models import Profile
 from .timezone_choices import TIMEZONES_CHOICES
 from bookmarks.models import Bookmark

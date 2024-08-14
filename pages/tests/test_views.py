@@ -65,7 +65,7 @@ class FeedbackPageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, "pages/feedback.html")
 
     def test_feedback_contains_correct_html(self):
-        self.assertContains(self.response, "Feedback - BandTogether")
+        self.assertContains(self.response, "Contact Us - BandTogether")
 
     def test_feedback_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response, "Hi there! I should not be on the page.")
