@@ -12,7 +12,7 @@
         Bio 
         {% if user.profile == profile %}
         <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_general_info' profile.slug %}">
-            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
         </a>
         {% endif %}
     </h3>
@@ -20,7 +20,7 @@
     {% if profile.bio %}
     <p>{{ profile.bio }}</p>
     {% elif user.profile == profile %}
-    <p>No profile bio. Edit your profile bio.</p>
+    <p>No profile bio. Edit your profile to add your bio!</p>
     {% endif %}
 </section>
 {% endif %}
@@ -31,7 +31,7 @@
         Music Videos
         {% if user.profile == profile %}
         <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_music_videos' profile.slug %}">
-            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit button"/>
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
         </a>
         {% endif %}
     </h3>
@@ -106,7 +106,7 @@
         {% else %}
         <p class="text-secondary-emphasis">No videos available. 
             {% if user == profile.user %}
-            Edit profile to add your Youtube video links!</p>
+            Edit your profile to add your Youtube video links!</p>
             {% endif %}
         {% endif %}
     </div>
@@ -131,13 +131,24 @@
 </div>
 
 <!-- Genres -->
-{% if profile.genres.all %}
+{% if profile.genres.all or user.profile == profile %}
 <section class="genres mb-3">
-    <h3>Preferred Genres</h3>
+    <h3>
+        Preferred Genres
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_music_videos' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
+        </a>
+        {% endif %}
+    </h3>
     <div class="genre-list d-flex flex-wrap col-lg-8 col-12">
-        {% for genre in profile.genres.all %}
-        <div class="genre">{{ genre }}</div>
-        {% endfor %}
+        {% if profile.genres.all %}
+            {% for genre in profile.genres.all %}
+            <div class="genre">{{ genre }}</div>
+            {% endfor %}
+        {% elif user == profile.user %}
+        <p>No genres selected. Edit your profile to add genres!</p>
+        {% endif %}
     </div>
 </section>
 {% endif %}
