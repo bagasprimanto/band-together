@@ -105,7 +105,7 @@
             {% endif %}
         {% else %}
         <p class="text-secondary-emphasis">No videos available. 
-            {% if user == profile.user %}
+            {% if user.profile == profile %}
             Edit your profile to add your Youtube video links!</p>
             {% endif %}
         {% endif %}
@@ -146,7 +146,7 @@
             {% for genre in profile.genres.all %}
             <div class="genre">{{ genre }}</div>
             {% endfor %}
-        {% elif user == profile.user %}
+        {% elif user.profile == profile %}
         <p>No genres selected. Edit your profile to add genres!</p>
         {% endif %}
     </div>
@@ -169,7 +169,7 @@
             {% for skill in profile.skills.all %}
             <div class="skill">{{ skill }}</div>
             {% endfor %}
-        {% elif user == profile.user %}
+        {% elif user.profile == profile %}
         <p>No skills selected. Edit your profile to add skills!</p>
         {% endif %}
     </div>
@@ -235,7 +235,7 @@
                 </a>
             </div>
             {% endif %}
-        {% elif user == profile.user %}
+        {% elif user.profile == profile %}
         <p>No social media links available. Edit your profile to add your social media links!</p>
         {% endif %}
     </div>
@@ -243,41 +243,63 @@
 {% endif %}
 
 <!-- Influences -->
-{% if profile.influences %}
+{% if profile.influences or user.profile == profile %}
 <section class="profile-bio mb-3">
-    <h3 class="mb-0">Influences</h3>
+    <h3 class="mb-0">
+        Influences
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_additional_info' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
+        </a>
+        {% endif %}
+    </h3>
+    {% if profile.influences %}
     <p>{{ profile.influences|linebreaks }}</p>
+    {% elif user.profile == profile %}
+    <p>No influences available. Edit your profile to add your musical influences!</p>
+    {% endif %}
 </section>
 {% endif %}
 
 <!-- Additional Info -->
-{% if profile.commitment or profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
+{% if profile.commitment or profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability or user.profile == profile %}
 <section class="profile-bio mb-3">
-    <h3>Additional Info</h3>
+    <h3>
+        Additional Info
+        {% if user.profile == profile %}
+        <a class="btn btn-secondary" href="{% url 'profiles:profile_edit_additional_info' profile.slug %}">
+            <img src="{% static 'images/profiles/profile_detail/pencil-square-edit-profile.svg' %}" alt="Edit symbol"/>
+        </a>
+        {% endif %}
+    </h3>
 
-    {% if profile.commitment %}
-    <h5>Level of commitment:</h5>
-    <p>{{ profile.get_commitment_display }}</p>
-    {% endif %}
+    {% if profile.commitment or profile.gigs_played or profile.practice_frequency or profile.nights_gig or profile.availability %}
+        {% if profile.commitment %}
+        <h5>Level of commitment:</h5>
+        <p>{{ profile.get_commitment_display }}</p>
+        {% endif %}
 
-    {% if profile.gigs_played %}
-    <h5>Gigs Played:</h5>
-    <p>{{ profile.get_gigs_played_display }}</p>
-    {% endif %}
+        {% if profile.gigs_played %}
+        <h5>Gigs Played:</h5>
+        <p>{{ profile.get_gigs_played_display }}</p>
+        {% endif %}
 
-    {% if profile.practice_frequency %}
-    <h5>Tend to Practice:</h5>
-    <p>{{ profile.get_practice_frequency_display }}</p>
-    {% endif %}
+        {% if profile.practice_frequency %}
+        <h5>Tend to Practice:</h5>
+        <p>{{ profile.get_practice_frequency_display }}</p>
+        {% endif %}
 
-    {% if profile.nights_gig %}
-    <h5>Available to gig:</h5>
-    <p>{{ profile.get_nights_gig_display }}</p>
-    {% endif %}
+        {% if profile.nights_gig %}
+        <h5>Available to gig:</h5>
+        <p>{{ profile.get_nights_gig_display }}</p>
+        {% endif %}
 
-    {% if profile.availability %}
-    <h5>Most available:</h5>
-    <p>{{ profile.get_availability_display }}</p>
+        {% if profile.availability %}
+        <h5>Most available:</h5>
+        <p>{{ profile.get_availability_display }}</p>
+        {% endif %}
+    {% elif user.profile == profile %}
+        <p>No additional info available. Edit your profile to add your additional info!</p>
     {% endif %}
 </section>
 {% endif %}
