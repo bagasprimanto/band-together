@@ -255,7 +255,7 @@ CITIES_LIGHT_INCLUDE_COUNTRIES = [
 ]
 
 if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.12.85"]
+    ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "172.16.13.35"]
 
     # Database
     # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

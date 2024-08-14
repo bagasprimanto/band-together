@@ -2,6 +2,15 @@
     text-decoration: underline !important;
 }
 
+.openmic-card {
+    transition: transform .2s;
+    /* Animation */
+}
+
+.openmic-card:hover {
+    transform: scale(1.02);
+}
+
 .custom-truncate-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;

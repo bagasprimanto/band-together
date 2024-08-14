@@ -216,7 +216,7 @@
                     Advertisement will be permanently deleted!
                 </div>
                 <div class="modal-footer">
-                    <form id="ad-delete-form" method="post" enctype="multipart/form-data"
+                    <form id="delete-form" method="post" enctype="multipart/form-data"
                         action="{% url 'advertisements:advertisement_delete' ad.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Yes, Delete</button>

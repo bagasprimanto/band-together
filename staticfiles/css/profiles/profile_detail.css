@@ -4,9 +4,23 @@
     background-position: center;
     width: 100%;
     min-height: 25vh;
+}
 
-    /* Darken background image */
-    filter: brightness(50%);
+.edit-cover-picture-hover {
+    transition: filter 0.3s ease-in-out
+}
+
+.edit-cover-picture-hover:hover {
+    filter: brightness(120%);
+}
+
+.edit-cover-picture-hover:hover .btn-edit-cover-picture {
+    opacity: 1;
+}
+
+.btn-edit-cover-picture {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .profile-picture img {

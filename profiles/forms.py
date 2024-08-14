@@ -56,6 +56,12 @@ class ProfileCreateForm(forms.ModelForm):
         help_text="Location is only used for displaying your profile info.",
     )
 
+    bio = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Add your profile bio here..."}),
+        label="Tell us your profile bio",
+        required=False,
+    )
+
     timezone = forms.ChoiceField(
         choices=TIMEZONES_CHOICES,
         widget=autocomplete.ListSelect2(
@@ -66,6 +72,7 @@ class ProfileCreateForm(forms.ModelForm):
             },
         ),
         label="Set your current time zone",
+        help_text='Need help? <a href="https://nodatime.org/TimeZones" target="_blank">Learn more about time zones</a>',
     )
 
     def __init__(self, *args, **kwargs):
@@ -96,10 +103,6 @@ class ProfileCreateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        labels = {
-            "profile_picture": "Add a profile picture",
-            "bio": "Tell us your profile bio",
-        }
         fields = [
             "profile_type",
             "display_name",
@@ -329,7 +332,7 @@ class ProfileEditGenresForm(forms.ModelForm):
         self.helper.layout = Layout(
             InlineCheckboxes(
                 "genres",
-                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+                css_class="flex-wrap col-md-6 col-12 row-cols-3",
             ),
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
@@ -371,7 +374,7 @@ class ProfileEditSkillsForm(forms.ModelForm):
         self.helper.layout = Layout(
             InlineCheckboxes(
                 "skills",
-                css_class="flex-wrap row-cols-lg-4 row-cols-md-3 row-cols-2",
+                css_class="flex-wrap col-md-6 col-12 row-cols-3",
             ),
             Submit("submit", "Submit", css_class="btn btn-primary"),
             Button(
@@ -537,6 +540,7 @@ class ProfileEditTimezoneForm(forms.ModelForm):
             },
         ),
         label="Set your current time zone",
+        help_text='Need help? <a href="https://nodatime.org/TimeZones" target="_blank">Learn more about time zones</a>',
     )
 
     def __init__(self, *args, **kwargs):

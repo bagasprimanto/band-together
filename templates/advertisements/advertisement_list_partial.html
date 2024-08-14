@@ -4,14 +4,14 @@
 {% partialdef advertisements_list inline=True %}
     {% for ad in ads %}
         {% if forloop.last and ads.has_next %}
-        <div class="ad-container card d-flex mb-3"
+        <div class="classifieds-card card d-flex mb-3"
         hx-get="{% url 'advertisements:get_advertisements' %}?page={{ ads.next_page_number }}{% if profile.slug %}&profile_slug={{ profile.slug }}{% endif %}"
         hx-trigger="revealed"
         hx-swap="afterend"
         hx-include="#filter-form"
         hx-indicator="#spinner">
         {% else %}  
-        <div class="ad-container card d-flex mb-3">
+        <div class="classifieds-card card d-flex mb-3">
         {% endif %}
                 <div class="row card-body">
                     <div class="col-xl-10 col-12 d-flex flex-column">

@@ -14,7 +14,7 @@
         <h2 class="fw-normal h4 text-secondary">Discover the latest opportunities in your area!</h2>
         {% if user.is_authenticated and user.profile%}
             <a class="btn btn-primary" href="{% url 'advertisements:advertisement_new'%}" role="button">
-                Create Ad
+                <img src="{% static 'images/advertisements/advertisement_list/plus-circle.svg' %}" /> Create Ad
             </a>
         {% endif %}
     </div>
@@ -22,7 +22,7 @@
     <div class="d-flex mb-2">
         <div class="d-flex justify-content-start align-items-center">
             <a class="btn btn-primary me-2" data-bs-toggle="collapse" href="#collapseAdvertisementFilter" role="button" aria-expanded="false" aria-controls="collapseAdvertisementFilter">
-                Show Filters
+                <img src="{% static 'images/filter/filter.svg' %}" /> Show Filters
             </a>
             <p class="text-secondary fs-5 mb-0">
                 ({{ ads_count }} adverts)
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <section class="ad-list mt-3">
+    <section class="classifieds-list mt-3">
         {% if ads %}
             {% include 'advertisements/advertisement_list_partial.html' %}
         {% else %}
