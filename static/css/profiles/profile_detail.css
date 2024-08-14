@@ -12,7 +12,7 @@
 }
 
 .edit-cover-picture-hover:hover {
-    filter: brightness(110%);
+    filter: brightness(120%);
 }
 
 .edit-cover-picture-hover:hover .btn-edit-cover-picture.edit-cover-picture-hover {
