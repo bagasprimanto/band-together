@@ -218,21 +218,11 @@ class ProfileEditGeneralInfoView(ProfileEditBaseView):
     form_class = ProfileEditGeneralInfoForm
     template_name = "profiles/profile_edit_general_info.html"
 
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_general_info", kwargs={"slug": self.object.slug}
-        )
-
 
 class ProfileEditAdditionalInfoView(ProfileEditBaseView):
 
     form_class = ProfileEditAdditionalInfoForm
     template_name = "profiles/profile_edit_additional_info.html"
-
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_additional_info", kwargs={"slug": self.object.slug}
-        )
 
 
 class ProfileEditPicturesView(ProfileEditBaseView):
@@ -240,21 +230,11 @@ class ProfileEditPicturesView(ProfileEditBaseView):
     form_class = ProfileEditPicturesForm
     template_name = "profiles/profile_edit_pictures.html"
 
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_pictures", kwargs={"slug": self.object.slug}
-        )
-
 
 class ProfileEditGenresView(ProfileEditBaseView):
 
     form_class = ProfileEditGenresForm
     template_name = "profiles/profile_edit_genres.html"
-
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_genres", kwargs={"slug": self.object.slug}
-        )
 
 
 class ProfileEditSkillsView(ProfileEditBaseView):
@@ -262,32 +242,17 @@ class ProfileEditSkillsView(ProfileEditBaseView):
     form_class = ProfileEditSkillsForm
     template_name = "profiles/profile_edit_skills.html"
 
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_skills", kwargs={"slug": self.object.slug}
-        )
-
 
 class ProfileEditMusicVideosView(ProfileEditBaseView):
 
     form_class = ProfileEditMusicVideosForm
     template_name = "profiles/profile_edit_music_videos.html"
 
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_music_videos", kwargs={"slug": self.object.slug}
-        )
-
 
 class ProfileEditSocialsView(ProfileEditBaseView):
 
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
-
-    def get_success_url(self):
-        return reverse(
-            "profiles:profile_edit_socials", kwargs={"slug": self.object.slug}
-        )
 
 
 class ProfileSettingsView(
