@@ -59,14 +59,19 @@ class InboxViewsTests(TestCase):
         response = self.client.get(
             reverse("inbox:inbox_searchprofiles"),
             HTTP_HX_REQUEST="true",
-            data={"search_profile": "Others"},
+            data={"search_profile": "Other"},
         )
-        # Check response status code and template used
+        # Debug: Check status code first
         self.assertEqual(response.status_code, 200)
+
+        # # Check response status code and template used
         self.assertTemplateUsed(response, "inbox/searchprofiles_list.html")
 
         # Retrieve profiles from context
         profiles = response.context["profiles"]
+
+        # Debug: Ensure profiles is not None
+        self.assertIsNotNone(profiles)
 
         # Assert that there are a maximum of 5 profiles returned
         self.assertLessEqual(profiles.count(), 5)
@@ -74,74 +79,118 @@ class InboxViewsTests(TestCase):
         # Assert that the profile searched is inside the list returned
         self.assertIn(self.other_profile, profiles)
 
-    # def test_htmx_required_for_search_profiles_view(self):
-    #     response = self.client.get(reverse("inbox:search_profiles"))
-    #     self.assertEqual(response.status_code, 400)
-    #     self.assertIn(
-    #         "This endpoint only accepts HTMX requests.", response.content.decode()
-    #     )
+    def test_htmx_required_for_search_profiles_view(self):
+        response = self.client.get(reverse("inbox:inbox_searchprofiles"))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
 
-    # def test_create_message_view_get(self):
-    #     url = reverse(
-    #         "inbox:create_message", kwargs={"profile_slug": self.other_profile.slug}
-    #     )
-    #     response = self.client.get(url, HTTP_HX_REQUEST="true")
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, "inbox/createmessage_form.html")
-    #     self.assertEqual(response.context["recipient"], self.other_profile)
-    #     self.assertIsInstance(response.context["form"], InboxCreateMessageForm)
+    def test_create_message_view_get(self):
+        url = reverse(
+            "inbox:inbox_createmessage",
+            kwargs={"profile_slug": self.other_profile.slug},
+        )
+        response = self.client.get(url, HTTP_HX_REQUEST="true")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "inbox/createmessage_form.html")
+        self.assertEqual(response.context["recipient"], self.other_profile)
+        self.assertIsInstance(response.context["form"], InboxCreateMessageForm)
 
-    # def test_create_message_view_post(self):
-    #     url = reverse(
-    #         "inbox:create_message", kwargs={"profile_slug": self.other_profile.slug}
-    #     )
-    #     response = self.client.post(
-    #         url, HTTP_HX_REQUEST="true", data={"body": "Hello!"}
-    #     )
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertRedirects(
-    #         response,
-    #         reverse(
-    #             "inbox:inbox_detail", kwargs={"conversation_pk": self.conversation.pk}
-    #         ),
-    #     )
+    def test_create_message_view_post(self):
+        url = reverse(
+            "inbox:inbox_createmessage",
+            kwargs={"profile_slug": self.other_profile.slug},
+        )
+        response = self.client.post(
+            url, HTTP_HX_REQUEST="true", data={"body": "Hello!"}
+        )
+        # Check if the response status code is 302 (redirection)
+        self.assertEqual(response.status_code, 302)
 
-    # def test_create_reply_view_get(self):
-    #     url = reverse(
-    #         "inbox:create_reply", kwargs={"conversation_pk": self.conversation.pk}
-    #     )
-    #     response = self.client.get(url, HTTP_HX_REQUEST="true")
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, "inbox/createreply_form.html")
-    #     self.assertEqual(response.context["conversation"], self.conversation)
-    #     self.assertIsInstance(response.context["form"], InboxCreateMessageForm)
+        # Check if the response redirects to the expected conversation detail page
+        self.assertRedirects(
+            response,
+            reverse(
+                "inbox:inbox_detail", kwargs={"conversation_pk": self.conversation.pk}
+            ),
+        )
 
-    # def test_create_reply_view_post(self):
-    #     url = reverse(
-    #         "inbox:create_reply", kwargs={"conversation_pk": self.conversation.pk}
-    #     )
-    #     response = self.client.post(
-    #         url, HTTP_HX_REQUEST="true", data={"body": "Reply!"}
-    #     )
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertRedirects(
-    #         response,
-    #         reverse(
-    #             "inbox:inbox_detail", kwargs={"conversation_pk": self.conversation.pk}
-    #         ),
-    #     )
+        # Fetch the latest message in the conversation to check if it contains the expected body
+        latest_message = InboxMessage.objects.filter(
+            conversation=self.conversation
+        ).latest("created")
 
-    # def test_notify_new_message_view(self):
-    #     url = reverse(
-    #         "inbox:notify_new_message", kwargs={"conversation_pk": self.conversation.pk}
-    #     )
-    #     response = self.client.get(url, HTTP_HX_REQUEST="true")
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, "inbox/notify_icon.html")
+        # Assert that the body of the latest message is "Hello!"
+        self.assertEqual(latest_message.body, "Hello!")
 
-    # def test_notify_inbox_view(self):
-    #     response = self.client.get(
-    #         reverse("inbox:notify_inbox"), HTTP_HX_REQUEST="true"
-    #     )
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, "inbox/notify_icon.html")
+    def test_create_reply_view_get(self):
+        url = reverse(
+            "inbox:inbox_createreply", kwargs={"conversation_pk": self.conversation.pk}
+        )
+        response = self.client.get(url, HTTP_HX_REQUEST="true")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "inbox/createreply_form.html")
+        self.assertEqual(response.context["conversation"], self.conversation)
+        self.assertIsInstance(response.context["form"], InboxCreateMessageForm)
+
+    def test_create_reply_view_post(self):
+        url = reverse(
+            "inbox:inbox_createreply", kwargs={"conversation_pk": self.conversation.pk}
+        )
+        response = self.client.post(
+            url, HTTP_HX_REQUEST="true", data={"body": "Reply!"}
+        )
+
+        # Check if the response status code is 302 (redirection)
+        self.assertEqual(response.status_code, 302)
+
+        # Check if the response redirects to the expected conversation detail page
+        self.assertRedirects(
+            response,
+            reverse(
+                "inbox:inbox_detail", kwargs={"conversation_pk": self.conversation.pk}
+            ),
+        )
+
+        # Fetch the latest message in the conversation to check if it contains the expected body
+        latest_message = InboxMessage.objects.filter(
+            conversation=self.conversation
+        ).latest("created")
+
+        # Assert that the body of the latest message is "Hello!"
+        self.assertEqual(latest_message.body, "Reply!")
+
+    def test_notify_new_message_view(self):
+        # Create a new unread message in the conversation
+        new_message = InboxMessage.objects.create(
+            sender=self.other_profile,
+            conversation=self.conversation,
+            body="New message",
+        )
+        self.conversation.is_seen = False
+        self.conversation.save()
+
+        url = reverse(
+            "inbox:notify_newmessage", kwargs={"conversation_pk": self.conversation.pk}
+        )
+        response = self.client.get(url, HTTP_HX_REQUEST="true")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "inbox/notify_icon.html")
+
+    def test_notify_inbox_view(self):
+        # Create a new unread message in the conversation
+        new_message = InboxMessage.objects.create(
+            sender=self.other_profile,
+            conversation=self.conversation,
+            body="New message",
+        )
+        self.conversation.is_seen = False
+        self.conversation.save()
+
+        response = self.client.get(
+            reverse("inbox:notify_inbox"), HTTP_HX_REQUEST="true"
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "inbox/notify_icon.html")
