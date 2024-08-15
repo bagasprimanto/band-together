@@ -16,12 +16,6 @@ from reports.forms import ReportForm
 from datetime import date
 
 
-class OpenMicListView(ListView):
-    model = OpenMic
-    context_object_name = "openmics"
-    template_name = "openmics/openmicList.html"
-
-
 def openmic_list(request):
     f = OpenMicFilter(
         request.GET,
