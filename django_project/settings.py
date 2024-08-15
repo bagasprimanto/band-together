@@ -181,7 +181,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Pagination page size
-PAGE_SIZE = 2
+PAGE_SIZE = 20
 
 # 3rd Party
 # Crispy Forms
