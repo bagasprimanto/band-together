@@ -36,13 +36,19 @@ from cities_light.models import City
 class ProfileCreateView(
     LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView
 ):
+    """
+    View for creating a profile.
+    Uses Django's generic CreateView.
+    """
+
     model = Profile
     form_class = ProfileCreateForm
     success_message = "Successfully created profile!"
     template_name = "profiles/profile_form.html"
 
     def test_func(self):
-        # This function checks if the user already has a profile
+        # This function checks if the user already has a profile,
+        # part of the UserPassesTestMixin
         return not Profile.objects.filter(user=self.request.user).exists()
 
     def handle_no_permission(self):
@@ -54,7 +60,7 @@ class ProfileCreateView(
         return super().handle_no_permission()
 
     def form_valid(self, form):
-        # sets the user instance of the Profile to the user creating the profile
+        # sets the user of the Profile to the user creating the profile
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -106,9 +112,8 @@ def get_profiles(request):
     if not request.headers.get("HX-Request"):
         raise Http404()
 
-    page = request.GET.get(
-        "page", 1
-    )  # ?page=2, then this will extract 2. If it doesn't, then default to 1
+    # ?page=2, then this will extract 2. If it doesn't, then default to 1
+    page = request.GET.get("page", 1)
 
     f = ProfileFilter(request.GET, queryset=Profile.objects.all().order_by("-created"))
     has_filter = any(field in request.GET for field in set(f.get_fields()))
