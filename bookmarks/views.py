@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.mixins import ProfileRequiredMixin
@@ -18,6 +18,9 @@ from django.db.models import OuterRef, Subquery
 
 class CreateDetailBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
     def post(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
         app_label = kwargs.get("app_label")
         model_name = kwargs.get("model_name")
         object_id = kwargs.get("object_id")
@@ -35,10 +38,38 @@ class CreateDetailBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
         else:
             messages.info(request, "Already bookmarked.")
 
-        if request.headers.get("HX-Request"):
+        context = {
+            "is_bookmarked": True,
+            "bookmark": bookmark,
+            "object": model,
+            "messages": get_messages(request),
+        }
+        html = render_to_string(
+            "bookmarks/bookmark_button_detail.html", context, request=request
+        )
+
+        return HttpResponse(html, status=200)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, "405.html", status=405)
+
+
+class DeleteDetailBookmarkView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
+        bookmark_id = kwargs.get("bookmark_id")
+        profile = get_object_or_404(Profile, user=request.user)
+
+        try:
+            bookmark = get_object_or_404(Bookmark, id=bookmark_id, profile=profile)
+            model = bookmark.content_object
+            bookmark.delete()
+            messages.success(request, "Successfully removed bookmark!")
+
             context = {
-                "is_bookmarked": True,
-                "bookmark": bookmark,
+                "is_bookmarked": False,
                 "object": model,
                 "messages": get_messages(request),
             }
@@ -46,53 +77,30 @@ class CreateDetailBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
                 "bookmarks/bookmark_button_detail.html", context, request=request
             )
 
-            return HttpResponse(html)
-
-        return redirect(model.get_absolute_url())
-
-
-class DeleteDetailBookmarkView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        bookmark_id = kwargs.get("bookmark_id")
-        profile = get_object_or_404(Profile, user=request.user)
-
-        try:
-            bookmark = get_object_or_404(Bookmark, id=bookmark_id, profile=profile)
-            model = bookmark.content_object
-            bookmark.delete()
-            messages.success(request, "Successfully removed bookmark!")
-
-            if request.headers.get("HX-Request"):
-                context = {
-                    "is_bookmarked": False,
-                    "object": model,
-                    "messages": get_messages(request),
-                }
-                html = render_to_string(
-                    "bookmarks/bookmark_button_detail.html", context, request=request
-                )
-
-                return HttpResponse(html)
+            return HttpResponse(html, status=200)
 
         except Http404:
             messages.error(request, "Bookmark not found.")
 
-            if request.headers.get("HX-Request"):
-                context = {
-                    "is_bookmarked": False,
-                    "object": None,
-                    "messages": get_messages(request),
-                }
-                html = render_to_string(
-                    "bookmarks/bookmark_button_detail.html", context, request=request
-                )
-                return HttpResponse(html)
+            context = {
+                "is_bookmarked": False,
+                "object": None,
+                "messages": get_messages(request),
+            }
+            html = render_to_string(
+                "bookmarks/bookmark_button_detail.html", context, request=request
+            )
+            return HttpResponse(html, status=404)
 
-        return redirect(model.get_absolute_url())
+    def get(self, request, *args, **kwargs):
+        return render(request, "405.html", status=405)
 
 
 class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
     def post(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
         app_label = kwargs.get("app_label")
         model_name = kwargs.get("model_name")
         object_id = kwargs.get("object_id")
@@ -110,24 +118,27 @@ class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
         else:
             messages.info(request, "Already bookmarked.")
 
-        if request.headers.get("HX-Request"):
-            # Update the bookmarked_objects context
-            context = {
-                "object": model,
-                "bookmarked_objects": {bookmark.object_id: bookmark},
-                "messages": get_messages(request),
-            }
+        # Update the bookmarked_objects context
+        context = {
+            "object": model,
+            "bookmarked_objects": {bookmark.object_id: bookmark},
+            "messages": get_messages(request),
+        }
 
-            html = render_to_string(
-                "bookmarks/bookmark_button_list.html", context, request=request
-            )
-            return HttpResponse(html)
+        html = render_to_string(
+            "bookmarks/bookmark_button_list.html", context, request=request
+        )
+        return HttpResponse(html)
 
-        return redirect(model.get_absolute_url())
+    def get(self, request, *args, **kwargs):
+        return render(request, "405.html", status=405)
 
 
 class DeleteListBookmarkView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
+        if not request.headers.get("HX-Request"):
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
         bookmark_id = kwargs.get("bookmark_id")
         profile = get_object_or_404(Profile, user=request.user)
 
@@ -137,33 +148,32 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
             bookmark.delete()
             messages.success(request, "Successfully removed bookmark!")
 
-            if request.headers.get("HX-Request"):
-                # Update the bookmarked_objects context
-                context = {
-                    "object": model,
-                    "bookmarked_objects": {},
-                    "messages": get_messages(request),
-                }
-                html = render_to_string(
-                    "bookmarks/bookmark_button_list.html", context, request=request
-                )
-                return HttpResponse(html)
+            # Update the bookmarked_objects context
+            context = {
+                "object": model,
+                "bookmarked_objects": {},
+                "messages": get_messages(request),
+            }
+            html = render_to_string(
+                "bookmarks/bookmark_button_list.html", context, request=request
+            )
+            return HttpResponse(html)
 
         except Http404:
             messages.error(request, "Bookmark not found.")
 
-            if request.headers.get("HX-Request"):
-                context = {
-                    "object": None,
-                    "bookmarked_objects": {},
-                    "messages": get_messages(request),
-                }
-                html = render_to_string(
-                    "bookmarks/bookmark_button_list.html", context, request=request
-                )
-                return HttpResponse(html)
+            context = {
+                "object": None,
+                "bookmarked_objects": {},
+                "messages": get_messages(request),
+            }
+            html = render_to_string(
+                "bookmarks/bookmark_button_list.html", context, request=request
+            )
+            return HttpResponse(html)
 
-        return redirect(model.get_absolute_url())
+    def get(self, request, *args, **kwargs):
+        return render(request, "405.html", status=405)
 
 
 class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
