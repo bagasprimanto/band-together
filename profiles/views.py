@@ -134,6 +134,7 @@ def get_profiles(request):
     View to return the rest of the profiles in the next pages in infinite scrolling
     """
 
+    # Only accept HTMX requests, else return 400 bad request
     if not request.headers.get("HX-Request"):
         return HttpResponseBadRequest("This endpoint only accepts HTMX requests.")
 
