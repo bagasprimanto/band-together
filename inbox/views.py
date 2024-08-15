@@ -96,7 +96,7 @@ class CreateMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         if not request.headers.get("HX-Request"):
-            raise HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
         form = self.form_class()
         context = {
             "recipient": self.recipient,
@@ -150,7 +150,7 @@ class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         if not request.headers.get("HX-Request"):
-            raise HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
         conversation = self.get_conversation(request)
         form = self.form_class()
         context = {
@@ -183,7 +183,7 @@ class NotifyNewMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
     def get(self, request, conversation_pk):
         if not request.headers.get("HX-Request"):
-            raise HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
         conversation = get_object_or_404(Conversation, id=conversation_pk)
         latest_message = conversation.messages.first()
         if (
@@ -199,7 +199,7 @@ class NotifyInboxView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
     def get(self, request):
         if not request.headers.get("HX-Request"):
-            raise HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+            return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
         my_conversations = Conversation.objects.filter(
             participants=request.user.profile, is_seen=False
         )

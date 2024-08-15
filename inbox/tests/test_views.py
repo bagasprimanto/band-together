@@ -86,6 +86,57 @@ class InboxViewsTests(TestCase):
             "This endpoint only accepts HTMX requests.", response.content.decode()
         )
 
+    def test_htmx_required_for_create_message_view(self):
+        response = self.client.get(
+            reverse(
+                "inbox:inbox_createmessage",
+                kwargs={
+                    "profile_slug": self.other_profile.slug,
+                },
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_create_reply_view(self):
+        response = self.client.get(
+            reverse(
+                "inbox:inbox_createreply",
+                kwargs={
+                    "conversation_pk": self.conversation.pk,
+                },
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_notify_new_message_view(self):
+        response = self.client.get(
+            reverse(
+                "inbox:notify_newmessage",
+                kwargs={
+                    "conversation_pk": self.conversation.pk,
+                },
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_notify_inbox_view(self):
+        response = self.client.get(
+            reverse("inbox:notify_inbox"),
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
     def test_create_message_view_get(self):
         url = reverse(
             "inbox:inbox_createmessage",
