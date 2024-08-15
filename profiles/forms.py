@@ -19,6 +19,9 @@ from dal import autocomplete
 
 
 class ProfileCreateForm(forms.ModelForm):
+    """
+    Form for creating Profile
+    """
 
     display_name = forms.CharField(
         max_length=255,
@@ -116,6 +119,9 @@ class ProfileCreateForm(forms.ModelForm):
 
 
 class ProfileEditGeneralInfoForm(forms.ModelForm):
+    """
+    Form for editing Profile General Info in Profile Detail
+    """
 
     display_name = forms.CharField(
         max_length=255,
@@ -192,6 +198,9 @@ class ProfileEditGeneralInfoForm(forms.ModelForm):
 
 
 class ProfileEditAdditionalInfoForm(forms.ModelForm):
+    """
+    Form for editing Profile Additional Info in Profile Detail
+    """
 
     influences = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "The Beatles, Jimi Hendrix..."}),
@@ -265,6 +274,9 @@ class ProfileEditAdditionalInfoForm(forms.ModelForm):
 
 
 class ProfileEditPicturesForm(forms.ModelForm):
+    """
+    Form for editing Profile Picture and Cover Picture in Profile Detail
+    """
 
     profile_picture = forms.ImageField(
         label="Add a profile picture",
@@ -309,6 +321,9 @@ class ProfileEditPicturesForm(forms.ModelForm):
 
 
 class ProfileEditGenresForm(forms.ModelForm):
+    """
+    Form for editing Genres in Profile Detail
+    """
 
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
@@ -351,6 +366,9 @@ class ProfileEditGenresForm(forms.ModelForm):
 
 
 class ProfileEditSkillsForm(forms.ModelForm):
+    """
+    Form for editing Skills in Profile Detail
+    """
 
     skills = forms.ModelMultipleChoiceField(
         queryset=Skill.objects.all(),
@@ -393,6 +411,9 @@ class ProfileEditSkillsForm(forms.ModelForm):
 
 
 class ProfileEditMusicVideosForm(forms.ModelForm):
+    """
+    Form for editing Music Videos in Profile Detail
+    """
 
     youtube_link_1 = forms.URLField(
         widget=forms.TextInput(attrs={"placeholder": "YouTube URL here...."}),
@@ -465,6 +486,9 @@ class ProfileEditMusicVideosForm(forms.ModelForm):
 
 
 class ProfileEditSocialsForm(forms.ModelForm):
+    """
+    Form for editing Social Media Links in Profile Detail
+    """
 
     personal_website_social_link = forms.URLField(
         widget=forms.TextInput(attrs={"placeholder": "https://www.example.com"}),
@@ -530,6 +554,10 @@ class ProfileEditSocialsForm(forms.ModelForm):
 
 
 class ProfileEditTimezoneForm(forms.ModelForm):
+    """
+    Form for editing Timezone in Profile Settings
+    """
+
     timezone = forms.ChoiceField(
         choices=TIMEZONES_CHOICES,
         widget=autocomplete.ListSelect2(
