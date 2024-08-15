@@ -274,42 +274,82 @@ class ProfileEditBaseView(
 
 
 class ProfileEditGeneralInfoView(ProfileEditBaseView):
+    """
+    Profile Edit General Info view to edit:
+    - Profile Type
+    - Display Name
+    - Slug
+    - Location
+    - Birthday
+    - Bio
+    """
 
     form_class = ProfileEditGeneralInfoForm
     template_name = "profiles/profile_edit_general_info.html"
 
 
 class ProfileEditAdditionalInfoView(ProfileEditBaseView):
+    """
+    Profile Edit Additional Info view to edit:
+    - Musical influences
+    - Level of commitment
+    - Number of gigs played
+    - Practice frequency
+    - Gig availability
+    - Practice availability
+    """
 
     form_class = ProfileEditAdditionalInfoForm
     template_name = "profiles/profile_edit_additional_info.html"
 
 
 class ProfileEditPicturesView(ProfileEditBaseView):
+    """
+    Profile Edit Pictures view to edit:
+    - Profile picture
+    - Cover picture
+    """
 
     form_class = ProfileEditPicturesForm
     template_name = "profiles/profile_edit_pictures.html"
 
 
 class ProfileEditGenresView(ProfileEditBaseView):
+    """
+    Profile Edit Genres view to edit Genres
+    """
 
     form_class = ProfileEditGenresForm
     template_name = "profiles/profile_edit_genres.html"
 
 
 class ProfileEditSkillsView(ProfileEditBaseView):
+    """
+    Profile Edit Skills view to edit Skills
+    """
 
     form_class = ProfileEditSkillsForm
     template_name = "profiles/profile_edit_skills.html"
 
 
 class ProfileEditMusicVideosView(ProfileEditBaseView):
+    """
+    Profile Edit Music Video view to edit Youtube Music Videos
+    """
 
     form_class = ProfileEditMusicVideosForm
     template_name = "profiles/profile_edit_music_videos.html"
 
 
 class ProfileEditSocialsView(ProfileEditBaseView):
+    """
+    Profile Edit Social Media Links view to edit Social Media links:
+    - Personal website
+    - Facebook
+    - Youtube
+    - Instagram
+    - Soundlcloud
+    """
 
     form_class = ProfileEditSocialsForm
     template_name = "profiles/profile_edit_socials.html"
@@ -319,6 +359,10 @@ class ProfileSettingsView(
     LoginRequiredMixin,
     TemplateView,
 ):
+    """
+    Profile Settings View to display profile settings page
+    """
+
     template_name = "profiles/profile_settings.html"
 
 
@@ -328,6 +372,10 @@ class ProfileEditTimezoneView(
     SuccessMessageMixin,
     UpdateView,
 ):
+    """
+    View to change timezone in the profile settings
+    """
+
     model = Profile
     template_name = "profiles/profile_settings_timezone.html"
     form_class = ProfileEditTimezoneForm
@@ -335,9 +383,19 @@ class ProfileEditTimezoneView(
     success_url = reverse_lazy("profiles:profile_settings")
 
     def form_valid(self, form):
+        """
+        Ensure the form is valid and associate the profile being edited with the currently logged-in user.
+        This method is called when valid form data has been POSTed.
+        """
+
         form.instance.user = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
+        """
+        Check if the current user is authorized to edit the profile.
+        This method is used by UserPassesTestMixin to restrict access to the view.
+        """
+
         profile = self.get_object()
         return self.request.user == profile.user
