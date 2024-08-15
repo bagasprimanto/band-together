@@ -1,6 +1,5 @@
 import random
 from django.core.management.base import BaseCommand
-from django.utils.text import slugify
 from faker import Faker
 from profiles.models import Profile, Genre, Skill, ProfileType
 from cities_light.models import City
