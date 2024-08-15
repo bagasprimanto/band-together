@@ -81,16 +81,7 @@ class DeleteDetailBookmarkView(LoginRequiredMixin, View):
 
         except Http404:
             messages.error(request, "Bookmark not found.")
-
-            context = {
-                "is_bookmarked": False,
-                "object": None,
-                "messages": get_messages(request),
-            }
-            html = render_to_string(
-                "bookmarks/bookmark_button_detail.html", context, request=request
-            )
-            return HttpResponse(html, status=404)
+            return HttpResponse(status=404)
 
     def get(self, request, *args, **kwargs):
         return render(request, "405.html", status=405)
@@ -157,20 +148,11 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
             html = render_to_string(
                 "bookmarks/bookmark_button_list.html", context, request=request
             )
-            return HttpResponse(html)
+            return HttpResponse(html, status=200)
 
         except Http404:
             messages.error(request, "Bookmark not found.")
-
-            context = {
-                "object": None,
-                "bookmarked_objects": {},
-                "messages": get_messages(request),
-            }
-            html = render_to_string(
-                "bookmarks/bookmark_button_list.html", context, request=request
-            )
-            return HttpResponse(html)
+            return HttpResponse(status=404)
 
     def get(self, request, *args, **kwargs):
         return render(request, "405.html", status=405)
