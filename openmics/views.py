@@ -160,6 +160,13 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
             "-created"
         )
         context["comment_form"] = self.form_class
+
+        # Pass context for report button
+        context["report_form"] = ReportForm()
+        context["app_label"] = openmic._meta.app_label
+        context["model_name"] = openmic._meta.model_name
+        context["object_id"] = openmic.pk
+
         return context
 
     def form_invalid(self, form):
