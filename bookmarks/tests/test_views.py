@@ -16,17 +16,13 @@ class BookmarkViewsTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username="testuser", password="password")
+        self.client.login(username="testuser", password="password")
         self.profile = Profile.objects.create(user=self.user, display_name="Test User")
 
-        # Log in the test user
-        self.client.login(username="testuser", password="password")
-
-        # Create some content to bookmark, now using profile as the author
+        # Create some content to bookmark
         self.advertisement = Advertisement.objects.create(
             title="Test Ad", author=self.profile
         )
-
-        # Provide a valid event_date when creating OpenMic instance
         self.openmic = OpenMic.objects.create(
             title="Test Open Mic",
             event_date=timezone.now(),
@@ -35,7 +31,6 @@ class BookmarkViewsTests(TestCase):
             author=self.profile,
         )
 
-        # Content types
         self.ad_content_type = ContentType.objects.get_for_model(Advertisement)
         self.openmic_content_type = ContentType.objects.get_for_model(OpenMic)
 
@@ -48,13 +43,9 @@ class BookmarkViewsTests(TestCase):
                 "object_id": self.advertisement.id,
             },
         )
-        print(f"Resolved URL: {url}")  # Debugging output
+        response = self.client.post(url, HTTP_HX_REQUEST="true")
 
-        response = self.client.post(url)
-
-        self.assertEqual(
-            response.status_code, 302
-        )  # Should redirect after creating bookmark
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             Bookmark.objects.filter(
                 profile=self.profile, object_id=self.advertisement.id
@@ -67,19 +58,13 @@ class BookmarkViewsTests(TestCase):
             content_type=self.ad_content_type,
             object_id=self.advertisement.id,
         )
-
         url = reverse(
             "bookmarks:bookmark_delete_detail",
-            kwargs={
-                "bookmark_id": bookmark.id,
-            },
+            kwargs={"bookmark_id": bookmark.id},
         )
+        response = self.client.post(url, HTTP_HX_REQUEST="true")
 
-        response = self.client.post(url)
-
-        self.assertEqual(
-            response.status_code, 302
-        )  # Should redirect after deleting bookmark
+        self.assertEqual(response.status_code, 200)
         self.assertFalse(Bookmark.objects.filter(id=bookmark.id).exists())
 
     def test_bookmark_create_list_view(self):
@@ -91,12 +76,9 @@ class BookmarkViewsTests(TestCase):
                 "object_id": self.openmic.id,
             },
         )
+        response = self.client.post(url, HTTP_HX_REQUEST="true")
 
-        response = self.client.post(url)
-
-        self.assertEqual(
-            response.status_code, 302
-        )  # Should redirect after creating bookmark
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             Bookmark.objects.filter(
                 profile=self.profile, object_id=self.openmic.id
@@ -109,20 +91,50 @@ class BookmarkViewsTests(TestCase):
             content_type=self.openmic_content_type,
             object_id=self.openmic.id,
         )
-
         url = reverse(
             "bookmarks:bookmark_delete_list",
+            kwargs={"bookmark_id": bookmark.id},
+        )
+        response = self.client.post(url, HTTP_HX_REQUEST="true")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Bookmark.objects.filter(id=bookmark.id).exists())
+
+    def test_get_request_on_post_only_views(self):
+        create_detail_url = reverse(
+            "bookmarks:bookmark_create_detail",
             kwargs={
-                "bookmark_id": bookmark.id,
+                "app_label": "advertisements",
+                "model_name": "advertisement",
+                "object_id": self.advertisement.id,
             },
         )
+        delete_detail_url = reverse(
+            "bookmarks:bookmark_delete_detail",
+            kwargs={"bookmark_id": 1},
+        )
+        create_list_url = reverse(
+            "bookmarks:bookmark_create_list",
+            kwargs={
+                "app_label": "openmics",
+                "model_name": "openmic",
+                "object_id": self.openmic.id,
+            },
+        )
+        delete_list_url = reverse(
+            "bookmarks:bookmark_delete_list",
+            kwargs={"bookmark_id": 1},
+        )
 
-        response = self.client.post(url)
-
-        self.assertEqual(
-            response.status_code, 302
-        )  # Should redirect after deleting bookmark
-        self.assertFalse(Bookmark.objects.filter(id=bookmark.id).exists())
+        # Test GET requests
+        for url in [
+            create_detail_url,
+            delete_detail_url,
+            create_list_url,
+            delete_list_url,
+        ]:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 405)
 
     def test_bookmark_profile_list_view(self):
         Bookmark.objects.create(
