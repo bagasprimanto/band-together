@@ -22,7 +22,7 @@ from .forms import (
     ProfileEditSocialsForm,
     ProfileEditTimezoneForm,
 )
-from django.http import Http404
+from django.http import HttpResponseBadRequest
 from advertisements.models import Advertisement
 from inbox.forms import InboxCreateMessageForm
 from .filters import ProfileFilter
@@ -70,10 +70,16 @@ class ProfileCreateView(
 
 
 class LocationAutocomplete(autocomplete.Select2QuerySetView):
+    """
+    View to return list of locations in Location autocomplete fields.
+    """
+
     def get_queryset(self):
 
         qs = City.objects.all()
 
+        # If there is a search query (self.q), filter the cities by name
+        # using case-insensitive containment (i.e., 'icontains')
         if self.q:
             qs = qs.filter(name__icontains=self.q)
 
@@ -81,19 +87,35 @@ class LocationAutocomplete(autocomplete.Select2QuerySetView):
 
 
 class TimezoneAutocompleteFromList(autocomplete.Select2ListView):
+    """
+    View to return list of timezones in Timezone autocomplete fields.
+    """
+
     def get_list(self):
         return TIMEZONES_CHOICES
 
 
 def profile_list(request):
+    """
+    View to return profile list according to filters set from Django filters
+    """
+
+    # Take all the profiles in the database, order them by their creation date from newest to oldest,
+    # and then apply any filters that the user specified in the URL query string.
     f = ProfileFilter(request.GET, queryset=Profile.objects.all().order_by("-created"))
+
+    # Check if there are filter fields in the GET request,
+    # will be used to display Reset filter button in the template
     has_filter = any(field in request.GET for field in set(f.get_fields()))
 
+    # If no filters are applied, retrieve all profiles ordered by creation date (newest first).
+    # Otherwise, use the filtered queryset provided by the filter.
     if not has_filter:
         profiles = Profile.objects.all().order_by("-created")
     else:
         profiles = f.qs
 
+    # Paginate the profiles using the PAGE_SIZE from settings.py
     paginator = Paginator(profiles, settings.PAGE_SIZE)
     profiles_page = paginator.page(1)  # default to 1 when this view is triggered
 
@@ -108,9 +130,12 @@ def profile_list(request):
 
 
 def get_profiles(request):
+    """
+    View to return the rest of the profiles in the next pages in infinite scrolling
+    """
 
     if not request.headers.get("HX-Request"):
-        raise Http404()
+        return HttpResponseBadRequest("This endpoint only accepts HTMX requests.")
 
     # ?page=2, then this will extract 2. If it doesn't, then default to 1
     page = request.GET.get("page", 1)
