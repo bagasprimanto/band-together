@@ -24,8 +24,6 @@ class HomePageTests(SimpleTestCase):
 
     def test_homepage_url_resolves_homepageview(self):
         view = resolve("/")
-        print(str(view.func.__name__))
-        print(str(HomePageView.as_view().__name__))
         self.assertEqual(view.func.__name__, HomePageView.as_view().__name__)
 
 
@@ -48,8 +46,6 @@ class AboutPageTests(SimpleTestCase):
 
     def test_about_url_resolves_aboutpageview(self):
         view = resolve("/about/")
-        print(str(view.func.__name__))
-        print(str(AboutPageView.as_view().__name__))
         self.assertEqual(view.func.__name__, AboutPageView.as_view().__name__)
 
 
@@ -72,6 +68,4 @@ class FeedbackPageTests(SimpleTestCase):
 
     def test_feedback_url_resolves_feedbackpageview(self):
         view = resolve("/feedback/")
-        print(str(view.func.__name__))
-        print(str(FeedbackPageView.as_view().__name__))
         self.assertEqual(view.func.__name__, FeedbackPageView.as_view().__name__)

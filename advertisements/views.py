@@ -75,7 +75,6 @@ def get_advertisements(request):
 
     if profile_slug:
         profile = get_object_or_404(Profile, slug=profile_slug)
-        print(profile.display_name)
         advertisements = advertisements.filter(author=profile)
 
     paginator = Paginator(advertisements, settings.PAGE_SIZE)
