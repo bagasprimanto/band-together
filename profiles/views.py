@@ -156,6 +156,11 @@ def get_profiles(request):
 
 
 class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
+    """
+    View for displaying the Profile Detail.
+    Uses Django generic DetailView to handle the profile detail - About page.
+    """
+
     model = Profile
     template_name = "profiles/profile_detail_about.html"
     context_object_name = "profile"
@@ -163,21 +168,33 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
     slug_url_kwarg = "slug"
 
     def get_context_data(self, **kwargs):
+        """
+        Customize the context data for the profile detail view.
+        This method adds additional context such as the message form, bookmark context, and report form.
+        """
+
+        # Get the default context data
         context = super().get_context_data(**kwargs)
+
+        # Add a form for creating a new message (inbox)
         context["create_message_form"] = InboxCreateMessageForm()
 
         # Get bookmark context for Profile model
-        # Add bookmark context
         # Add bookmark context for profile (single object)
         profile_bookmark_context = self.get_single_bookmark_context(
             self.request.user, self.get_object()
         )
+        # Update the context with bookmark info
         context.update(profile_bookmark_context)
 
         # Pass context for report button
+        # Get the current profile object
         profile = self.get_object()
+        # Add the report button to the context
         context["report_form"] = ReportForm()
+        # Add the app label for the profile model
         context["app_label"] = profile._meta.app_label
+        # Add the model name for the profile model
         context["model_name"] = profile._meta.model_name
 
         return context
@@ -192,10 +209,9 @@ class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["create_message_form"] = InboxCreateMessageForm()
 
         # Get InboxCreateMessageForm
-        context["form"] = InboxCreateMessageForm()
+        context["create_message_form"] = InboxCreateMessageForm()
 
         # Get advertisements for the profile
         profile = self.get_object()
