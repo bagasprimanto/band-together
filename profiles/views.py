@@ -201,6 +201,10 @@ class ProfileDetailView(BookmarkSingleObjectMixin, DetailView):
 
 
 class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView):
+    """
+    View for displaying the Active Ads section of Profile Detail page.
+    """
+
     model = Profile
     template_name = "profiles/profile_detail_ads.html"
     context_object_name = "profile"
@@ -208,6 +212,11 @@ class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView)
     slug_url_kwarg = "slug"
 
     def get_context_data(self, **kwargs):
+        """
+        Customize the context data for the profile detail ads section view.
+        This method adds additional context such as the message form, ads, bookmark context.
+        """
+
         context = super().get_context_data(**kwargs)
 
         # Get InboxCreateMessageForm
@@ -218,11 +227,7 @@ class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView)
         advertisements = Advertisement.objects.filter(author=profile).order_by(
             "-last_updated"
         )
-        paginator = Paginator(advertisements, settings.PAGE_SIZE)
-        advertisements_page = paginator.page(
-            1
-        )  # default to 1 when this view is triggered
-        context["ads"] = advertisements_page
+        context["ads"] = advertisements
 
         # Add bookmark context for profile (single object)
         profile_bookmark_context = self.get_single_bookmark_context(
@@ -232,7 +237,7 @@ class ProfileAdsDetailView(BookmarkSingleObjectMixin, BookmarkMixin, DetailView)
 
         # Add bookmark context for advertisements (list of objects)
         ads_bookmark_context = self.get_bookmark_context(
-            self.request.user, advertisements_page.object_list
+            self.request.user, advertisements
         )
         context.update(ads_bookmark_context)
 
@@ -250,10 +255,20 @@ class ProfileEditBaseView(
     success_message = "Successfully edited profile!"
 
     def form_valid(self, form):
+        """
+        Ensure the form is valid and associate the profile being edited with the currently logged-in user.
+        This method is called when valid form data has been POSTed.
+        """
+
         form.instance.user = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
+        """
+        Check if the current user is authorized to edit the profile.
+        This method is used by UserPassesTestMixin to restrict access to the view.
+        """
+
         profile = self.get_object()
         return self.request.user == profile.user
 
