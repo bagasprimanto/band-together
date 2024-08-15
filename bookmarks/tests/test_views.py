@@ -34,6 +34,72 @@ class BookmarkViewsTests(TestCase):
         self.ad_content_type = ContentType.objects.get_for_model(Advertisement)
         self.openmic_content_type = ContentType.objects.get_for_model(OpenMic)
 
+    def test_htmx_required_for_create_detail_view(self):
+        url = reverse(
+            "bookmarks:bookmark_create_detail",
+            kwargs={
+                "app_label": "advertisements",
+                "model_name": "advertisement",
+                "object_id": self.advertisement.id,
+            },
+        )
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_delete_detail_view(self):
+        bookmark = Bookmark.objects.create(
+            profile=self.profile,
+            content_type=self.ad_content_type,
+            object_id=self.advertisement.id,
+        )
+        url = reverse(
+            "bookmarks:bookmark_delete_detail",
+            kwargs={"bookmark_id": bookmark.id},
+        )
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_create_list_view(self):
+        url = reverse(
+            "bookmarks:bookmark_create_list",
+            kwargs={
+                "app_label": "openmics",
+                "model_name": "openmic",
+                "object_id": self.openmic.id,
+            },
+        )
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
+    def test_htmx_required_for_delete_list_view(self):
+        bookmark = Bookmark.objects.create(
+            profile=self.profile,
+            content_type=self.openmic_content_type,
+            object_id=self.openmic.id,
+        )
+        url = reverse(
+            "bookmarks:bookmark_delete_list",
+            kwargs={"bookmark_id": bookmark.id},
+        )
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(
+            "This endpoint only accepts HTMX requests.", response.content.decode()
+        )
+
     def test_bookmark_create_detail_view(self):
         url = reverse(
             "bookmarks:bookmark_create_detail",
