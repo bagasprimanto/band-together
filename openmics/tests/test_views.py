@@ -61,6 +61,28 @@ class OpenMicViewsTests(TestCase):
         # Ensure the response contains the title of the Open Mic event
         self.assertContains(response, self.openmic1.title)
 
+    def test_get_openmics_partial_view_with_filter(self):
+        # Assume that self.openmic1 has a title that contains "Open Mic 1" and self.openmic2 does not.
+
+        # Apply a filter that should only match self.openmic1
+        response = self.client.get(
+            reverse("openmics:get_openmics"),
+            {
+                "page": 1,
+                "title": "Open Mic 1",
+            },  # Assuming there is a 'title' filter in OpenMicFilter
+            HTTP_HX_REQUEST="true",
+        )
+
+        # Ensure the response code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Ensure the response contains the title of the filtered Open Mic event
+        self.assertContains(response, self.openmic1.title)
+
+        # Ensure the response does not contain the title of the Open Mic that should be filtered out
+        self.assertNotContains(response, self.openmic2.title)
+
     def test_get_openmics_partial_view_no_htmx(self):
         response = self.client.get(reverse("openmics:get_openmics"), {"page": 1})
         self.assertEqual(response.status_code, 400)
