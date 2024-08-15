@@ -62,8 +62,6 @@ class OpenMicViewsTests(TestCase):
         self.assertContains(response, self.openmic1.title)
 
     def test_get_openmics_partial_view_with_filter(self):
-        # Assume that self.openmic1 has a title that contains "Open Mic 1" and self.openmic2 does not.
-
         # Apply a filter that should only match self.openmic1
         response = self.client.get(
             reverse("openmics:get_openmics"),
