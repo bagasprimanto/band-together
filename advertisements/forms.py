@@ -1,4 +1,5 @@
 from django import forms
+from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.layout import Layout, Submit, Button
@@ -71,7 +72,7 @@ class AdvertisementCreateForm(forms.ModelForm):
                 "cancel",
                 "Cancel",
                 css_class="btn btn-secondary",
-                onclick="window.history.back()",
+                onclick=f"window.location.href='{reverse('openmics:openmic_list')}'",
             ),
         )
 
