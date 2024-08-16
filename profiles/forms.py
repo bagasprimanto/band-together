@@ -1,4 +1,5 @@
 from django import forms
+from django.urls import reverse
 from datetime import datetime
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
@@ -584,7 +585,7 @@ class ProfileEditTimezoneForm(forms.ModelForm):
                 "cancel",
                 "Cancel",
                 css_class="btn btn-secondary",
-                onclick="window.history.back()",
+                onclick=f"window.location.href='{reverse('profiles:profile_settings')}'",
             ),
         )
 
