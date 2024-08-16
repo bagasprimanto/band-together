@@ -318,7 +318,7 @@
 </section>
 
 <!-- Report section -->
- {% if user.is_authenticated and user != profile.user %}
+ {% if user.is_authenticated and user.profile and user != profile.user %}
 <section class="profile-dates mb-5">
     <div class="created-date">
         <span class="">See an issue with this profile? Report it!</span>
