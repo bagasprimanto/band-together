@@ -7,19 +7,13 @@ from .models import OpenMic, Comment
 import folium
 from .utils import extract_lat_lng_from_url
 from .forms import CommentCreateForm
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .filters import OpenMicFilter
 from django.conf import settings
 from django.core.paginator import Paginator
 from bookmarks.mixins import BookmarkMixin, BookmarkSingleObjectMixin
 from reports.forms import ReportForm
 from datetime import date
-
-
-class OpenMicListView(ListView):
-    model = OpenMic
-    context_object_name = "openmics"
-    template_name = "openmics/openmicList.html"
 
 
 def openmic_list(request):
@@ -58,7 +52,7 @@ def openmic_list(request):
 def get_openmics(request):
 
     if not request.headers.get("HX-Request"):
-        raise Http404()
+        return HttpResponseBadRequest("This endpoint only accepts HTMX requests.")
 
     page = request.GET.get(
         "page", 1
@@ -166,6 +160,13 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
             "-created"
         )
         context["comment_form"] = self.form_class
+
+        # Pass context for report button
+        context["report_form"] = ReportForm()
+        context["app_label"] = openmic._meta.app_label
+        context["model_name"] = openmic._meta.model_name
+        context["object_id"] = openmic.pk
+
         return context
 
     def form_invalid(self, form):

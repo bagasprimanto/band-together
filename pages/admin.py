@@ -3,6 +3,10 @@ from .models import Feedback
 
 
 class FeedbackAdmin(admin.ModelAdmin):
+    """
+    Custom Admin for displaying feedback in django's admin interface
+    """
+
     model = Feedback
     search_fields = ["subject", "email", "message"]
     list_display = [

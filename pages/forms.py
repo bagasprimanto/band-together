@@ -3,6 +3,9 @@ from .models import Feedback
 
 
 class FeedbackForm(forms.ModelForm):
+    """
+    Feedback Form used in the Feedback/Contact-Us page
+    """
 
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={"placeholder": "email@example.com"}),

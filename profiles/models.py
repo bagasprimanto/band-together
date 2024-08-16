@@ -49,6 +49,10 @@ AVAILABILITY_CHOICES = [
 
 
 class ProfileType(models.Model):
+    """
+    Model for storing Profile Types
+    """
+
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -56,6 +60,10 @@ class ProfileType(models.Model):
 
 
 class Genre(models.Model):
+    """
+    Model for storing Genres
+    """
+
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -63,6 +71,10 @@ class Genre(models.Model):
 
 
 class Skill(models.Model):
+    """
+    Model for storing Skills
+    """
+
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -70,6 +82,10 @@ class Skill(models.Model):
 
 
 class Profile(models.Model):
+    """
+    Model for storing Profiles
+    """
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     profile_type = models.ForeignKey(ProfileType, on_delete=models.SET_NULL, null=True)
     display_name = models.CharField(max_length=255)
@@ -141,7 +157,15 @@ class Profile(models.Model):
 
     @property
     def age(self):
+        """
+        Calculate and return the age of the profile based on the birthday.
+        """
+
+        # Get today's date (current date in the timezone-aware format)
         today = timezone.now().date()
+
+        # Calculate the age by subtracting the birth year from the current year.
+        # Subtract one more year if today's date is before the birthday in the current year.
         age = int(
             today.year
             - (self.birthday.year)
@@ -153,22 +177,45 @@ class Profile(models.Model):
         return f"{self.display_name} - {self.user.email}"
 
     def get_absolute_url(self):
+        """
+        Returns the URL to access a particular profile instance.
+        This is typically used to generate URLs for profile detail pages.
+        """
+
+        # The reverse function is used to reverse-resolve the URL pattern named 'profile_detail'.
+        # The 'slug' of the profile is passed as a keyword argument to construct the URL.
         return reverse("profiles:profile_detail", kwargs={"slug": self.slug})
 
     def clean(self):
+        """
+        Custom clean method for the Profile model to prevent birthdays from being in the future.
+        """
+
         if self.birthday and self.birthday > timezone.now().date():
             raise ValidationError("Birthday cannot be in the future.")
 
     def save(self, *args, **kwargs):
+        """
+        Custom save method for the Profile model to automatically generate a unique slug based on the display name.
+        If the slug is not provided, it is generated from the display name.
+        The method also ensures that the slug is unique by appending a counter if necessary.
+        """
+
+        # Check if the slug is already set; if not, generate it from the display name
         if not self.slug:
             self.slug = slugify(self.display_name)
 
-        # Ensure slug uniqueness
+        # Loop to ensure the slug is unique
         original_slug = self.slug
         queryset = Profile.objects.all().exclude(pk=self.pk)
+
+        # Initialize a counter to append to the slug if necessary
         counter = 1
+
+        # Loop to ensure the slug is unique
         while queryset.filter(slug=self.slug).exists():
+            # If a profile with the same slug exists, append the counter to the original slug
             self.slug = f"{original_slug}-{counter}"
-            counter += 1
+            counter += 1  # Increment the counter for the next iteration if needed
 
         super().save(*args, **kwargs)
