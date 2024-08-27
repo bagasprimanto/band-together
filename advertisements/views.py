@@ -149,20 +149,38 @@ class AdvertisementCreateView(
 
 
 class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
+    """
+    View for displaying the detail of an advertisement
+    """
+
+    # The model that this view operates on.
     model = Advertisement
+
+    # The template used to render the advertisement detail page.
     template_name = "advertisements/advertisement_detail.html"
+
+    # The name of the context variable that will contain the advertisement object in the template.
     context_object_name = "ad"
 
     def get_context_data(self, **kwargs):
+        # This method adds extra context to the template beyond the default context provided by DetailView
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the specific advertisement object based on the primary key (pk) from the URL
         advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+
+        # Add a form for creating comments related to the advertisement.
         context["comment_form"] = CommentCreateForm()
+
+        # Add a form for sending messages via the inbox related to the advertisement.
         context["createmessage_form"] = InboxCreateMessageForm()
+
+        # Retrieve and add the comments related to the advertisement, ordered by creation date (newest first).
         context["comments"] = Comment.objects.filter(
             parent_advertisement=advertisement
         ).order_by("-created")
 
-        # Get bookmark context for Advertisement
+        # Get and add bookmark context specific to the advertisement detail for the current user.
         bookmark_context = self.get_single_bookmark_context(
             self.request.user, self.get_object()
         )
