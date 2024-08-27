@@ -133,7 +133,10 @@ class AdvertisementCreateView(
     template_name = "advertisements/advertisement_form.html"
 
     def form_valid(self, form):
-        # This method is called when the submitted form is valid.
+        """
+        This method is called when the submitted form is valid.
+        """
+
         # Set the author of the advertisement to the current user's profile.
         form.instance.author = self.request.user.profile
 
@@ -196,18 +199,39 @@ class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
 
 
 class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
+    """
+    View to create comments inside an advertisement
+    """
+
+    # The model that this view will operate on.
     model = Comment
+
+    # The form class used to create a new comment.
     form_class = CommentCreateForm
-    template_name = "advertisements/advertisement_detail.html"
 
     def form_valid(self, form):
+        """
+        Method called when the submitted form is valid.
+        """
+
+        # Retrieve the specific advertisement object based on the primary key (pk) from the URL.
         advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+
+        # Create a new comment instance without saving it to the database yet.
         comment = form.save(commit=False)
+
+        # Assign the author of the comment to the current user's profile.
         comment.author = (
-            self.request.user.profile
-        )  # Assuming the user has a profile attribute
+            self.request.user.profile  # Assuming the user has a profile attribute
+        )
+
+        # Associate the comment with the specific advertisement.
         comment.parent_advertisement = advertisement
+
+        # Save the comment to the database.
         comment.save()
+
+        # Redirect to the advertisement detail page after the comment is successfully created.
         return HttpResponseRedirect(
             reverse(
                 "advertisements:advertisement_detail", kwargs={"pk": advertisement.pk}
@@ -215,16 +239,32 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
         )
 
     def get_context_data(self, **kwargs):
+        """
+        Method to add extra context to the template beyond the default context provided by CreateView.
+        """
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the specific advertisement object based on the primary key (pk) from the URL.
         advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+
+        # Add the advertisement object to the context.
         context["ad"] = advertisement
+
+        # Retrieve and add the comments related to the advertisement, ordered by creation date (newest first).
         context["comments"] = Comment.objects.filter(
             parent_advertisement=advertisement
         ).order_by("-created")
+
+        # Add the comment form to the context (for displaying the form on the detail page).
         context["comment_form"] = self.form_class
+
         return context
 
     def form_invalid(self, form):
+        """
+        Method is called when the submitted form is invalid.
+        """
+
         # Get the context data for rendering the form with errors
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
