@@ -200,7 +200,7 @@ class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
 
 class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
     """
-    View to create comments inside an advertisement
+    View to create comments inside an advertisement.
     """
 
     # The model that this view will operate on.
@@ -271,16 +271,35 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
 
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    View which handles the deletion of a comment.
+    """
+
+    # The model that this view will operate on.
     model = Comment
 
     def get_success_url(self):
+        """
+        Method which defines the URL to redirect to after the comment is successfully deleted.
+        """
+
+        # Get the primary key of the parent advertisement related to the comment.
         ad_pk = (
-            self.object.parent_advertisement.pk
-        )  # Assuming `ad` is the related name for the advertisement
+            self.object.parent_advertisement.pk  # Assuming `ad` is the related name for the advertisement
+        )
+
+        # Redirect to the detail view of the related advertisement after deletion.
         return reverse("advertisements:advertisement_detail", kwargs={"pk": ad_pk})
 
     def test_func(self):
+        """
+        Method to check if the current user is authorized to delete the comment.
+        """
+
+        # Get the comment object that is being deleted.
         comment = self.get_object()
+
+        # Allow deletion only if the current user is the author of the comment.
         return self.request.user.profile == comment.author
 
 
