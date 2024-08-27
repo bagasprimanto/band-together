@@ -324,7 +324,7 @@ class AdvertisementEditView(
 
     def form_valid(self, form):
         """
-        This method is called when the submitted form is valid.
+        Method called when the submitted form is valid.
         """
 
         # Ensure the author of the advertisement is set to the current user's profile.
@@ -334,7 +334,9 @@ class AdvertisementEditView(
         return super().form_valid(form)
 
     def test_func(self):
-        # This method checks if the current user is authorized to edit the advertisement.
+        """
+        Method to check if the current user is authorized to edit the advertisement.
+        """
 
         # Get the advertisement object that is being edited.
         advertisement = self.get_object()
@@ -346,13 +348,29 @@ class AdvertisementEditView(
 class AdvertisementDeleteView(
     LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView
 ):
-    """ """
+    """
+    View for deletion of an advertisement.
+    """
 
+    # The model that this view will operate on.
     model = Advertisement
+
+    # The success message to display when the advertisement is successfully deleted.
     success_message = "Successfully deleted ad!"
+
+    # The name of the context variable that will contain the advertisement object in the template.
     context_object_name = "ad"
+
+    # The URL to redirect to after the advertisement is successfully deleted.
     success_url = reverse_lazy("advertisements:advertisement_list")
 
     def test_func(self):
+        """
+        Method to check if the current user is authorized to delete the advertisement.
+        """
+
+        # Get the advertisement object that is being deleted.
         advertisement = self.get_object()
+
+        # Allow deletion only if the current user is the author of the advertisement.
         return self.request.user.profile == advertisement.author
