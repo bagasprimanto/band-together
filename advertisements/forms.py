@@ -96,6 +96,10 @@ class AdvertisementCreateForm(forms.ModelForm):
 
 
 class AdvertisementEditForm(AdvertisementCreateForm):
+    """
+    This form is used to edit an existing advertisement. It inherits from the AdvertisementCreateForm,
+    reusing the same fields and layout.
+    """
 
     class Meta:
         model = Advertisement
@@ -110,6 +114,10 @@ class AdvertisementEditForm(AdvertisementCreateForm):
 
 
 class CommentCreateForm(forms.ModelForm):
+    """
+    This form is used to create a new comment on an advertisement. It includes a single
+    field for the comment's body, with a custom placeholder and label.
+    """
 
     body = forms.CharField(
         max_length=150,
