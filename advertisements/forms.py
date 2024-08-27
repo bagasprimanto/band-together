@@ -10,6 +10,10 @@ from dal import autocomplete
 
 
 class AdvertisementCreateForm(forms.ModelForm):
+    """
+    This form is used to create a new advertisement. It includes fields for the advertisement's title, description,
+    location, genres, and skills. The form also utilizes Crispy Forms for better layout and presentation.
+    """
 
     title = forms.CharField(
         max_length=100,
@@ -21,6 +25,7 @@ class AdvertisementCreateForm(forms.ModelForm):
         help_text="Do not put personal information in your ad. Your ad will be available to the public!",
     )
 
+    # A ModelChoiceField for selecting a location, with an autocomplete widget for better user experience.
     location = forms.ModelChoiceField(
         queryset=City.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -50,10 +55,12 @@ class AdvertisementCreateForm(forms.ModelForm):
         super(AdvertisementCreateForm, self).__init__(*args, **kwargs)
         self.fields["location"].required = True
 
+        # Initialize a FormHelper instance for Crispy Forms, which helps with form layout and styling.
         self.helper = FormHelper(self)  # Create an instance of the FormHelper class
-        self.helper.form_id = "ad-create-form"
-        self.helper.form_method = "POST"
+        self.helper.form_id = "ad-create-form"  # Set the form's HTML ID.
+        self.helper.form_method = "POST"  # Set the form's method to POST.
 
+        # Define the layout for the form using Crispy Forms' Layout object.
         self.helper.layout = Layout(
             "ad_type",
             "title",
