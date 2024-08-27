@@ -306,24 +306,48 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class AdvertisementEditView(
     LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView
 ):
+    """
+    View for editing of an existing advertisement
+    """
 
+    # The model that this view will operate on.
     model = Advertisement
+
+    # Success message to display when the advertisement is successfully edited.
     success_message = "Successfully edited ad!"
+
+    # The form class used to edit the advertisement.
     form_class = AdvertisementEditForm
+
+    # The template used to render the advertisement edit page.
     template_name = "advertisements/advertisement_edit.html"
 
     def form_valid(self, form):
+        """
+        This method is called when the submitted form is valid.
+        """
+
+        # Ensure the author of the advertisement is set to the current user's profile.
         form.instance.author = self.request.user.profile
+
+        # Call the superclass's form_valid method to save the form and handle the redirection.
         return super().form_valid(form)
 
     def test_func(self):
+        # This method checks if the current user is authorized to edit the advertisement.
+
+        # Get the advertisement object that is being edited.
         advertisement = self.get_object()
+
+        # Allow editing only if the current user is the author of the advertisement.
         return self.request.user.profile == advertisement.author
 
 
 class AdvertisementDeleteView(
     LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView
 ):
+    """ """
+
     model = Advertisement
     success_message = "Successfully deleted ad!"
     context_object_name = "ad"
