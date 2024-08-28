@@ -212,6 +212,9 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
     # The form class used to create a new comment.
     form_class = CommentCreateForm
 
+    # The template used to render the advertisement detail page.
+    template_name = "advertisements/advertisement_detail.html"
+
     def form_valid(self, form):
         """
         Method called when the submitted form is valid.
@@ -225,8 +228,8 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
 
         # Assign the author of the comment to the current user's profile.
         comment.author = (
-            self.request.user.profile  # Assuming the user has a profile attribute
-        )
+            self.request.user.profile
+        )  # Assuming the user has a profile attribute
 
         # Associate the comment with the specific advertisement.
         comment.parent_advertisement = advertisement
@@ -245,6 +248,8 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
         """
         Method to add extra context to the template beyond the default context provided by CreateView.
         """
+
+        # Initialize the base context provided by the superclass.
         context = super().get_context_data(**kwargs)
 
         # Retrieve the specific advertisement object based on the primary key (pk) from the URL.
@@ -260,6 +265,12 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
 
         # Add the comment form to the context (for displaying the form on the detail page).
         context["comment_form"] = self.form_class
+
+        # Pass context for report button
+        advertisement = self.get_object()
+        context["report_form"] = ReportForm()
+        context["app_label"] = advertisement._meta.app_label
+        context["model_name"] = advertisement._meta.model_name
 
         return context
 
