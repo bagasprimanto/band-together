@@ -213,6 +213,10 @@ class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
         return HttpResponse(html)
 
     def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests with a 405 Method Not Allowed response.
+        This view is intended for POST requests only.
+        """
         return render(request, "405.html", status=405)
 
 
