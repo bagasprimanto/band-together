@@ -23,7 +23,7 @@ from reports.forms import ReportForm
 
 def advertisement_list(request):
     """
-    Gets the first page of the list of advertisements
+    Gets the first page of the list of advertisements with filters applied (if any)
     """
 
     # Part of Django filters,
@@ -61,7 +61,6 @@ def advertisement_list(request):
     )
     context.update(bookmark_context)  # Update the context with bookmark information.
 
-    # Render the advertisement list template with the provided context.
     return render(request, "advertisements/advertisement_list.html", context)
 
 
@@ -166,11 +165,15 @@ class AdvertisementDetailView(BookmarkSingleObjectMixin, DetailView):
     context_object_name = "ad"
 
     def get_context_data(self, **kwargs):
-        # This method adds extra context to the template beyond the default context provided by DetailView
+        """
+        Method adds extra context to the template beyond the default context provided by DetailView
+        """
+
+        # Initialize the base context provided by the superclass.
         context = super().get_context_data(**kwargs)
 
         # Retrieve the specific advertisement object based on the primary key (pk) from the URL
-        advertisement = get_object_or_404(Advertisement, pk=self.kwargs["pk"])
+        advertisement = self.get_object()
 
         # Add a form for creating comments related to the advertisement.
         context["comment_form"] = CommentCreateForm()
