@@ -346,38 +346,73 @@ class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView
 class BookmarkAdvertisementListView(
     LoginRequiredMixin, ProfileRequiredMixin, BookmarkMixin, ListView
 ):
+    """
+    View to display a list of advertisements that the logged-in user has bookmarked.
+    Requires the user to be logged in and to have a profile.
+    Inherits from BookmarkMixin to provide additional bookmark-related context to display Bookmark buttons.
+    """
+
+    # The model that this view will operate on.
     model = Advertisement
+
+    # The template used to render the bookmarked advertisements list page.
     template_name = "bookmarks/bookmark_advertisement_list.html"
+
+    # The name of the context variable that will contain the list of advertisements in the template.
     context_object_name = "ads"
 
     def get_queryset(self):
+        """
+        Retrieves the queryset of advertisements that the current user has bookmarked.
+        The queryset is annotated with the created date of the bookmark and ordered by it.
+        """
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=self.request.user)
+
+        # Get the ContentType for the Advertisement model.
         advertisement_content_type = ContentType.objects.get_for_model(Advertisement)
 
-        # Subquery to fetch the created date of the bookmark
+        # Subquery to fetch the created date of the bookmark associated with each advertisement.
         bookmark_subquery = Bookmark.objects.filter(
             profile=profile,
             content_type=advertisement_content_type,
             object_id=OuterRef("pk"),
         ).values("created")[:1]
 
-        # Annotate the Advertisement queryset with the bookmark created date and order by it
+        # Annotate the Advertisement queryset with the bookmark created date and order by it.
         return (
             Advertisement.objects.filter(
                 id__in=Bookmark.objects.filter(
                     profile=profile, content_type=advertisement_content_type
-                ).values("object_id")
+                ).values(
+                    "object_id"
+                )  # Filter advertisements based on the bookmarked object IDs.
             )
-            .annotate(bookmark_created=Subquery(bookmark_subquery))
-            .order_by("-bookmark_created")
+            .annotate(
+                bookmark_created=Subquery(bookmark_subquery)
+            )  # Annotate with the bookmark created date.
+            .order_by(
+                "-bookmark_created"
+            )  # Order by the bookmark created date, descending.
         )
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context to the template, including the count of bookmarked advertisements.
+        Also adds bookmark-related context for the list of advertisements.
+        """
+        # Get the base context from the superclass.
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the queryset of bookmarked advertisements.
         queryset = self.get_queryset()
+
+        # Add the count of bookmarked advertisements to the context.
         context["ads_count"] = queryset.count()
 
-        # Add bookmark context for the ads (list of objects)
+        # Add bookmark context for the advertisements (list of objects).
+        # Returns a group of bookmarked advertisements to mark which advertisements have been bookmarked,
+        # required for displaying the Bookmark buttons
         ads_bookmark_context = self.get_bookmark_context(self.request.user, queryset)
         context.update(ads_bookmark_context)
 
