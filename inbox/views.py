@@ -263,25 +263,53 @@ class CreateMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
 
 class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    """
+    View to handle creating a reply within an existing conversation.
+    Requires the user to be logged in and to have a profile.
+    """
+
+    # The form class used to create a new reply message.
     form_class = InboxCreateMessageForm
+
+    # The template used to render the reply creation form.
     template_name = "inbox/createreply_form.html"
 
     def get_conversation(self, request):
-        # Get all conversations for the logged-in user
+        """
+        Retrieves the specific conversation that the current user is a part of.
+        Ensures that the conversation exists and that the user is a participant.
+        """
+
+        # Get all conversations where the current user's profile is a participant.
         my_conversations = Conversation.objects.filter(
             participants=request.user.profile
         )
-        # Get the specific conversation based on conversation_pk
+
+        # Retrieve the specific conversation based on the primary key from the URL (conversation_pk).
         conversation = get_object_or_404(
             my_conversations, id=self.kwargs["conversation_pk"]
         )
+
+        # Return the conversation object.
         return conversation
 
     def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests to display the reply creation form.
+        Ensures that the view only accepts HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
+        # If not HTMX request, return error 400
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
+        # Retrieve the conversation that the user is replying to.
         conversation = self.get_conversation(request)
+
+        # Initialize an empty form for the reply.
         form = self.form_class()
+
+        # Prepare the context with the form and the conversation.
         context = {
             "form": form,
             "conversation": conversation,
@@ -289,18 +317,38 @@ class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to process the form submission and create a new reply.
+        """
+        # Retrieve the conversation that the user is replying to.
         conversation = self.get_conversation(request)
+
+        # Populate the form with the POST data.
         form = self.form_class(request.POST)
+
+        # Check if the form is valid.
         if form.is_valid():
+            # Create a message instance without saving it to the database yet.
             message = form.save(commit=False)
+
+            # Assign the sender of the message to the current user's profile.
             message.sender = request.user.profile
+
+            # Associate the message with the current conversation.
             message.conversation = conversation
+
+            # Save the message to the database.
             message.save()
+
+            # Update the conversation's metadata.
             conversation.lastmessage_created = timezone.now()
             conversation.is_seen = False  # Set the conversation is_seen = false since only the sender will see the message first, not the recipient
             conversation.save()
+
+            # Redirect to the conversation detail page.
             return redirect("inbox:inbox_detail", conversation_pk=conversation.pk)
 
+        # If the form is invalid, prepare the context and re-render the form with errors.
         context = {
             "form": form,
             "conversation": self.conversation,
