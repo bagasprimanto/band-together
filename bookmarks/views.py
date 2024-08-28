@@ -151,37 +151,65 @@ class DeleteDetailBookmarkView(LoginRequiredMixin, View):
 
 
 class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    """
+    View to handle the creation of a bookmark for a specific object in list views.
+    Requires the user to be logged in and to have a profile.
+    """
+
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to create or confirm a bookmark on a specific object.
+        Only processes HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
 
+        # Retrieve the app label, model name, and object ID from the URL parameters as
+        # they are required to create a bookmark using ContentType framework
         app_label = kwargs.get("app_label")
         model_name = kwargs.get("model_name")
         object_id = kwargs.get("object_id")
+
+        # Get the ContentType for the specified app label and model name.
         content_type = get_object_or_404(
             ContentType, app_label=app_label, model=model_name
         )
+
+        # Retrieve the specific object (model instance) based on the content type and object ID.
         model = content_type.get_object_for_this_type(id=object_id)
+
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=request.user)
+
+        # Attempt to retrieve an existing bookmark or create a new one if it doesn't exist.
         bookmark, created = Bookmark.objects.get_or_create(
             profile=profile, content_type=content_type, object_id=object_id
         )
 
+        # Display a success message if the bookmark was created, otherwise inform the user it already exists.
         if created:
             messages.success(request, "Successfully bookmarked!")
         else:
             messages.info(request, "Already bookmarked.")
 
-        # Update the bookmarked_objects context
+        # Update the bookmarked_objects context with the newly created or existing bookmark.
         context = {
-            "object": model,
-            "bookmarked_objects": {bookmark.object_id: bookmark},
-            "messages": get_messages(request),
+            "object": model,  # The model instance being bookmarked.
+            "bookmarked_objects": {
+                bookmark.object_id: bookmark
+            },  # Add the bookmark to the context.
+            "messages": get_messages(
+                request
+            ),  # Any messages to be displayed to the user.
         }
 
+        # Render the bookmark button template for list views with the updated context.
         html = render_to_string(
             "bookmarks/bookmark_button_list.html", context, request=request
         )
+
+        # Return the rendered HTML with a 200 OK status.
         return HttpResponse(html)
 
     def get(self, request, *args, **kwargs):
