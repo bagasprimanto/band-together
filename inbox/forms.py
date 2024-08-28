@@ -3,6 +3,10 @@ from .models import InboxMessage
 
 
 class InboxCreateMessageForm(forms.ModelForm):
+    """
+    Form to create message to send to another profile
+    """
+
     class Meta:
         model = InboxMessage
         fields = ["body"]

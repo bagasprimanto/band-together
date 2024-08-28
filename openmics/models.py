@@ -8,6 +8,10 @@ from django.core.validators import MinValueValidator
 
 
 class OpenMic(models.Model):
+    """
+    Model to open mics
+    """
+
     title = models.CharField(max_length=100)
     description = models.TextField()
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -70,6 +74,10 @@ class OpenMic(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Model to store open mic comments
+    """
+
     author = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,
