@@ -1,5 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.mixins import ProfileRequiredMixin
 from django.contrib.contenttypes.models import ContentType
@@ -17,40 +16,72 @@ from django.db.models import OuterRef, Subquery
 
 
 class CreateDetailBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    """
+    View to handle the creation of a bookmark for a specific object in detail views (e.g. Advertisement Detail, Open Mic Detail).
+    Requires the user to be logged in and to have a profile.
+    """
+
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to create or confirm a bookmark on a specific object.
+        Only processes HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
+        # Else, return error 400
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
 
+        # Retrieve the app label, model name, and object ID from the URL parameters as
+        # they are required to create a bookmark using ContentType framework
         app_label = kwargs.get("app_label")
         model_name = kwargs.get("model_name")
         object_id = kwargs.get("object_id")
+
+        # Get the ContentType for the specified app label and model name.
         content_type = get_object_or_404(
             ContentType, app_label=app_label, model=model_name
         )
+
+        # Retrieve the specific object (model instance) based on the content type and object ID.
         model = content_type.get_object_for_this_type(id=object_id)
+
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=request.user)
+
+        # Attempt to retrieve an existing bookmark or create a new one if it doesn't exist.
         bookmark, created = Bookmark.objects.get_or_create(
             profile=profile, content_type=content_type, object_id=object_id
         )
 
+        # Display a success message if the bookmark was created, otherwise inform the user it already exists.
         if created:
             messages.success(request, "Successfully bookmarked!")
         else:
             messages.info(request, "Already bookmarked.")
 
+        # Prepare the context for rendering the bookmark button.
         context = {
-            "is_bookmarked": True,
-            "bookmark": bookmark,
-            "object": model,
-            "messages": get_messages(request),
+            "is_bookmarked": True,  # Indicates that the item is bookmarked.
+            "bookmark": bookmark,  # The bookmark object.
+            "object": model,  # The model instance being bookmarked.
+            "messages": get_messages(
+                request
+            ),  # Any messages to be displayed to the user.
         }
+
+        # Render the bookmark button template with the updated context.
         html = render_to_string(
             "bookmarks/bookmark_button_detail.html", context, request=request
         )
 
+        # Return the rendered HTML with a 200 OK status.
         return HttpResponse(html, status=200)
 
     def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests with a 405 Method Not Allowed response.
+        This view is intended for POST requests only.
+        """
         return render(request, "405.html", status=405)
 
 
