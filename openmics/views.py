@@ -190,7 +190,6 @@ class CommentCreateView(LoginRequiredMixin, ProfileRequiredMixin, CreateView):
     model = Comment
     # The form class used to create a new comment.
     form_class = CommentCreateForm
-
     # The template used to render the open mic detail page in case of comment error in form
     template_name = "openmics/openmic_detail.html"
 
