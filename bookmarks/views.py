@@ -221,35 +221,67 @@ class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
 
 class DeleteListBookmarkView(LoginRequiredMixin, View):
+    """
+    View to handle the deletion of a bookmark for a specific object in list views.
+    Requires the user to be logged in.
+    """
+
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to delete a bookmark on a specific object.
+        Only processes HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header,
+        # else return error 400
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
 
+        # Retrieve the bookmark ID from the URL parameters.
         bookmark_id = kwargs.get("bookmark_id")
+
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=request.user)
 
         try:
+            # Attempt to retrieve the bookmark for the current user's profile.
             bookmark = get_object_or_404(Bookmark, id=bookmark_id, profile=profile)
+
+            # Retrieve the model instance associated with the bookmark before deletion.
             model = bookmark.content_object
+
+            # Delete the bookmark.
             bookmark.delete()
+
+            # Add a success message to the context indicating the bookmark was removed.
             messages.success(request, "Successfully removed bookmark!")
 
-            # Update the bookmarked_objects context
+            # Update the bookmarked_objects context to reflect that the object is no longer bookmarked.
             context = {
-                "object": model,
-                "bookmarked_objects": {},
-                "messages": get_messages(request),
+                "object": model,  # The model instance that was bookmarked.
+                "bookmarked_objects": {},  # Clear the bookmarked_objects context.
+                "messages": get_messages(
+                    request
+                ),  # Any messages to be displayed to the user.
             }
+
+            # Render the bookmark button template for list views with the updated context.
             html = render_to_string(
                 "bookmarks/bookmark_button_list.html", context, request=request
             )
+
+            # Return the rendered HTML with a 200 OK status.
             return HttpResponse(html, status=200)
 
         except Http404:
+            # If the bookmark is not found, add an error message and return a 404 response.
             messages.error(request, "Bookmark not found.")
             return HttpResponse(status=404)
 
     def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests with a 405 Method Not Allowed response.
+        This view is intended for POST requests only.
+        """
         return render(request, "405.html", status=405)
 
 
