@@ -38,26 +38,56 @@ class InboxView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
 
 
 class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
+    """
+    View for displaying the details of a specific conversation in the inbox.
+    Requires the user to be logged in and to have a profile.
+    """
+
+    # The model that this view will operate on.
     model = Conversation
+
+    # The template used to render the conversation detail page.
     template_name = "inbox/inbox.html"
+
+    # The name of the context variable that will contain the conversation object in the template.
     context_object_name = "conversation"
+
+    # The name of the URL keyword argument that will be used to retrieve the conversation by its primary key.
     pk_url_kwarg = "conversation_pk"
 
     def get_object(self):
+        """
+        Retrieves the specific conversation object that the current user is a part of.
+        Ensures that the user only accesses conversations they are a participant in.
+        """
+        # Filter conversations to include only those where the current user's profile is a participant.
         my_conversations = Conversation.objects.filter(
             participants=self.request.user.profile
         )
+
+        # Retrieve the specific conversation based on the primary key from the URL, ensuring the user is a participant.
         conversation = get_object_or_404(
             my_conversations, id=self.kwargs.get(self.pk_url_kwarg)
         )
+
+        # Return the conversation object.
         return conversation
 
     def get_context_data(self, **kwargs):
+        """
+        Adds extra context to the template beyond the default context provided by DetailView.
+        Marks the conversation as seen if the latest message is from another participant and hasn't been seen.
+        """
+        # Initialize the base context provided by the superclass.
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the conversation object for the current view.
         conversation = self.get_object()
 
-        # Mark conversation as seen if it hasn't been seen and the latest message is not from the current user
+        # Get the latest message in the conversation.
         latest_message = conversation.messages.first()
+
+        # Mark conversation as seen if it hasn't been seen and the latest message is not from the current user
         if (
             not conversation.is_seen
             and latest_message.sender != self.request.user.profile
@@ -65,9 +95,12 @@ class InboxDetailView(LoginRequiredMixin, ProfileRequiredMixin, DetailView):
             conversation.is_seen = True
             conversation.save()
 
+        # Add the user's conversations to the context.
         context["my_conversations"] = Conversation.objects.filter(
             participants=self.request.user.profile
         )
+
+        # Return the updated context to be used in the template.
         return context
 
 
