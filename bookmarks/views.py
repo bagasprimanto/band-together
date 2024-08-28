@@ -286,15 +286,31 @@ class DeleteListBookmarkView(LoginRequiredMixin, View):
 
 
 class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
+    """
+    View to display a list of profiles that the logged-in user has bookmarked.
+    Requires the user to be logged in and to have a profile.
+    """
+
+    # The model that this view will operate on.
     model = Profile
+
+    # The template used to render the bookmarked profiles list page.
     template_name = "bookmarks/bookmark_profile_list.html"
+
+    # The name of the context variable that will contain the list of profiles in the template.
     context_object_name = "profiles"
 
     def get_queryset(self):
+        """
+        Retrieves the queryset of profiles that the current user has bookmarked.
+        The queryset is annotated with the created date of the bookmark and ordered by it.
+        """
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=self.request.user)
+        # Get the ContentType for the Profile model.
         profile_content_type = ContentType.objects.get_for_model(Profile)
 
-        # Subquery to fetch the created date of the bookmark
+        # Subquery to fetch the created date of the bookmark associated with each profile.
         bookmark_subquery = Bookmark.objects.filter(
             profile=profile, content_type=profile_content_type, object_id=OuterRef("pk")
         ).values("created")[:1]
@@ -304,14 +320,25 @@ class BookmarkProfileListView(LoginRequiredMixin, ProfileRequiredMixin, ListView
             Profile.objects.filter(
                 id__in=Bookmark.objects.filter(
                     profile=profile, content_type=profile_content_type
-                ).values("object_id")
+                ).values(
+                    "object_id"
+                )  # Filter profiles based on the bookmarked object IDs.
             )
-            .annotate(bookmark_created=Subquery(bookmark_subquery))
-            .order_by("-bookmark_created")
+            .annotate(
+                bookmark_created=Subquery(bookmark_subquery)
+            )  # Annotate with the bookmark created date.
+            .order_by(
+                "-bookmark_created"
+            )  # Order by the bookmark created date, descending.
         )
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context to the template, including the count of bookmarked profiles.
+        """
         context = super().get_context_data(**kwargs)
+
+        # Add the count of bookmarked profiles to the context.
         context["profiles_count"] = self.get_queryset().count()
         return context
 
