@@ -11,11 +11,26 @@ from django.utils import timezone
 
 
 class InboxView(LoginRequiredMixin, ProfileRequiredMixin, ListView):
+    """
+    View for displaying the inbox, which lists the conversations that the logged-in user is a part of.
+    Requires the user to be logged in and to have a profile.
+    """
+
+    # The model that this view will operate on.
     model = Conversation
+
+    # The template used to render the inbox page.
     template_name = "inbox/inbox.html"
 
     def get_context_data(self, **kwargs):
+        """
+        Adds extra context to the template beyond the default context provided by ListView.
+        Specifically, it adds the user's conversations to the context.
+        """
+
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the conversations where the current user's profile is a participant.
         context["my_conversations"] = Conversation.objects.filter(
             participants=self.request.user.profile
         )
