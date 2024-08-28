@@ -357,31 +357,68 @@ class CreateReplyView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
 
 class NotifyNewMessageView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    """
+    View to notify the user of a new unread message in a conversation.
+    Requires the user to be logged in and to have a profile.
+    """
 
     def get(self, request, conversation_pk):
+        """
+        Handles GET requests to check for new unread messages in a conversation.
+        Only processes HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
+        # If not, return error 400
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
+        # Retrieve the conversation object based on the primary key (conversation_pk) from the URL.
         conversation = get_object_or_404(Conversation, id=conversation_pk)
+
+        # Get the latest message in the conversation.
         latest_message = conversation.messages.first()
+
+        # Check if the conversation has not been seen by the recipient and the latest message is not from the current user.
         if (
             conversation.is_seen == False
             and latest_message.sender != request.user.profile
         ):
+            # If conditions are met, render the notify icon template to indicate a new unread message.
             return render(request, "inbox/notify_icon.html")
         else:
+            # If conditions are not met, return an empty HTTP response.
             return HttpResponse("")
 
 
 class NotifyInboxView(LoginRequiredMixin, ProfileRequiredMixin, View):
+    """
+    View to notify the user if there are any new unread messages in their inbox page.
+    Requires the user to be logged in and to have a profile.
+    """
 
     def get(self, request):
+        """
+        Handles GET requests to check for any unread messages across all conversations.
+        Only processes HTMX requests.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
+        # Retrieve all conversations where the current user's profile is a participant and the conversation is not seen.
         my_conversations = Conversation.objects.filter(
             participants=request.user.profile, is_seen=False
         )
+
+        # Iterate through the user's unseen conversations to check if there are any unread messages.
         for c in my_conversations:
+            # Get the latest message in the conversation.
             latest_message = c.messages.first()
+
+            # Check if the latest message was sent by someone other than the current user.
             if latest_message.sender != request.user.profile:
+                # If there is an unread message from another participant, render the notify icon template.
                 return render(request, "inbox/notify_icon.html")
+
+        # If no unread messages are found, return an empty HTTP response.
         return HttpResponse("")
