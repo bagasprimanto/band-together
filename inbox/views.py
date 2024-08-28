@@ -110,27 +110,56 @@ class SearchProfilesView(ListView):
     No need to login or profile required since an anonymous user can also access the Profiles List page anyway.
     """
 
+    # The model that this view will operate on.
     model = Profile
+
+    # The template used to render the list of profiles.
     template_name = "inbox/searchprofiles_list.html"
+
+    # The name of the context variable that will contain the list of profiles in the template.
     context_object_name = "profiles"
 
     def get_queryset(self):
+        """
+        Overrides the default queryset to filter profiles based on the search term provided by the user.
+        Excludes the profile of the current user from the search results.
+        """
+        # Get the search term from the GET parameters.
         letters = self.request.GET.get("search_profile", "")
+
+        # If the search term is provided, filter profiles by display name, excluding the current user's profile.
         if len(letters) > 0:
             return Profile.objects.filter(display_name__icontains=letters).exclude(
                 display_name=self.request.user.profile.display_name
-            )[:5]
+            )[
+                :5
+            ]  # Limit results to the first 5 profiles.
+
+        # If no search term is provided, return an empty queryset.
         else:
             return Profile.objects.none()
 
     def dispatch(self, request, *args, **kwargs):
+        """
+        Overrides the dispatch method to ensure that the view only accepts HTMX requests.
+        If the request is not an HTMX request, return a 400 Bad Request response.
+        """
+        # Check if the request is an HTMX request by looking for the "HX-Request" header.
         if not request.headers.get("HX-Request"):
             return HttpResponse("This endpoint only accepts HTMX requests.", status=400)
+
+        # If it's an HTMX request, proceed with the normal dispatch process.
         return super().dispatch(request, *args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):
+        """
+        Overrides the response rendering to handle cases where no profiles are found.
+        If no profiles match the search criteria, return an empty response.
+        """
+        # If the context does not contain any profiles, return an empty HTTP response.
         if not context[self.context_object_name].exists():
             return HttpResponse("")
+        # Otherwise, proceed with the normal rendering process.
         return super().render_to_response(context, **response_kwargs)
 
 
