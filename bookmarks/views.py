@@ -422,38 +422,72 @@ class BookmarkAdvertisementListView(
 class BookmarkOpenMicListView(
     LoginRequiredMixin, ProfileRequiredMixin, BookmarkMixin, ListView
 ):
+    """
+    View to display a list of OpenMic events that the logged-in user has bookmarked.
+    Requires the user to be logged in and to have a profile.
+    Inherits from BookmarkMixin to provide additional bookmark-related context to display Bookmark buttons.
+    """
+
+    # The model that this view will operate on.
     model = OpenMic
+
+    # The template used to render the bookmarked OpenMic events list page.
     template_name = "bookmarks/bookmark_openmic_list.html"
+
+    # The name of the context variable that will contain the list of OpenMic events in the template.
     context_object_name = "openmics"
 
     def get_queryset(self):
+        """
+        Retrieves the queryset of OpenMic events that the current user has bookmarked.
+        The queryset is annotated with the created date of the bookmark and ordered by it.
+        """
+        # Get the current user's profile.
         profile = get_object_or_404(Profile, user=self.request.user)
+
+        # Get the ContentType for the OpenMic model.
         openmic_content_type = ContentType.objects.get_for_model(OpenMic)
 
-        # Subquery to fetch the created date of the bookmark
+        # Subquery to fetch the created date of the bookmark associated with each OpenMic.
         bookmark_subquery = Bookmark.objects.filter(
             profile=profile,
             content_type=openmic_content_type,
             object_id=OuterRef("pk"),
         ).values("created")[:1]
 
-        # Annotate the Advertisement queryset with the bookmark created date and order by it
+        # Annotate the OpenMic queryset with the bookmark created date and order by it.
         return (
             OpenMic.objects.filter(
                 id__in=Bookmark.objects.filter(
                     profile=profile, content_type=openmic_content_type
-                ).values("object_id")
+                ).values(
+                    "object_id"
+                )  # Filter OpenMics based on the bookmarked object IDs.
             )
-            .annotate(bookmark_created=Subquery(bookmark_subquery))
-            .order_by("-bookmark_created")
+            .annotate(
+                bookmark_created=Subquery(bookmark_subquery)
+            )  # Annotate with the bookmark created date.
+            .order_by(
+                "-bookmark_created"
+            )  # Order by the bookmark created date, descending.
         )
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context to the template, including the count of bookmarked OpenMic events.
+        Also adds bookmark-related context for the list of OpenMic events.
+        """
         context = super().get_context_data(**kwargs)
+
+        # Retrieve the queryset of bookmarked OpenMic events.
         queryset = self.get_queryset()
+
+        # Add the count of bookmarked OpenMic events to the context.
         context["openmics_count"] = queryset.count()
 
-        # Add bookmark context for the ads (list of objects)
+        # Add bookmark context for the open mics (list of objects).
+        # Returns a group of bookmarked open mics to mark which open mics have been bookmarked,
+        # required for displaying the Bookmark buttons
         ads_bookmark_context = self.get_bookmark_context(self.request.user, queryset)
         context.update(ads_bookmark_context)
 
