@@ -5,12 +5,18 @@ from django.utils.timesince import timesince
 
 
 class Conversation(models.Model):
-    participants = models.ManyToManyField(Profile, related_name="conversations")
+    """
+    Model to store conversations
+    """
+
+    participants = models.ManyToManyField(
+        Profile, related_name="conversations"
+    )  # Participants are many-to-many to accommodate future needs if there needs to be a room with more than 2 participants
     lastmessage_created = models.DateTimeField(default=timezone.now)
     is_seen = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ["-lastmessage_created"]
+        ordering = ["-lastmessage_created"]  # Ordered by lastmessage_created by default
 
     def __str__(self):
         profile_names = ", ".join(
@@ -20,6 +26,10 @@ class Conversation(models.Model):
 
 
 class InboxMessage(models.Model):
+    """
+    Model to store messages for each conversation
+    """
+
     sender = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name="sent_messages"
     )

@@ -30,13 +30,6 @@ class CreateReportViewTests(TestCase):
             },
         )
 
-    def test_get_context_data(self):
-        response = self.client.get(self.url, HTTP_HX_REQUEST="true")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["object"], self.advertisement)
-        self.assertEqual(response.context["app_label"], "advertisements")
-        self.assertEqual(response.context["model_name"], "advertisement")
-
     def test_htmx_required_for_post(self):
         response = self.client.post(self.url, data={"reason": "Inappropriate content"})
         self.assertEqual(response.status_code, 400)

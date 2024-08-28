@@ -4,6 +4,10 @@ from profiles.models import Profile, Skill, Genre
 
 
 class AdType(models.Model):
+    """
+    Model to store advertisement types
+    """
+
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -11,6 +15,10 @@ class AdType(models.Model):
 
 
 class Advertisement(models.Model):
+    """
+    Model to store advertisements
+    """
+
     title = models.CharField(max_length=100)
     ad_type = models.ForeignKey(
         AdType,
@@ -38,6 +46,10 @@ class Advertisement(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Model to store advertisement comments
+    """
+
     author = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,

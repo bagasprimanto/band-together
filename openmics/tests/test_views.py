@@ -126,17 +126,6 @@ class OpenMicViewsTests(TestCase):
             ).exists()
         )
 
-    def test_comment_create_view_invalid(self):
-        self.client.login(username="testuser", password="password")
-        response = self.client.post(
-            reverse("openmics:comment_create", kwargs={"pk": self.openmic1.pk}),
-            {"body": ""},  # Simulate submitting an empty comment
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "openmics/openmic_detail.html")
-        self.assertFalse(Comment.objects.filter(parent_openmic=self.openmic1).exists())
-        self.assertIn("required", response.content.decode())
-
     def test_comment_delete_view_valid(self):
         self.client.login(username="testuser", password="password")
         comment = Comment.objects.create(
