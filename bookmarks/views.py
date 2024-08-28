@@ -222,7 +222,7 @@ class CreateListBookmarkView(LoginRequiredMixin, ProfileRequiredMixin, View):
 
 class DeleteListBookmarkView(LoginRequiredMixin, View):
     """
-    View to handle the deletion of a bookmark for a specific object in list views.
+    View to handle the deletion of a bookmark for a specific object in list views (e.g. Advertisement lists, Open Mics list).
     Requires the user to be logged in.
     """
 
