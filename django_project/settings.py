@@ -280,7 +280,10 @@ if DEBUG:
     }
 
 else:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = []
+    RENDER_EXTERNAL_HOSTNAME = env("RENDER_EXTERNAL_HOSTNAME")
+    if RENDER_EXTERNAL_HOSTNAME:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
     # Database
     # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
