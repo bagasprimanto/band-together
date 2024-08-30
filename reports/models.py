@@ -6,6 +6,11 @@ from django.utils import timezone
 
 
 class Report(models.Model):
+    """
+    Model to store Reports made regarding content abuse, inappropriate content, and inaccurate content.
+    Reports are submitted by the users.
+    """
+
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
