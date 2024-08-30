@@ -3,6 +3,11 @@ from .models import Report
 
 
 class ReportForm(forms.ModelForm):
+    """
+    Form to create an instance of the Report form.
+    Needs at least 10 characters in its description to prevent users from randomly submitting
+    hard to understand reports.
+    """
 
     class Meta:
         model = Report
